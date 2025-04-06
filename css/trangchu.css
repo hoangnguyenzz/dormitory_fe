@@ -93,9 +93,10 @@ body {
     border: 1px solid #ddd;
 }
 
+/*
 .dropdown-menu.active {
     display: block;
-}
+} */
 
 .dropdown-menu a {
     display: block;

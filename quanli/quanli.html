@@ -1,0 +1,35 @@
+<!-- admin.html -->
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Quản Lý</title>
+    <link rel="stylesheet" href="/css/quanli.css">
+    <script defer src="/js/quanli.js"></script>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo">Quản Lý</div>
+        <div class="account" id="account">
+            <span>Nguyễn Văn A</span>
+            <img src="/img/sontung.jpg" alt="Avatar" onclick="toggleDropdown()">
+            <div class="dropdown-menu" id="dropdown-menu">
+                <a href="/trangchu.html">Trang chủ</a>
+                <a href="#" onclick="logout()">Đăng xuất</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <aside class="sidebar" id="sidebar">
+        </aside>
+        <main>
+            <h1>Trang Quản Lý</h1>
+            <p>Chọn một danh mục bên trái để quản lý.</p>
+        </main>
+    </div>
+</body>
+
+</html>
