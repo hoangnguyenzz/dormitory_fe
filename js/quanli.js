@@ -4,7 +4,14 @@
 
 document.addEventListener("DOMContentLoaded", function () {
     const sidebar = document.getElementById("sidebar");
-    sidebar.innerHTML = `<ul>
+    const role = localStorage.getItem("role");
+    const token = localStorage.getItem("token");
+    if (!token) {
+        window.location.replace('/trangchu.html');
+    }
+    sidebar.innerHTML =
+        (role === "MANAGE" || role === "ADMIN") ?
+            role === "ADMIN" ? `<ul>
                 <li><a href="#">Thống kê phòng</a></li>
                 <li><a href="#">Thống kê sinh viên</a></li>
                 <li><a href="#">Thống kê hóa đơn</a></li>
@@ -49,7 +56,51 @@ document.addEventListener("DOMContentLoaded", function () {
                     </ul>
                 </li>
 
-            </ul>`;
+            </ul>` :
+                `<ul>
+          <li class="has-submenu">
+                    <a href="#">Quản lý phòng</a>
+                    <ul class="submenu">
+                        <li><a href="#">Thêm phòng</a></li>
+                        <li><a href="#">Sửa phòng</a></li>
+                        <li><a href="#">Xóa phòng</a></li>
+                    </ul>
+                </li>
+                <li class="has-submenu">
+                    <a href="#">Quản lý sinh viên</a>
+                    <ul class="submenu">
+                        <li><a href="#">Thêm sinh viên</a></li>
+                        <li><a href="#">Sửa sinh viên</a></li>
+                        <li><a href="#">Xóa sinh viên</a></li>
+                    </ul>
+                </li>
+                <li class="has-submenu">
+                    <a href="#">Quản lý phương tiện</a>
+                    <ul class="submenu">
+                        <li><a href="#">Thêm phương tiện</a></li>
+                        <li><a href="#">Sửa phương tiện</a></li>
+                        <li><a href="#">Xóa phương tiện</a></li>
+                    </ul>
+                </li>
+                <li class="has-submenu">
+                    <a href="#">Quản lý hóa đơn</a>
+                    <ul class="submenu">
+                        <li><a href="#">Xuất hóa đơn</a></li>
+                        <li><a href="#">Gửi hóa đơn</a></li>
+                    </ul>
+                </li>
+                <li class="has-submenu">
+                    <a href="#">Quản lý hợp đồng</a>
+                    <ul class="submenu">
+                        <li><a href="#">Tạo hợp đồng</a></li>
+                        <li><a href="#">Gửi hợp đồng</a></li>
+                    </ul>
+                </li>
+
+            </ul>`
+            :
+            ``;
+
     attachSubmenuToggle(); // Gọi hàm để gán sự kiện click cho các submenu
 });
 
@@ -70,8 +121,11 @@ document.addEventListener("click", (event) => {
 });
 
 function logout() {
-    alert("Bạn đã đăng xuất");
-    // Thêm xử lý đăng xuất ở đây
+    localStorage.removeItem("token");
+    localStorage.setItem("toastMessage", "Đã đăng xuất !");
+    localStorage.setItem("toastType", "success");
+    // window.location.replace('/trangchu.html');
+    location.reload();
 }
 
 // Xử lí click cuộn sidebar

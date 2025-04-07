@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông Tin Sinh Viên</title>
+    <link rel="stylesheet" href="css/thongtin.css">
+</head>
+
+<body>
+
+
+
+    <div class="container">
+        <button class="back-button" onclick="goBack()">← Quay lại</button>
+        <div class="left">
+            <img id="avatar" src="" alt="Avatar">
+            <h2 id="student-name">Nguyễn Văn A</h2>
+
+        </div>
+        <div class="right" id="info-section">
+            <p><strong>Mã SV:</strong> <span id="student-id"></span></p>
+            <p><strong>Trường:</strong> <span id="university"></span></p>
+            <p><strong>Năm:</strong> <span id="year"></span></p>
+            <p><strong>Phòng:</strong> <span id="room"></span></p>
+            <button class="edit-btn" id="edit-btn" onclick="handleEditClick()">Sửa</button>
+        </div>
+    </div>
+
+    <script type="module" src="js/thongtin.js"></script>
+
+</body>
+
+</html>

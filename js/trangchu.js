@@ -16,20 +16,21 @@ function updateAccount(isLoggedIn, userName, userImage) {
     const accountDiv = document.getElementById("account");
     if (isLoggedIn) {
         const role = localStorage.getItem("role");
+        const name = localStorage.getItem("name");
         accountDiv.innerHTML =
             role === "ADMIN" || role === "MANAGE"
                 ?
-                `<span>${userName}</span>
+                `<span>${name}</span>
             <img src="${userImage}" alt="Avatar" id="avatar-img">
             <div class="dropdown-menu" id="dropdown-menu">
-                <a href="#">Thông tin</a>
+                <a href="thongtin.html">Thông tin</a>
                 <a href="quanli/quanli.html">Trang quản trị</a>
                 <a href="#" id="logout-btn" >Đăng xuất</a>
             </div>` :
-                `<span>${userName}</span>
+                `<span>${name}</span>
             <img src="${userImage}" alt="Avatar" id="avatar-img">
             <div class="dropdown-menu" id="dropdown-menu">
-                <a href="#">Thông tin</a>
+                <a href="thongtin.html">Thông tin</a>
                 <a href="#" id="logout-btn" >Đăng xuất</a>
             </div>`
             ;

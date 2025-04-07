@@ -28,6 +28,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         } else if (data.statusCode === 200) {
                             localStorage.setItem("token", data.data.accessToken);
                             localStorage.setItem("role", data.data.user.role);
+                            localStorage.setItem("name", data.data.user.name);
+
 
                             localStorage.setItem("toastMessage", "Đăng nhập thành công!");
                             localStorage.setItem("toastType", "success");
