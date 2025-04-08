@@ -1,8 +1,9 @@
-
+import { listRoomPage, listRoomPageTest } from "./room.js";
 
 
 
 document.addEventListener("DOMContentLoaded", function () {
+
     const sidebar = document.getElementById("sidebar");
     const role = localStorage.getItem("role");
     const token = localStorage.getItem("token");
@@ -12,21 +13,20 @@ document.addEventListener("DOMContentLoaded", function () {
     sidebar.innerHTML =
         (role === "MANAGE" || role === "ADMIN") ?
             role === "ADMIN" ? `<ul>
-                <li><a href="#">Thống kê phòng</a></li>
-                <li><a href="#">Thống kê sinh viên</a></li>
-                <li><a href="#">Thống kê hóa đơn</a></li>
+                <li><a href="#room-statistics">Thống kê phòng</a></li>
+                <li><a href="#student-statistics">Thống kê sinh viên</a></li>
+                <li><a href="#invoice-statistics">Thống kê hóa đơn</a></li>
 
 
                 <li class="has-submenu">
-                    <a href="#">Quản lý phòng</a>
+                    <a href="">Quản lý phòng</a>
                     <ul class="submenu">
-                        <li><a href="#">Thêm phòng</a></li>
-                        <li><a href="#">Sửa phòng</a></li>
-                        <li><a href="#">Xóa phòng</a></li>
+                        <li><a href="#room">Danh sách phòng</a></li>
+                        <li><a href="#">Thêm phòng</a></li>             
                     </ul>
                 </li>
                 <li class="has-submenu">
-                    <a href="#">Quản lý sinh viên</a>
+                    <a href="#student">Quản lý sinh viên</a>
                     <ul class="submenu">
                         <li><a href="#">Thêm sinh viên</a></li>
                         <li><a href="#">Sửa sinh viên</a></li>
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </ul>
                 </li>
                 <li class="has-submenu">
-                    <a href="#">Quản lý phương tiện</a>
+                    <a href="#vehicle">Quản lý phương tiện</a>
                     <ul class="submenu">
                         <li><a href="#">Thêm phương tiện</a></li>
                         <li><a href="#">Sửa phương tiện</a></li>
@@ -42,14 +42,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     </ul>
                 </li>
                 <li class="has-submenu">
-                    <a href="#">Quản lý hóa đơn</a>
+                    <a href="#invoice">Quản lý hóa đơn</a>
                     <ul class="submenu">
                         <li><a href="#">Xuất hóa đơn</a></li>
                         <li><a href="#">Gửi hóa đơn</a></li>
                     </ul>
                 </li>
                 <li class="has-submenu">
-                    <a href="#">Quản lý hợp đồng</a>
+                    <a href="#contract">Quản lý hợp đồng</a>
                     <ul class="submenu">
                         <li><a href="#">Tạo hợp đồng</a></li>
                         <li><a href="#">Gửi hợp đồng</a></li>
@@ -58,8 +58,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             </ul>` :
                 `<ul>
-          <li class="has-submenu">
-                    <a href="#">Quản lý phòng</a>
+           <li class="has-submenu">
+                    <a href="#room">Quản lý phòng</a>
                     <ul class="submenu">
                         <li><a href="#">Thêm phòng</a></li>
                         <li><a href="#">Sửa phòng</a></li>
@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </ul>
                 </li>
                 <li class="has-submenu">
-                    <a href="#">Quản lý sinh viên</a>
+                    <a href="#student">Quản lý sinh viên</a>
                     <ul class="submenu">
                         <li><a href="#">Thêm sinh viên</a></li>
                         <li><a href="#">Sửa sinh viên</a></li>
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </ul>
                 </li>
                 <li class="has-submenu">
-                    <a href="#">Quản lý phương tiện</a>
+                    <a href="#vehicle">Quản lý phương tiện</a>
                     <ul class="submenu">
                         <li><a href="#">Thêm phương tiện</a></li>
                         <li><a href="#">Sửa phương tiện</a></li>
@@ -83,14 +83,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     </ul>
                 </li>
                 <li class="has-submenu">
-                    <a href="#">Quản lý hóa đơn</a>
+                    <a href="#invoice">Quản lý hóa đơn</a>
                     <ul class="submenu">
                         <li><a href="#">Xuất hóa đơn</a></li>
                         <li><a href="#">Gửi hóa đơn</a></li>
                     </ul>
                 </li>
                 <li class="has-submenu">
-                    <a href="#">Quản lý hợp đồng</a>
+                    <a href="#contract">Quản lý hợp đồng</a>
                     <ul class="submenu">
                         <li><a href="#">Tạo hợp đồng</a></li>
                         <li><a href="#">Gửi hợp đồng</a></li>
@@ -102,6 +102,9 @@ document.addEventListener("DOMContentLoaded", function () {
             ``;
 
     attachSubmenuToggle(); // Gọi hàm để gán sự kiện click cho các submenu
+    if (location.hash) {
+        loadContent(location.hash);
+    }
 });
 
 //thay đổi display khi click vào
@@ -139,4 +142,29 @@ function attachSubmenuToggle() {
             }
         });
     });
+}
+
+
+
+// Lắng nghe sự thay đổi hash trong URL
+window.addEventListener('hashchange', function () {
+    loadContent(location.hash);
+});
+
+
+// Hàm để thay đổi nội dung khi hash thay đổi
+function loadContent(hash) {
+    const contentDiv = document.getElementById("content");
+    console.log("hash :", hash)
+    switch (hash) {
+        case "#room":
+            contentDiv.innerHTML = listRoomPage();
+            listRoomPageTest();
+            break;
+        case "#student":
+            contentDiv.innerHTML = "<h1>About Page</h1><p>Learn more about us here.</p>";
+            break;
+        default:
+        // code nếu không khớp case nào
+    }
 }
