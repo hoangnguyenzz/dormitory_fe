@@ -26,9 +26,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     </ul>
                 </li>
                 <li class="has-submenu">
-                    <a href="#student">Quản lý sinh viên</a>
+                    <a href="#">Quản lý tài khoản</a>
                     <ul class="submenu">
-                        <li><a href="#">Thêm sinh viên</a></li>
+                        <li><a href="#account">Thêm sinh viên</a></li>
                         <li><a href="#">Sửa sinh viên</a></li>
                         <li><a href="#">Xóa sinh viên</a></li>
                     </ul>
@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </ul>
                 </li>
                 <li class="has-submenu">
-                    <a href="#student">Quản lý sinh viên</a>
+                    <a href="#student">Quản lý tài khoản</a>
                     <ul class="submenu">
                         <li><a href="#">Thêm sinh viên</a></li>
                         <li><a href="#">Sửa sinh viên</a></li>
@@ -112,7 +112,7 @@ function toggleDropdown() {
     const menu = document.getElementById("dropdown-menu");
     menu.style.display = menu.style.display === "block" ? "none" : "block";
 }
-
+window.toggleDropdown=toggleDropdown;
 
 // Nếu click ra ngoài dropdown thì ẩn nó đi
 document.addEventListener("click", (event) => {
@@ -130,6 +130,7 @@ function logout() {
     // window.location.replace('/trangchu.html');
     location.reload();
 }
+window.logout=logout;
 
 // Xử lí click cuộn sidebar
 function attachSubmenuToggle() {
@@ -161,8 +162,8 @@ function loadContent(hash) {
             contentDiv.innerHTML = listRoomPage();
             listRoomPageTest();
             break;
-        case "#student":
-            contentDiv.innerHTML = "<h1>About Page</h1><p>Learn more about us here.</p>";
+        case "#account":
+            contentDiv.innerHTML = listAccountPage();
             break;
         default:
         // code nếu không khớp case nào

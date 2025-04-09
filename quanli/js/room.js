@@ -1,15 +1,17 @@
-
+import { callApi } from "../../api/baseApi.js";
 
 export function listRoomPage() {
     return `
     <div class="table-container">
         <table id="room-table">
+        <h1>Danh sách phòng</h1>
             <thead>
                 <tr>
                     <th>STT</th>
                     <th>Tên phòng</th>
                     <th>Số người ở</th>
                     <th>Trạng thái</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody id="room-table-body">
@@ -20,62 +22,78 @@ export function listRoomPage() {
     <div class="pagination" id="room-pagination"></div>
     `;
 }
-export function listRoomPageTest() {
-    console.log("Room table found!11");
-    const roomtable = document.getElementById("room-table");
-    if (roomtable) {
-        console.log("Room table found!");
-        const rooms = [
-            { name: "Phòng A101", count: 3, status: "Đang ở" },
-            { name: "Phòng A102", count: 2, status: "Trống" },
-            { name: "Phòng B201", count: 4, status: "Đang ở" },
-            { name: "Phòng C301", count: 0, status: "Trống" },
-            { name: "Phòng D401", count: 1, status: "Đang ở" },
-            { name: "Phòng E501", count: 2, status: "Đang ở" },
-            { name: "Phòng F601", count: 0, status: "Trống" },
-            { name: "Phòng G701", count: 3, status: "Đang ở" },
-        ];
 
-
-        const rowsPerPage = 5;
-        let currentPage = 1;
-
-        function renderTable() {
-            const start = (currentPage - 1) * rowsPerPage;
-            const end = start + rowsPerPage;
-            const currentRooms = rooms.slice(start, end);
-
-            const tbody = document.getElementById("room-table-body");
-            tbody.innerHTML = currentRooms.map((room, index) => `
-                <tr>
-                    <td>${start + index + 1}</td>
-                    <td>${room.name}</td>
-                    <td>${room.count}</td>
-                    <td>${room.status}</td>
-                </tr>
-            `).join("");
-        }
-
-        function renderPagination() {
-            const pageCount = Math.ceil(rooms.length / rowsPerPage);
-            const pagination = document.getElementById("room-pagination");
-            pagination.innerHTML = "";
-
-            for (let i = 1; i <= pageCount; i++) {
-                const btn = document.createElement("button");
-                btn.textContent = i;
-                if (i === currentPage) btn.classList.add("active");
-                btn.addEventListener("click", () => {
-                    currentPage = i;
-                    renderTable();
-                    renderPagination();
-                });
-                pagination.appendChild(btn);
+export async function listRoomPageTest() {
+        const token = localStorage.getItem("token");
+        const roomTable = document.getElementById("room-table");
+        
+        if (roomTable) {
+            console.log("Room table found!");
+    
+            const rowsPerPage = 5;  // Số lượng phòng hiển thị trên mỗi trang
+            let currentPage = 1;  // Trang bắt đầu
+    
+            // Hàm gọi API để lấy dữ liệu phòng
+            async function fetchRooms(page, size) {
+                try {
+                    const data = await callApi(`/api/v1/rooms?page=${page}&size=${size}`, 'GET',null,{ "Authorization": `Bearer ${token}` });
+                    console.log("Check data :", data)
+                    return data;  // Trả về dữ liệu từ API
+                } catch (error) {
+                    console.error('Lỗi khi gọi API:', error);
+                    return null;  // Trả về null nếu có lỗi
+                }
             }
+    
+            // Hàm hiển thị bảng phòng
+            function renderRoomTable(rooms) {
+                const tbody = document.getElementById("room-table-body");
+                tbody.innerHTML = "";  // Xóa dữ liệu cũ trước khi thêm mới
+    
+                rooms.forEach((room, index) => {
+                    const row = `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${room.name}</td>
+                            <td>${room.capacity}</td>
+                            <td>${room.available?"Đang hoạt động":"Không hoạt động"}</td>
+                            <td><button class="edit-btn">Sửa</button>
+                                <button class="delete-btn">Xoá</button></td>
+                        </tr>
+                    `;
+                    tbody.innerHTML += row;  // Thêm mỗi dòng phòng vào bảng
+                });
+            }
+    
+            // Hàm hiển thị phân trang
+            function renderPagination(pageCount) {
+                const paginationContainer = document.getElementById("room-pagination");
+                paginationContainer.innerHTML = "";  // Xóa phân trang cũ
+    
+                for (let i = 1; i <= pageCount; i++) {
+                    const button = document.createElement("button");
+                    button.textContent = i;
+                    if (i === currentPage) {
+                        button.classList.add("active");  // Đánh dấu trang hiện tại
+                    }
+                    button.addEventListener("click", () => {
+                        currentPage = i;  // Cập nhật trang khi nhấn
+                        loadRooms();  // Tải lại phòng và phân trang
+                    });
+                    paginationContainer.appendChild(button);  // Thêm nút vào phân trang
+                }
+            }
+    
+            // Hàm tải phòng và phân trang từ API
+            async function loadRooms() {
+                const data = await fetchRooms(currentPage, rowsPerPage);  // Lấy dữ liệu từ API
+               
+                if (data) {
+                    renderRoomTable(data.result);  // Hiển thị danh sách phòng
+                    renderPagination(Math.ceil(data.meta.total / rowsPerPage));  // Hiển thị phân trang
+                }
+            }
+    
+            loadRooms();  // Gọi hàm tải phòng lần đầu tiên
         }
-
-        renderTable();
-        renderPagination();
-
     }
-}
