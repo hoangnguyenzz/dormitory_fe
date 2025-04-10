@@ -122,7 +122,7 @@ export async function listRoomPageTest() {
         }
 
         function openEditSidebar(room) {
-            console.log("check :" , room)
+            console.log("check :", room)
             const sidebar = document.getElementById("edit-room-sidebar");
             document.getElementById("room-name").value = room.name;
             document.getElementById("room-capacity").value = room.capacity;
@@ -145,7 +145,7 @@ export async function listRoomPageTest() {
                         "Authorization": `Bearer ${token}`,
                         "Content-Type": "application/json"
                     });
-                   showToast("Cập nhập thành công !", "success");
+                    showToast("Cập nhập thành công !", "success");
                     sidebar.classList.remove("active");
                     loadRooms();
                 } catch (err) {
@@ -171,24 +171,24 @@ export async function listRoomPageTest() {
         }
 
         function handleDelete(id) {
-            console.log("check :" , id)
+            console.log("check :", id)
 
-                try {
-                    callApi(`/api/v1/rooms/${id}`, 'DELETE',null, {
-                        "Authorization": `Bearer ${token}`,
-                        "Content-Type": "application/json"
-                    });
-                   showToast("Cập nhập thành công !", "success");
-                    sidebar.classList.remove("active");
-                    loadRooms();
-                    location.reload();
+            try {
+                callApi(`/api/v1/rooms/${id}`, 'DELETE', null, {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                });
+                showToast("Cập nhập thành công !", "success");
+                sidebar.classList.remove("active");
+                loadRooms();
+                location.reload();
 
-                } catch (err) {
-                    console.error("Cập nhật lỗi", err);
-                    showToast("Cập nhập thất bại !", "error");
-                }
-            };
-        
+            } catch (err) {
+                console.error("Cập nhật lỗi", err);
+                showToast("Cập nhập thất bại !", "error");
+            }
+        };
+
 
 
         async function loadRooms() {

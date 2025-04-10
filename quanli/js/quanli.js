@@ -1,5 +1,6 @@
 import { listRoomPage, listRoomPageTest } from "./room/room.js";
-import {addRoomPage,addRoom} from "../js/room/themmoi.js"
+import { addRoomPage, addRoom } from "../js/room/themmoi.js"
+import { listAccountPage, listAccountPageTest } from "./account/account.js";
 
 
 
@@ -29,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <li class="has-submenu">
                     <a href="#">Quản lý tài khoản</a>
                     <ul class="submenu">
-                        <li><a href="#account">Thêm sinh viên</a></li>
+                        <li><a href="#account">Danh sách tài khoản</a></li>
                         <li><a href="#">Sửa sinh viên</a></li>
                         <li><a href="#">Xóa sinh viên</a></li>
                     </ul>
@@ -113,7 +114,7 @@ function toggleDropdown() {
     const menu = document.getElementById("dropdown-menu");
     menu.style.display = menu.style.display === "block" ? "none" : "block";
 }
-window.toggleDropdown=toggleDropdown;
+window.toggleDropdown = toggleDropdown;
 
 // Nếu click ra ngoài dropdown thì ẩn nó đi
 document.addEventListener("click", (event) => {
@@ -131,7 +132,7 @@ function logout() {
     // window.location.replace('/trangchu.html');
     location.reload();
 }
-window.logout=logout;
+window.logout = logout;
 
 // Xử lí click cuộn sidebar
 function attachSubmenuToggle() {
@@ -166,6 +167,10 @@ function loadContent(hash) {
         case "#add-room":
             contentDiv.innerHTML = addRoomPage();
             addRoom();
+            break;
+        case "#account":
+            contentDiv.innerHTML = listAccountPage();
+            listAccountPageTest();
             break;
         default:
         // code nếu không khớp case nào

@@ -29,45 +29,51 @@ export function addRoomPage() {
 
 export async function addRoom() {
     const addForm = document.getElementById('add-room-form');
-    if(addForm){
-    const token = localStorage.getItem("token");  
+    if (addForm) {
+        const token = localStorage.getItem("token");
 
 
 
- function createRoom(roomData) {
-        console.log(roomData)
-            try {
-               const data= callApi(`/api/v1/rooms`, 'POST', roomData, {
-                    "Authorization": `Bearer ${token}`
-                });
-                showToast("Thêm mới thành công !", "success");
-                return data;
-                
-            } catch (error) {
-                console.error('Lỗi khi gọi API:', error);
-                showToast("Thêm mới thất bại !", "error");
-                return null;
-               
-            }
+        function createRoom(roomData) {
+            console.log(roomData)
+
+            const data = callApi(`/api/v1/rooms`, 'POST', roomData, {
+                "Authorization": `Bearer ${token}`
+            }).then((data) => {
+                console.log(" data ", data)
+                if (data) {
+                    showToast("Thêm mới thành công !", "success");
+                    addForm.reset();
+                } else {
+                    const message = localStorage.getItem("toastMessage");
+                    if (message) {
+                        showToast(message, "error");
+                        localStorage.removeItem("toastMessage");
+                    }
+                }
+            });
+
+
+
+
         }
         document.getElementById('add-room-form').addEventListener('submit', (event) => {
-            event.preventDefault(); 
-                // Lấy giá trị từ form
-    const roomName = document.getElementById('add-room-name').value;
-    const roomCapacity = document.getElementById('add-room-capacity').value;
-    const roomAvailable = document.getElementById('add-room-available').value;
+            event.preventDefault();
+            // Lấy giá trị từ form
+            const roomName = document.getElementById('add-room-name').value;
+            const roomCapacity = document.getElementById('add-room-capacity').value;
+            const roomAvailable = document.getElementById('add-room-available').value;
 
-    // Dữ liệu cần gửi lên server
-    const roomData = {
-        name: roomName,
-        capacity: parseInt(roomCapacity, 10),
-        isAvailable: roomAvailable  
-    }; 
-            createRoom(roomData); 
+            // Dữ liệu cần gửi lên server
+            const roomData = {
+                name: roomName,
+                capacity: parseInt(roomCapacity, 10),
+                isAvailable: roomAvailable
+            };
+            createRoom(roomData);
         });
-        
-}
+
+    }
 
 }
 
-  

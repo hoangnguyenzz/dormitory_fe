@@ -17,8 +17,14 @@ export async function callApi(url, method = 'GET', data = null, headers = {}) {
 
     try {
         const response = await fetch(API_URL + url, options);
-        const result = await response.json();
+        console.log("response", response.status)
 
+        const result = await response.json();
+        if (response.status >= 400 && response.status < 600) {
+            console.error('Error :', result);
+            localStorage.setItem("toastMessage", result.message);
+            return null;
+        }
         return result;
 
     } catch (error) {
