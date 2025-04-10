@@ -1,4 +1,5 @@
-import { listRoomPage, listRoomPageTest } from "./room.js";
+import { listRoomPage, listRoomPageTest } from "./room/room.js";
+import {addRoomPage,addRoom} from "../js/room/themmoi.js"
 
 
 
@@ -22,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <a href="">Quản lý phòng</a>
                     <ul class="submenu">
                         <li><a href="#room">Danh sách phòng</a></li>
-                        <li><a href="#">Thêm phòng</a></li>             
+                        <li><a href="#add-room">Thêm phòng</a></li>             
                     </ul>
                 </li>
                 <li class="has-submenu">
@@ -162,8 +163,9 @@ function loadContent(hash) {
             contentDiv.innerHTML = listRoomPage();
             listRoomPageTest();
             break;
-        case "#account":
-            contentDiv.innerHTML = listAccountPage();
+        case "#add-room":
+            contentDiv.innerHTML = addRoomPage();
+            addRoom();
             break;
         default:
         // code nếu không khớp case nào
