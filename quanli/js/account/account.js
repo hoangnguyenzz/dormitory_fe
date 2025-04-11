@@ -1,3 +1,6 @@
+import { showToast } from "../../../thongbao/thongbao.js";
+
+
 // accountManagementPage.js
 import { callApi } from "../../../api/baseApi.js";
 
@@ -32,23 +35,11 @@ export function listAccountPage() {
         <span class="close-btn" id="close-edit-room">&times;</span>
         <h2>Sửa tài khoản</h2>
         <form id="edit-room-form">
-          <label for="account-name">Tên:</label>
-          <input type="text" id="account-name" name="name" required>
-
-          <label for="account-avatar">Avatar URL:</label>
-          <input type="text" id="account-avatar" name="avatar">
-
-          <label for="account-email">Email:</label>
-          <input type="email" id="account-email" name="email" required>
-
-          <label for="account-phone">Số điện thoại:</label>
-          <input type="text" id="account-phone" name="phone">
-
-          <label for="account-gender">Giới tính:</label>
-          <select id="account-gender" name="gender">
-            <option value="MALE">Nam</option>
-            <option value="FEMALE">Nữ</option>
-            <option value="OTHER">Khác</option>
+         
+          <select id="account-role" name="role">
+            <option value="ADMIN">Admin</option>
+            <option value="MANAGE">Quản lý</option>
+            <option value="USER">Sinh viên</option>
           </select>
 
           <button type="submit">Lưu thay đổi</button>
@@ -92,10 +83,10 @@ export async function listAccountPageTest() {
             <td>${account.email}</td>
             <td>${account.phone || ''}</td>
             <td>${account.gender || ''}</td>
-            <td>${account.role || ''}</td>
+            <td>${account.role.name === "ADMIN" ?"Admin": account.role.name === "MANAGE"?"Quản lý":"Sinh viên"}</td>
             <td>${new Date(account.createAt).toLocaleDateString("vi-VN")}</td>
             <td>
-              <button class="edit-btn" data-id="${account.id}" data-account='${JSON.stringify(account)}'>Sửa</button>
+              <button class="edit-btn" data-id="${account.id}" data-account='${JSON.stringify(account)}'>Đổi quyền</button>
               <button class="delete-btn" data-id="${account.id}">Xoá</button>
             </td>
           </tr>
@@ -126,6 +117,7 @@ export async function listAccountPageTest() {
             document.querySelectorAll(".edit-btn").forEach(btn => {
                 btn.addEventListener("click", () => {
                     const account = JSON.parse(btn.dataset.account);
+                    console.log("checked :",account)
                     openEditSidebar(account);
                 });
             });
@@ -134,11 +126,7 @@ export async function listAccountPageTest() {
         function openEditSidebar(account) {
             const sidebar = document.getElementById("edit-room-sidebar");
 
-            document.getElementById("account-name").value = account.name || "";
-            document.getElementById("account-avatar").value = account.avatar || "";
-            document.getElementById("account-email").value = account.email || "";
-            document.getElementById("account-phone").value = account.phone || "";
-            document.getElementById("account-gender").value = account.gender || "OTHER";
+            document.getElementById("account-role").value = account.role.name ;
 
             sidebar.classList.add("active");
 
@@ -148,25 +136,26 @@ export async function listAccountPageTest() {
 
                 const updatedAccount = {
                     id: account.id,
-                    name: form.name.value,
-                    avatar: form.avatar.value,
-                    email: form.email.value,
-                    phone: form.phone.value,
-                    gender: form.gender.value
-                };
-
-                try {
-                    await callApi(`/api/v1/accounts`, 'PUT', updatedAccount, {
-                        "Authorization": `Bearer ${token}`,
-                        "Content-Type": "application/json"
-                    });
-                    showToast("Cập nhật thành công!", "success");
-                    sidebar.classList.remove("active");
-                    loadAccounts();
-                } catch (err) {
-                    console.error("Cập nhật lỗi", err);
-                    showToast("Cập nhật thất bại!", "error");
-                }
+                    role: {name:form.role.value}
+                };     
+                    const data = callApi(`/api/v1/users`, 'PUT', updatedAccount, {
+                                    "Authorization": `Bearer ${token}`
+                                }).then((data) => {
+                                   
+                                    if (data) {
+                                        console.log(" data ", data)
+                                        showToast("Cập nhật thành công!", "success");
+                                        loadAccounts();
+                                        
+                                    } else {
+                                        const message = localStorage.getItem("toastMessage");
+                                        if (message) {
+                                            showToast(message, "error");
+                                            localStorage.removeItem("toastMessage");
+                                        }
+                                    }
+                                });                 
+                
             };
         }
 
@@ -174,17 +163,24 @@ export async function listAccountPageTest() {
             document.querySelectorAll(".delete-btn").forEach(btn => {
                 btn.addEventListener("click", async () => {
                     const id = btn.dataset.id;
-                    try {
-                        await callApi(`/api/v1/accounts/${id}`, 'DELETE', null, {
-                            "Authorization": `Bearer ${token}`,
-                            "Content-Type": "application/json"
-                        });
-                        showToast("Xoá thành công!", "success");
-                        loadAccounts();
-                    } catch (err) {
-                        console.error("Xoá lỗi", err);
-                        showToast("Xoá thất bại!", "error");
-                    }
+
+                    const data = callApi(`/api/v1/users/${id}`, 'DELETE', null,  {
+                        "Authorization": `Bearer ${token}`
+                    }).then((data) => {
+                       
+                        if (data) {
+                            console.log(" data ", data)
+                            showToast("Cập nhật thành công!", "success");
+                            loadAccounts();
+                            
+                        } else {
+                            const message = localStorage.getItem("toastMessage");
+                            if (message) {
+                                showToast(message, "error");
+                                localStorage.removeItem("toastMessage");
+                            }
+                        }
+                    });   
                 });
             });
         }
