@@ -2,6 +2,11 @@ import { callApi } from "../../../api/baseApi.js";
 import { showToast } from "../../../thongbao/thongbao.js";
 
 export function listRoomPage() {
+
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "/quanli/css/room.css";
+    document.head.appendChild(link);
     return `
     <div class="table-container">
         <table id="room-table">
@@ -24,28 +29,24 @@ export function listRoomPage() {
     <div class="pagination" id="room-pagination"></div>
 
 
-    <!-- Sửa phòng -->
-    <div class="edit-room-sidebar" id="edit-room-sidebar">
-    <div class="edit-room-content">
-        <span class="close-btn" id="close-edit-room">&times;</span>
-        <h2>Sửa phòng</h2>
-        <form id="edit-room-form">
-            <label for="room-name">Tên phòng:</label>
-            <input type="text" id="room-name" name="name" required>
-
-            <label for="room-capacity">Số người ở:</label>
-            <input type="number" id="room-capacity" name="capacity" required>
-
-            <label for="room-available">Trạng thái:</label>
-            <select id="room-available" name="available">
-                <option value="true">Đang hoạt động</option>
-                <option value="false">Không hoạt động</option>
-            </select>
-
-            <button type="submit">Lưu thay đổi</button>
-        </form>
+   <!-- Danh sách sinh viên theo phòng -->
+<div class="student-list-sidebar" id="student-list-sidebar">
+    <div class="student-list-content">
+        <span class="close-btn" id="close-student-list">&times;</span>
+        <h2>Danh sách sinh viên</h2>
+       
+        <div class="add-student-form">
+            <input type="text" id="new-student-name" placeholder="Tên sinh viên mới" />
+            <ul id="student-suggestions" class="suggestion-box"></ul>
+            <button id="add-student-btn">Thêm</button>
+            
+        </div>
+         <ul id="student-list">
+            <!-- Tên sinh viên sẽ render ở đây -->
+        </ul>
     </div>
 </div>
+
 
     `;
 }
@@ -70,21 +71,20 @@ export async function listRoomPageTest() {
             }
         }
 
-        function renderRoomTable(rooms) {
+        function renderRoomTable(rooms, currentPage, pageSize) {
             const tbody = document.getElementById("room-table-body");
             tbody.innerHTML = "";
 
             rooms.forEach((room, index) => {
                 const row = `
                     <tr>
-                        <td>${index + 1}</td>
+                        <td>${(currentPage - 1) * pageSize + index + 1}</td>
                         <td>${room.name}</td>
                         <td>${room.capacity}</td>
                         <td>${room.available ? "Đang hoạt động" : "Không hoạt động"}</td>
                         <td>${new Date(room.createAt).toLocaleDateString("vi-VN")}</td>
                         <td>
-                            <button class="edit-btn" data-id="${room.id}" data-room='${JSON.stringify(room)}'>Sửa</button>
-                            <button class="delete-btn" data-id="${room.id}" data-room='${JSON.stringify(room)}'>Xoá</button>
+                            <button class="view-student-btn" data-id="${room.id}">Xem sinh viên</button>
                         </td>
                     </tr>
                 `;
@@ -111,92 +111,152 @@ export async function listRoomPageTest() {
         }
 
 
-        // Sửa room
-        function bindEditButtons() {
-            document.querySelectorAll(".edit-btn").forEach(btn => {
-                btn.addEventListener("click", () => {
-                    const room = JSON.parse(btn.dataset.room);
-                    openEditSidebar(room);
+        function bindViewStudentButtons() {
+            document.querySelectorAll(".view-student-btn").forEach(btn => {
+                btn.addEventListener("click", async () => {
+                    const roomId = btn.dataset.id;
+                    console.log("roomId:", roomId)
+                    openStudentSidebar(roomId);
                 });
             });
         }
 
-        function openEditSidebar(room) {
-            console.log("check :", room)
-            const sidebar = document.getElementById("edit-room-sidebar");
-            document.getElementById("room-name").value = room.name;
-            document.getElementById("room-capacity").value = room.capacity;
-            document.getElementById("room-available").value = room.available;
+
+        async function openStudentSidebar(roomId) {
+
+            const sidebar = document.getElementById("student-list-sidebar");
+            const studentList = document.getElementById("student-list");
+            const addBtn = document.getElementById("add-student-btn");
+            const nameInput = document.getElementById("new-student-name");
+            const suggestionBox = document.getElementById("student-suggestions");
+
+            // tìm kiếm sinh viên
+            nameInput.addEventListener("input", async () => {
+                const keyword = nameInput.value.trim();
+                suggestionBox.innerHTML = "";
+
+                if (!keyword) return;
+
+                try {
+                    const data = await callApi(`/api/v1/users?filter=name~'${keyword}'`, 'GET', null, {
+                        "Authorization": `Bearer ${token}`
+                    });
+
+                    const students = data?.result || [];
+
+                    const uniqueStudents = [];
+                    const seenIds = new Set();
+
+                    students.forEach(student => {
+                        if (!seenIds.has(student.id)) {
+                            seenIds.add(student.id);
+                            uniqueStudents.push(student);
+                        }
+                    });
+
+                    uniqueStudents.forEach(student => {
+                        const li = document.createElement("li");
+                        li.textContent = student.name;
+
+                        li.addEventListener("click", () => {
+                            nameInput.value = `${student.id} - ${student.name}`;
+                            suggestionBox.innerHTML = "";
+                        });
+
+                        suggestionBox.appendChild(li);
+                    });
+                } catch (error) {
+                    console.error("Lỗi khi tìm sinh viên:", error);
+                }
+            });
+            // hủy bỏ gợi ý khi click ra ngoài
+            document.addEventListener("click", (e) => {
+                const isClickInsideInput = nameInput.contains(e.target);
+                const isClickInsideSuggestion = suggestionBox.contains(e.target);
+
+                if (!isClickInsideInput && !isClickInsideSuggestion) {
+                    suggestionBox.innerHTML = "";
+                }
+            });
 
             sidebar.classList.add("active");
 
-            const form = document.getElementById("edit-room-form");
-            form.onsubmit = async (e) => {
-                e.preventDefault();
-                const updatedRoom = {
-                    id: room.id,
-                    name: form.name.value,
-                    capacity: parseInt(form.capacity.value),
-                    available: form.available.value === "true"
-                };
+            async function loadStudents() {
+                await callApi(`/api/v1/users/byroom/${roomId}`, 'GET', null, {
+                    "Authorization": `Bearer ${token}`
+                }).then((data) => {
+                    console.log(" data ", data.data)
+                    if (data) {
+                        studentList.innerHTML = "";
+                        data.data.forEach(student => {
+                            const li = document.createElement("li");
+                            li.textContent = student.name;
 
-                try {
-                    await callApi(`/api/v1/rooms`, 'PUT', updatedRoom, {
+                            const deleteBtn = document.createElement("button");
+                            deleteBtn.textContent = "x";
+                            deleteBtn.classList.add("delete-student-btn");
+                            deleteBtn.addEventListener("click", async () => {
+                                await callApi(`/api/v1/users/deleteuserfromroom/${student.id}`, 'POST', null, {
+                                    "Authorization": `Bearer ${token}`
+                                });
+                                loadStudents();
+                            });
+
+                            li.appendChild(deleteBtn);
+                            studentList.appendChild(li);
+                        });
+                    } else {
+                        const message = localStorage.getItem("toastMessage");
+                        if (message) {
+                            showToast(message, "error");
+                            localStorage.removeItem("toastMessage");
+                        }
+                    }
+                });
+
+
+            }
+
+            addBtn.onclick = async () => {
+                const userId = nameInput.value.split("-")[0].trim();
+                console.log("id new user:", userId)
+                if (userId) {
+                    await callApi(`/api/v1/users`, 'PUT', { id: userId, room: { id: roomId } }, {
                         "Authorization": `Bearer ${token}`,
                         "Content-Type": "application/json"
-                    });
-                    showToast("Cập nhập thành công !", "success");
-                    sidebar.classList.remove("active");
-                    loadRooms();
-                } catch (err) {
-                    console.error("Cập nhật lỗi", err);
-                    showToast("Cập nhập thất bại !", "error");
+                    }).then((data) => {
+                        console.log(" data ", data)
+                        if (data) {
+                            showToast("Thêm mới thành công !", "success");
+                            nameInput.value = "";
+                            loadStudents();
+                        } else {
+
+                            showToast("Không tìm thấy người này", "error");
+                            localStorage.removeItem("toastMessage");
+                        }
+                    }
+
+                    );
+
+
                 }
             };
+
+            loadStudents();
         }
 
-        document.getElementById("close-edit-room").addEventListener("click", () => {
-            document.getElementById("edit-room-sidebar").classList.remove("active");
+
+        document.getElementById("close-student-list").addEventListener("click", () => {
+            document.getElementById("student-list-sidebar").classList.remove("active");
         });
-
-
-        // Xoá room 
-        function bindDeleteButtons() {
-            document.querySelectorAll(".delete-btn").forEach(btn => {
-                btn.addEventListener("click", () => {
-                    const id = btn.dataset.id;
-                    handleDelete(id);
-                });
-            });
-        }
-
-        function handleDelete(id) {
-            console.log("check :", id)
-
-            try {
-                callApi(`/api/v1/rooms/${id}`, 'DELETE', null, {
-                    "Authorization": `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                });
-                showToast("Cập nhập thành công !", "success");
-                sidebar.classList.remove("active");
-                loadRooms();
-                location.reload();
-
-            } catch (err) {
-                console.error("Cập nhật lỗi", err);
-                showToast("Cập nhập thất bại !", "error");
-            }
-        };
-
 
 
         async function loadRooms() {
             const data = await fetchRooms(currentPage, rowsPerPage);
             if (data) {
-                renderRoomTable(data.result);
-                bindEditButtons();
-                bindDeleteButtons();
+                renderRoomTable(data.result, currentPage, rowsPerPage);
+                bindViewStudentButtons();
                 renderPagination(Math.ceil(data.meta.total / rowsPerPage));
             }
         }

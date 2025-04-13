@@ -5,6 +5,12 @@ import { showToast } from "../../../thongbao/thongbao.js";
 import { callApi } from "../../../api/baseApi.js";
 
 export function listAccountPage() {
+
+
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "/quanli/css/account.css";
+    document.head.appendChild(link);
     return `
     <div class="table-container">
       <h1>Danh sách tài khoản</h1>
@@ -18,6 +24,7 @@ export function listAccountPage() {
             <th>Số điện thoại</th>
             <th>Giới tính</th>
             <th>Quyền</th>
+            <th>Phòng</th>
             <th>Thời gian tạo</th>
             <th></th>
           </tr>
@@ -83,7 +90,8 @@ export async function listAccountPageTest() {
             <td>${account.email}</td>
             <td>${account.phone || ''}</td>
             <td>${account.gender || ''}</td>
-            <td>${account.role.name === "ADMIN" ?"Admin": account.role.name === "MANAGE"?"Quản lý":"Sinh viên"}</td>
+            <td>${account.role.name === "ADMIN" ? "Admin" : account.role.name === "MANAGE" ? "Quản lý" : "Sinh viên"}</td>
+            <td>${account.room ? account.room.name : 'Chưa có'}</td>
             <td>${new Date(account.createAt).toLocaleDateString("vi-VN")}</td>
             <td>
               <button class="edit-btn" data-id="${account.id}" data-account='${JSON.stringify(account)}'>Đổi quyền</button>
@@ -117,7 +125,7 @@ export async function listAccountPageTest() {
             document.querySelectorAll(".edit-btn").forEach(btn => {
                 btn.addEventListener("click", () => {
                     const account = JSON.parse(btn.dataset.account);
-                    console.log("checked :",account)
+                    console.log("checked :", account)
                     openEditSidebar(account);
                 });
             });
@@ -126,7 +134,7 @@ export async function listAccountPageTest() {
         function openEditSidebar(account) {
             const sidebar = document.getElementById("edit-room-sidebar");
 
-            document.getElementById("account-role").value = account.role.name ;
+            document.getElementById("account-role").value = account.role.name;
 
             sidebar.classList.add("active");
 
@@ -136,26 +144,26 @@ export async function listAccountPageTest() {
 
                 const updatedAccount = {
                     id: account.id,
-                    role: {name:form.role.value}
-                };     
-                    const data = callApi(`/api/v1/users`, 'PUT', updatedAccount, {
-                                    "Authorization": `Bearer ${token}`
-                                }).then((data) => {
-                                   
-                                    if (data) {
-                                        console.log(" data ", data)
-                                        showToast("Cập nhật thành công!", "success");
-                                        loadAccounts();
-                                        
-                                    } else {
-                                        const message = localStorage.getItem("toastMessage");
-                                        if (message) {
-                                            showToast(message, "error");
-                                            localStorage.removeItem("toastMessage");
-                                        }
-                                    }
-                                });                 
-                
+                    role: { name: form.role.value }
+                };
+                const data = callApi(`/api/v1/users`, 'PUT', updatedAccount, {
+                    "Authorization": `Bearer ${token}`
+                }).then((data) => {
+
+                    if (data) {
+                        console.log(" data ", data)
+                        showToast("Cập nhật thành công!", "success");
+                        loadAccounts();
+
+                    } else {
+                        const message = localStorage.getItem("toastMessage");
+                        if (message) {
+                            showToast(message, "error");
+                            localStorage.removeItem("toastMessage");
+                        }
+                    }
+                });
+
             };
         }
 
@@ -164,23 +172,23 @@ export async function listAccountPageTest() {
                 btn.addEventListener("click", async () => {
                     const id = btn.dataset.id;
 
-                    const data = callApi(`/api/v1/users/${id}`, 'DELETE', null,  {
+                    const data = callApi(`/api/v1/users/${id}`, 'DELETE', null, {
                         "Authorization": `Bearer ${token}`
                     }).then((data) => {
-                       
-                        if (data) {
+                        console.log(" data kk ", data)
+                        try {
                             console.log(" data ", data)
                             showToast("Cập nhật thành công!", "success");
                             loadAccounts();
-                            
-                        } else {
+
+                        } catch (err) {
                             const message = localStorage.getItem("toastMessage");
                             if (message) {
                                 showToast(message, "error");
                                 localStorage.removeItem("toastMessage");
                             }
                         }
-                    });   
+                    });
                 });
             });
         }

@@ -96,34 +96,40 @@ button {
 
 /* Nút Sửa */
 .edit-btn {
-    background-color: #4CAF50; /* Màu xanh lá */
+    background-color: #4CAF50;
+    /* Màu xanh lá */
     color: white;
 }
 
 .edit-btn:hover {
-    background-color: #45a049; /* Màu xanh lá đậm hơn khi hover */
-     transform: scale(1.05); /*Tăng kích thước nút khi hover */
+    background-color: #45a049;
+    /* Màu xanh lá đậm hơn khi hover */
+    transform: scale(1.05);
+    /*Tăng kích thước nút khi hover */
 }
 
 .edit-btn:focus {
     outline: none;
-  
+
 }
 
 /* Nút Xoá */
 .delete-btn {
-    background-color: #f44336; /* Màu đỏ */
+    background-color: #f44336;
+    /* Màu đỏ */
     color: white;
 }
 
 .delete-btn:hover {
-    background-color: #e53935; /* Màu đỏ đậm hơn khi hover */
-    transform: scale(1.05); /* Tăng kích thước nút khi hover */
+    background-color: #e53935;
+    /* Màu đỏ đậm hơn khi hover */
+    transform: scale(1.05);
+    /* Tăng kích thước nút khi hover */
 }
 
 .delete-btn:focus {
     outline: none;
-   
+
 }
 
 
@@ -131,205 +137,146 @@ button {
 
 
 
-/* sửa phòng */
-.edit-room-sidebar {
+/* Sidebar danh sách sinh viên */
+.student-list-sidebar {
     position: fixed;
     top: 0;
     right: -400px;
     width: 400px;
     height: 100%;
-    background-color: #fff;
-    box-shadow: -2px 0 10px rgba(0,0,0,0.2);
-    transition: right 0.4s ease-in-out;
+    background-color: #ffffff;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    transition: right 0.3s ease-in-out;
     z-index: 1000;
 }
 
-.edit-room-sidebar.active {
+.student-list-sidebar.active {
     right: 0;
 }
 
-.edit-room-content {
+.student-list-content {
     padding: 20px;
 }
 
-.close-btn {
+.student-list-content h2 {
+    margin-top: 0;
     font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+#student-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+#student-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f2f2f2;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+}
+
+.delete-student-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 4px 10px;
     cursor: pointer;
-    float: right;
+    font-weight: bold;
 }
 
-
-
-/* Sidebar container */
-.edit-room-sidebar {
-    position: fixed;
-    top: 0;
-    right: -420px;
-    width: 400px;
-    height: 100%;
-    background-color: #f9f9f9;
-    box-shadow: -3px 0 12px rgba(0, 0, 0, 0.15);
-    transition: right 0.4s ease;
-    z-index: 999;
-    overflow-y: auto;
-    border-left: 1px solid #ddd;
+.delete-student-btn:hover {
+    background-color: #c0392b;
 }
 
-/* Active state */
-.edit-room-sidebar.active {
-    right: 0;
+.add-student-form {
+    position: relative;
+    display: flex;
+    gap: 10px;
 }
 
-/* Content area */
-.edit-room-content {
-    padding: 24px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+.add-student-form input {
+    flex: 1;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
 
-/* Close button */
+.add-student-form button {
+    padding: 8px 12px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-student-form button:hover {
+    background-color: #2980b9;
+}
+
 .close-btn {
     font-size: 24px;
     font-weight: bold;
     cursor: pointer;
-    color: #555;
-    float: right;
-    transition: color 0.2s ease;
-}
-
-.close-btn:hover {
-    color: #ff4d4f;
-}
-
-/* Form styling */
-.edit-room-content h2 {
-    margin-top: 0;
-    margin-bottom: 20px;
-    font-size: 22px;
+    position: absolute;
+    right: 20px;
+    top: 10px;
     color: #333;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 10px;
 }
 
-#edit-room-form label {
-    display: block;
-    margin-top: 16px;
-    margin-bottom: 6px;
-    font-weight: 600;
-    color: #444;
-}
-
-#edit-room-form input,
-#edit-room-form select {
-    width: 100%;
-    padding: 10px 12px;
-    font-size: 15px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease;
-}
-
-#edit-room-form input:focus,
-#edit-room-form select:focus {
-    outline: none;
-    border-color: #007bff;
-}
-
-/* Submit button */
-#edit-room-form button[type="submit"] {
-    margin-top: 24px;
-    width: 100%;
-    background-color: #007bff;
-    color: white;
-    padding: 12px;
-    font-size: 16px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#edit-room-form button[type="submit"]:hover {
-    background-color: #0056b3;
-}
-
-
-
-/* form thêm phòng */
-/* Container form - Căn giữa form trong trang */
-.add-room-form-container {
-    max-width: 1000px;  /* Giới hạn chiều rộng tối đa của form */
-    width: 100%;  /* Form chiếm hết chiều rộng của màn hình nhỏ */
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    margin: 0 auto;  /* Căn giữa form theo chiều ngang */
-    box-sizing: border-box;
-    font-family: 'Arial', sans-serif;  /* Font chữ mặc định */
-    margin-top: 150px;
-}
-
-/* Tiêu đề form */
-.add-room-form-container h2 {
-    margin-top: 0;
-    margin-bottom: 20px;
-    font-size: 22px;
-    color: #333;
-    text-align: center;
-    font-weight: 600;
-}
-
-/* Style cho label */
-#add-room-form label {
-    display: block;
-    margin-top: 14px;
-    font-size: 16px;
-    color: #333;
-    font-weight: 500;
-}
-
-/* Style cho input và select */
-#add-room-form input,
-#add-room-form select {
-    width: 100%;  /* Đảm bảo input, select chiếm hết chiều rộng */
-    padding: 12px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    margin-top: 8px;
-    box-sizing: border-box;
-}
-
-/* Style cho nút submit */
-#add-room-form button {
-    margin-top: 24px;
-    width: 100%;
-    padding: 12px;
-    background-color: #28a745;
-    color: white;
-    font-size: 16px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-#add-room-form button:hover {
-    background-color: #218838;
-}
-
-/* Responsive cho các màn hình nhỏ */
-@media (max-width: 480px) {
-    .add-room-form-container {
-        width: 90%;  /* Form chiếm 90% chiều rộng cho các màn hình nhỏ */
-        padding: 15px;
+/* Responsive: Mobile */
+@media screen and (max-width: 600px) {
+    .student-list-sidebar {
+        width: 100%;
     }
+}
 
-    #add-room-form input,
-    #add-room-form select,
-    #add-room-form button {
-        font-size: 14px;  /* Giảm kích thước chữ */
-    }
+/* button xem danh sach */
+.view-student-btn {
+    padding: 6px 10px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 6px;
+}
+
+.view-student-btn:hover {
+    background-color: #2980b9;
+}
+
+
+/* Autocomplete input field styles */
+.suggestion-box {
+    position: absolute;
+    top: 100%;
+    /* đặt dưới input */
+    left: 0;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    z-index: 1000;
+}
+
+.suggestion-box li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.suggestion-box li:hover {
+    background-color: #f0f0f0;
 }

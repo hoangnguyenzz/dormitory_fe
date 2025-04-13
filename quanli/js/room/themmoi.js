@@ -5,6 +5,13 @@ import { showToast } from "../../../thongbao/thongbao.js";
 
 
 export function addRoomPage() {
+
+
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "/quanli/css/account.css";
+    document.head.appendChild(link);
+
     return `<div class="add-room-form-container">
     <h2>Thêm mới phòng</h2>
     <form id="add-room-form">

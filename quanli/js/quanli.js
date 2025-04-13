@@ -1,6 +1,7 @@
 import { listRoomPage, listRoomPageTest } from "./room/room.js";
 import { addRoomPage, addRoom } from "../js/room/themmoi.js"
 import { listAccountPage, listAccountPageTest } from "./account/account.js";
+import { soDienNuoc, listDienNuoc } from "./diennuoc/sodiennuoc.js";
 
 
 
@@ -44,9 +45,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     </ul>
                 </li>
                 <li class="has-submenu">
-                    <a href="#invoice">Quản lý hóa đơn</a>
+                    <a href="#">Quản lý hóa đơn</a>
                     <ul class="submenu">
-                        <li><a href="#">Xuất hóa đơn</a></li>
+                        <li><a href="#diennuoc">Chỉ số điện-nước</a></li>
                         <li><a href="#">Gửi hóa đơn</a></li>
                     </ul>
                 </li>
@@ -172,7 +173,10 @@ function loadContent(hash) {
             contentDiv.innerHTML = listAccountPage();
             listAccountPageTest();
             break;
+        case "#diennuoc":
+            contentDiv.innerHTML = soDienNuoc();
+            listDienNuoc();
+            break;
         default:
-        // code nếu không khớp case nào
     }
 }

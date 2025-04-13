@@ -1,0 +1,348 @@
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f5f5f5;
+}
+
+@media (max-width: 768px) {
+
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+        display: block;
+    }
+
+    thead tr {
+        display: none;
+    }
+
+    td {
+        position: relative;
+        padding-left: 50%;
+    }
+
+    td::before {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        white-space: nowrap;
+        font-weight: bold;
+    }
+
+    td:nth-child(1)::before {
+        content: "STT";
+    }
+
+    td:nth-child(2)::before {
+        content: "Tên phòng";
+    }
+
+    td:nth-child(3)::before {
+        content: "Số người ở";
+    }
+
+    td:nth-child(4)::before {
+        content: "Trạng thái";
+    }
+}
+
+.pagination {
+    margin-top: 16px;
+    text-align: center;
+}
+
+.pagination button {
+    margin: 0 4px;
+    padding: 6px 12px;
+    border: none;
+    background-color: #eee;
+    cursor: pointer;
+}
+
+.pagination button.active {
+    background-color: #007bff;
+    color: white;
+}
+
+
+
+/* Cơ bản cho cả hai nút */
+button {
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Nút Sửa */
+.edit-btn {
+    background-color: #4CAF50;
+    /* Màu xanh lá */
+    color: white;
+}
+
+.edit-btn:hover {
+    background-color: #45a049;
+    /* Màu xanh lá đậm hơn khi hover */
+    transform: scale(1.05);
+    /*Tăng kích thước nút khi hover */
+}
+
+.edit-btn:focus {
+    outline: none;
+
+}
+
+/* Nút Xoá */
+.delete-btn {
+    background-color: #f44336;
+    /* Màu đỏ */
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #e53935;
+    /* Màu đỏ đậm hơn khi hover */
+    transform: scale(1.05);
+    /* Tăng kích thước nút khi hover */
+}
+
+.delete-btn:focus {
+    outline: none;
+
+}
+
+
+
+
+
+
+/* sửa phòng */
+.edit-room-sidebar {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 400px;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+    transition: right 0.4s ease-in-out;
+    z-index: 1000;
+}
+
+.edit-room-sidebar.active {
+    right: 0;
+}
+
+.edit-room-content {
+    padding: 20px;
+}
+
+.close-btn {
+    font-size: 24px;
+    cursor: pointer;
+    float: right;
+}
+
+
+
+/* Sidebar container */
+.edit-room-sidebar {
+    position: fixed;
+    top: 0;
+    right: -420px;
+    width: 400px;
+    height: 100%;
+    background-color: #f9f9f9;
+    box-shadow: -3px 0 12px rgba(0, 0, 0, 0.15);
+    transition: right 0.4s ease;
+    z-index: 999;
+    overflow-y: auto;
+    border-left: 1px solid #ddd;
+}
+
+/* Active state */
+.edit-room-sidebar.active {
+    right: 0;
+}
+
+/* Content area */
+.edit-room-content {
+    padding: 24px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Close button */
+.close-btn {
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #555;
+    float: right;
+    transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+    color: #ff4d4f;
+}
+
+/* Form styling */
+.edit-room-content h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 22px;
+    color: #333;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+
+#edit-room-form label {
+    display: block;
+    margin-top: 16px;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #444;
+}
+
+#edit-room-form input,
+#edit-room-form select {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+#edit-room-form input:focus,
+#edit-room-form select:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+/* Submit button */
+#edit-room-form button[type="submit"] {
+    margin-top: 24px;
+    width: 100%;
+    background-color: #007bff;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#edit-room-form button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+
+
+/* form thêm phòng */
+/* Container form - Căn giữa form trong trang */
+.add-room-form-container {
+    max-width: 1000px;
+    /* Giới hạn chiều rộng tối đa của form */
+    width: 100%;
+    /* Form chiếm hết chiều rộng của màn hình nhỏ */
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    /* Căn giữa form theo chiều ngang */
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+    /* Font chữ mặc định */
+    margin-top: 150px;
+}
+
+/* Tiêu đề form */
+.add-room-form-container h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 22px;
+    color: #333;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* Style cho label */
+#add-room-form label {
+    display: block;
+    margin-top: 14px;
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Style cho input và select */
+#add-room-form input,
+#add-room-form select {
+    width: 100%;
+    /* Đảm bảo input, select chiếm hết chiều rộng */
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-top: 8px;
+    box-sizing: border-box;
+}
+
+/* Style cho nút submit */
+#add-room-form button {
+    margin-top: 24px;
+    width: 100%;
+    padding: 12px;
+    background-color: #28a745;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#add-room-form button:hover {
+    background-color: #218838;
+}
+
+/* Responsive cho các màn hình nhỏ */
+@media (max-width: 480px) {
+    .add-room-form-container {
+        width: 90%;
+        /* Form chiếm 90% chiều rộng cho các màn hình nhỏ */
+        padding: 15px;
+    }
+
+    #add-room-form input,
+    #add-room-form select,
+    #add-room-form button {
+        font-size: 14px;
+        /* Giảm kích thước chữ */
+    }
+}

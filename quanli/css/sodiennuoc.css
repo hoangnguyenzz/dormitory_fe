@@ -1,0 +1,54 @@
+.form-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: flex-end;
+    margin-bottom: 25px;
+}
+
+.form-inline .form-group {
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+}
+
+.form-inline label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-inline input,
+.form-inline select {
+    padding: 8px;
+    font-size: 14px;
+}
+
+.form-inline button {
+    padding: 10px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.form-inline button:hover {
+    background-color: #0056b3;
+}
+
+.reading-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.reading-table th,
+.reading-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.reading-table th {
+    background-color: #f1f1f1;
+}
