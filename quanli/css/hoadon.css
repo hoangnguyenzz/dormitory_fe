@@ -1,0 +1,118 @@
+.invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.invoice-table th,
+.invoice-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.invoice-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    color: #333;
+}
+
+.invoice-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.invoice-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Phần tiêu đề */
+h2 {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 24px;
+    color: #444;
+}
+
+/* Phân trang */
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination button {
+    padding: 6px 12px;
+    margin: 0 3px;
+    border: none;
+    background-color: #ddd;
+    color: #333;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.pagination button:hover {
+    background-color: #bbb;
+}
+
+.pagination button.active {
+    background-color: #4285f4;
+    color: white;
+    font-weight: bold;
+}
+
+
+/* Kiểu chung cho tất cả các nút */
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    margin: 5px;
+}
+
+/* Nút thêm mới */
+button[type="submit"] {
+    background-color: #4CAF50;
+    /* Màu xanh lá */
+    color: white;
+}
+
+button[type="submit"]:hover {
+    background-color: #45a049;
+    /* Màu xanh lá đậm khi hover */
+}
+
+/* Nút tạo hoá đơn */
+.taohoadon-btn {
+    background-color: #ff9800;
+    /* Màu cam */
+    color: white;
+}
+
+.taohoadon-btn:hover {
+    background-color: #fb8c00;
+    /* Màu cam đậm khi hover */
+}
+
+/* Nút xoá */
+.delete-btn {
+    background-color: #f44336;
+    /* Màu đỏ */
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #e53935;
+    /* Màu đỏ đậm khi hover */
+}
+
+/* Kiểu cho các nút khi disable */
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}

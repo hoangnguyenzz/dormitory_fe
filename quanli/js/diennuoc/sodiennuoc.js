@@ -133,6 +133,7 @@ export async function listDienNuoc() {
       if (data) {
         showToast("Thêm mới thành công !", "success");
         addForm.reset();
+        loadReadingList(currentPage, rowsPerPage);
       } else {
         const message = localStorage.getItem("toastMessage");
         if (message) {
