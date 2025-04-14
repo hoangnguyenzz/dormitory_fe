@@ -84,7 +84,7 @@ export async function listAccountPageTest() {
             accounts.forEach((account, index) => {
                 const row = `
           <tr>
-            <td>${index + 1}</td>
+            <td>${(currentPage - 1) * rowsPerPage + index + 1}</td>
             <td>${account.name}</td>
             <td><img src="${account.avatar}" alt="Avatar" width="40" height="40"></td>
             <td>${account.email}</td>
