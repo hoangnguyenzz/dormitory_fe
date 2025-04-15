@@ -3,6 +3,7 @@ import { addRoomPage, addRoom } from "../js/room/themmoi.js"
 import { listAccountPage, listAccountPageTest } from "./account/account.js";
 import { soDienNuoc, listDienNuoc } from "./diennuoc/sodiennuoc.js";
 import { hoaDon, listHoaDon } from "./diennuoc/hoadon.js";
+import { danhSachXe, listXe } from "./phuongtien/phuongtien.js";
 
 
 
@@ -33,16 +34,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     <a href="#">Quản lý tài khoản</a>
                     <ul class="submenu">
                         <li><a href="#account">Danh sách tài khoản</a></li>
-                        <li><a href="#">Sửa sinh viên</a></li>
-                        <li><a href="#">Xóa sinh viên</a></li>
                     </ul>
                 </li>
                 <li class="has-submenu">
-                    <a href="#vehicle">Quản lý phương tiện</a>
+                    <a href="">Quản lý phương tiện</a>
                     <ul class="submenu">
+                        <li><a href="#vehicle">Danh sách phương tiện</a></li>
                         <li><a href="#">Thêm phương tiện</a></li>
-                        <li><a href="#">Sửa phương tiện</a></li>
-                        <li><a href="#">Xóa phương tiện</a></li>
                     </ul>
                 </li>
                 <li class="has-submenu">
@@ -181,6 +179,10 @@ function loadContent(hash) {
         case "#hoadon":
             contentDiv.innerHTML = hoaDon();
             listHoaDon()
+            break;
+        case "#vehicle":
+            contentDiv.innerHTML = danhSachXe();
+            listXe();
             break;
         default:
     }

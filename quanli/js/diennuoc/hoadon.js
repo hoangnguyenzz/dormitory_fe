@@ -51,11 +51,11 @@ export async function listHoaDon() {
         <td>${(page - 1) * pageSize + index + 1}</td>
         <td>${item.room?.name || '---'}</td>
         <td>${item.soDien}</td>
-        <td>${item.soNuoc}</td>
-        <td>${item.tienDien}</td>
-        <td>${item.tienNuoc}</td>
-        <td>${(item.soDienCuoi - item.soDienDau) * item.donGiaDien + (item.soNuocCuoi - item.soNuocDau) * item.donGiaNuoc}</td>
-        <td>${item.status || 'Chưa thanh toán'}</td>
+        <td>${item.soNuoc}</td> 
+        <td>${item.tienDien.toLocaleString('vi-VN')}</td>
+        <td>${item.tienNuoc.toLocaleString('vi-VN')}</td>
+        <td>${item.tongTien.toLocaleString('vi-VN')}</td>
+        <td>${item.trangThai === "DADONG" ? "Đã thanh toán" : "Chưa thanh toán"}</td>
         <td>${new Date(item.createAt).toLocaleDateString('vi-VN')}</td>
         <td>
           <button class="send-invoice-btn" data-id="${item.id}" data-item='${JSON.stringify(item)}'>Gửi hóa đơn</button>
