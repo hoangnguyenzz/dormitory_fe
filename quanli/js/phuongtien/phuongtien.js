@@ -66,16 +66,16 @@ export async function listXe() {
         document.querySelectorAll(".delete-btn").forEach((btn) => {
             btn.addEventListener("click", () => {
                 const id = btn.dataset.id;
-                if (confirm("Bạn có chắc muốn xóa xe này không?")) {
-                    callApi(`/api/v1/xe/${id}`, 'DELETE', null, {
-                        "Authorization": `Bearer ${token}`
-                    }).then(() => {
-                        showToast("Đã xóa xe!", "success");
-                        loadXeList(1, 5);
-                    }).catch(() => {
-                        showToast("Lỗi khi xóa xe", "error");
-                    });
-                }
+
+                callApi(`/api/v1/vehicles/${id}`, 'DELETE', null, {
+                    "Authorization": `Bearer ${token}`
+                }).then(() => {
+                    showToast("Đã xóa xe!", "success");
+                    loadXeList(1, 5);
+                }).catch(() => {
+                    showToast("Lỗi khi xóa xe", "error");
+                });
+
             });
         });
     }

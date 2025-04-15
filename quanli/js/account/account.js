@@ -171,24 +171,25 @@ export async function listAccountPageTest() {
             document.querySelectorAll(".delete-btn").forEach(btn => {
                 btn.addEventListener("click", async () => {
                     const id = btn.dataset.id;
+                    if (confirm("Bạn có chắc muốn xóa tài khoản này không?")) {
+                        const data = callApi(`/api/v1/users/${id}`, 'DELETE', null, {
+                            "Authorization": `Bearer ${token}`
+                        }).then((data) => {
+                            console.log(" data kk ", data)
+                            try {
+                                console.log(" data ", data)
+                                showToast("Cập nhật thành công!", "success");
+                                loadAccounts();
 
-                    const data = callApi(`/api/v1/users/${id}`, 'DELETE', null, {
-                        "Authorization": `Bearer ${token}`
-                    }).then((data) => {
-                        console.log(" data kk ", data)
-                        try {
-                            console.log(" data ", data)
-                            showToast("Cập nhật thành công!", "success");
-                            loadAccounts();
-
-                        } catch (err) {
-                            const message = localStorage.getItem("toastMessage");
-                            if (message) {
-                                showToast(message, "error");
-                                localStorage.removeItem("toastMessage");
+                            } catch (err) {
+                                const message = localStorage.getItem("toastMessage");
+                                if (message) {
+                                    showToast(message, "error");
+                                    localStorage.removeItem("toastMessage");
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                 });
             });
         }

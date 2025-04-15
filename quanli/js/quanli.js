@@ -4,6 +4,7 @@ import { listAccountPage, listAccountPageTest } from "./account/account.js";
 import { soDienNuoc, listDienNuoc } from "./diennuoc/sodiennuoc.js";
 import { hoaDon, listHoaDon } from "./diennuoc/hoadon.js";
 import { danhSachXe, listXe } from "./phuongtien/phuongtien.js";
+import { addVehicle, themPhuongTien } from "./phuongtien/themphuongtien.js";
 
 
 
@@ -40,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <a href="">Quản lý phương tiện</a>
                     <ul class="submenu">
                         <li><a href="#vehicle">Danh sách phương tiện</a></li>
-                        <li><a href="#">Thêm phương tiện</a></li>
+                        <li><a href="#addvehicle">Thêm phương tiện</a></li>
                     </ul>
                 </li>
                 <li class="has-submenu">
@@ -183,6 +184,10 @@ function loadContent(hash) {
         case "#vehicle":
             contentDiv.innerHTML = danhSachXe();
             listXe();
+            break;
+        case "#addvehicle":
+            contentDiv.innerHTML = themPhuongTien();
+            addVehicle();
             break;
         default:
     }
