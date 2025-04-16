@@ -39,6 +39,13 @@ export function soDienNuoc() {
   </form>
 
   <h3>Danh Sách Chỉ Số Đã Nhập</h3>
+  <div class="filter-group">
+  <label for="filterRoomId">Lọc theo phòng:</label>
+  <select id="filterRoomId">
+    <option value="">-- Tất cả phòng --</option>
+  </select>
+</div>
+
   <table class="reading-table">
     <thead>
       <tr>
@@ -77,6 +84,24 @@ export async function listDienNuoc() {
         const roomList = data.result;
         const select = document.getElementById('roomId');
         select.innerHTML = '<option value="">-- Chọn phòng --</option>';
+
+
+
+
+        const filterSelect = document.getElementById('filterRoomId');
+        if (filterSelect) {
+          filterSelect.innerHTML = '<option value="">-- Tất cả phòng --</option>';
+          roomList.forEach(room => {
+            const option = document.createElement('option');
+            option.value = room.id;
+            option.textContent = room.name;
+            filterSelect.appendChild(option);
+          });
+        }
+
+
+
+
 
         roomList.forEach(room => {
           const option = document.createElement('option');
@@ -147,9 +172,14 @@ export async function listDienNuoc() {
   });
 
 
-  async function loadReadingList(page, pageSize) {
+  async function loadReadingList(page, pageSize, roomId = "") {
 
-    await callApi(`/api/v1/sodiennuoc?page=${page}&size=${pageSize}`, 'GET', null, {
+    let url = `/api/v1/sodiennuoc?page=${page}&size=${pageSize}`;
+    if (roomId) {
+      url += `&filter=room.id:${roomId}`;
+    }
+
+    await callApi(url, 'GET', null, {
       "Authorization": `Bearer ${token}`
     }).then((data) => {
 
@@ -234,7 +264,7 @@ export async function listDienNuoc() {
     });
   }
 
-  function renderReadingPagination(totalItems, current, pageSize) {
+  function renderReadingPagination(totalItems, current, pageSize, roomId = "") {
     const paginationContainer = document.getElementById("reading-pagination");
     paginationContainer.innerHTML = "";
 
@@ -248,9 +278,10 @@ export async function listDienNuoc() {
       }
 
       btn.addEventListener("click", () => {
-        currentPage = i; // ✅ cập nhật biến toàn cục
-        loadReadingList(currentPage, pageSize);
+        currentPage = i;
+        loadReadingList(currentPage, pageSize, roomId);
       });
+
 
       paginationContainer.appendChild(btn);
     }
@@ -261,6 +292,12 @@ export async function listDienNuoc() {
   async function loadDienNuoc() {
     renderRoomOptions();
     loadReadingList(currentPage, rowsPerPage);
+
+    document.getElementById("filterRoomId").addEventListener("change", function () {
+      const selectedRoomId = this.value;
+      currentPage = 1;
+      loadReadingList(currentPage, rowsPerPage, selectedRoomId);
+    });
 
   }
   loadDienNuoc();

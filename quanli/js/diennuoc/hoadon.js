@@ -11,6 +11,14 @@ export function hoaDon() {
 
     return `
     <h2>Danh Sách Hóa Đơn</h2>
+
+    <div class="filter-group">
+  <label for="filterRoomId">Lọc theo phòng:</label>
+  <select id="filterRoomId">
+    <option value="">-- Tất cả phòng --</option>
+  </select>
+</div>
+
     <table class="invoice-table">
       <thead>
         <tr>
@@ -36,10 +44,33 @@ export function hoaDon() {
 
 
 export async function listHoaDon() {
-    async function loadHoaDonList(page, pageSize) {
+    function renderRoomFilterOptions() {
+        callApi(`/api/v1/rooms`, 'GET', null, {
+            "Authorization": `Bearer ${token}`
+        }).then((data) => {
+            if (data && data.result) {
+                const select = document.getElementById("filterRoomId");
+                select.innerHTML = `<option value="">-- Tất cả phòng --</option>`;
+                data.result.forEach(room => {
+                    const option = document.createElement("option");
+                    option.value = room.id;
+                    option.textContent = room.name;
+                    select.appendChild(option);
+                });
+            }
+        });
+    }
+
+    async function loadHoaDonList(page, pageSize, roomId = "") {
 
 
-        await callApi(`/api/v1/hoadon?page=${page}&size=${pageSize}`, 'GET', null, {
+        let url = `/api/v1/hoadon?page=${page}&size=${pageSize}`;
+        if (roomId) {
+
+            url += `&filter=room.id:${roomId}`;
+        }
+
+        await callApi(url, 'GET', null, {
             "Authorization": `Bearer ${token}`
         }).then((data) => {
             const tbody = document.getElementById("invoiceList");
@@ -102,7 +133,7 @@ export async function listHoaDon() {
         });
     }
 
-    function renderInvoicePagination(totalItems, current, pageSize) {
+    function renderInvoicePagination(totalItems, current, pageSize, roomId = "") {
         const paginationContainer = document.getElementById("invoice-pagination");
         paginationContainer.innerHTML = "";
 
@@ -116,7 +147,7 @@ export async function listHoaDon() {
             }
 
             btn.addEventListener("click", () => {
-                loadHoaDonList(i, pageSize);
+                loadHoaDonList(i, pageSize, roomId);
             });
 
             paginationContainer.appendChild(btn);
@@ -125,8 +156,16 @@ export async function listHoaDon() {
 
     // Load list of invoices
     async function loadHoaDon() {
-        loadHoaDonList(1, 5); // Load first page with 5 items per page
+        renderRoomFilterOptions();
+
+        document.getElementById("filterRoomId").addEventListener("change", function () {
+            const selectedRoomId = this.value;
+            loadHoaDonList(1, 5, selectedRoomId);
+        });
+
+        loadHoaDonList(1, 5); // Load first page
     }
+
 
     loadHoaDon();
 }

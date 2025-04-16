@@ -116,3 +116,36 @@ button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
 }
+
+
+
+
+
+/* --- Bộ lọc phòng --- */
+.filter-group {
+    margin: 16px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+}
+
+.filter-group label {
+    font-weight: 500;
+    color: #333;
+}
+
+#filterRoomId {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    min-width: 220px;
+    background-color: #fff;
+    transition: border-color 0.2s;
+}
+
+#filterRoomId:focus {
+    border-color: #007bff;
+    outline: none;
+}

@@ -16,6 +16,7 @@ export function listRoomPage() {
                     <th>STT</th>
                     <th>Tên phòng</th>
                     <th>Số người ở</th>
+                    <th>Giá/Tháng (VND)</th>
                     <th>Trạng thái</th>
                     <th>Thời gian tạo</th>
                     <th></th>
@@ -81,6 +82,7 @@ export async function listRoomPageTest() {
                         <td>${(currentPage - 1) * pageSize + index + 1}</td>
                         <td>${room.name}</td>
                         <td>${room.capacity}</td>
+                        <td>${room.price.toLocaleString('vi-VN')}</td>
                         <td>${room.available ? "Đang hoạt động" : "Không hoạt động"}</td>
                         <td>${new Date(room.createAt).toLocaleDateString("vi-VN")}</td>
                         <td>
