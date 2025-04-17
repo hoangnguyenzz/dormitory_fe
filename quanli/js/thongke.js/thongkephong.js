@@ -34,14 +34,14 @@ export async function thongKePhongChart() {
     const ctx = document.getElementById("roomStatusChart").getContext("2d");
 
     try {
-        // const data = await callApi("/api/v1/rooms/stats", "GET", null, {
-        //     "Authorization": `Bearer ${token}`
-        // });
+        const data = await callApi("/api/v1/rooms/thongke", "GET", null, {
+            "Authorization": `Bearer ${token}`
+        });
 
-        const data = {
-            active: 40,
-            inactive: 50
-        }
+        // const data = {
+        //     active: 40,
+        //     inactive: 50
+        // }
 
         const activeRooms = data.active || 0;
         const inactiveRooms = data.inactive || 0;

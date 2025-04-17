@@ -1,24 +1,43 @@
 .student-statistics-wrapper {
-    width: 100%;
-    height: 100%;
-    background: #fff;
-    padding: 20px 30px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0 auto;
+    padding: 24px;
+    background-color: #f9f9f9;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .stat-title {
-    font-size: 1.5em;
-    font-weight: 600;
-    color: #2c3e50;
+    text-align: center;
     margin-bottom: 20px;
-    text-align: left;
+    color: #333;
 }
 
-#studentByRoomChart {
-    width: 600px !important;
-    height: 600px !important;
-    max-width: 100%;
+.chart-container {
+    position: relative;
+    height: 400px;
+}
+
+.chart-note {
+    margin-top: 20px;
+    padding: 16px;
+    background-color: #e3f2fd;
+    border-left: 6px solid #2196f3;
+    border-radius: 8px;
+    font-size: 20px;
+    color: #333;
+    line-height: 1.5;
+}
+
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 400px;
+}
+
+.chart-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
 }

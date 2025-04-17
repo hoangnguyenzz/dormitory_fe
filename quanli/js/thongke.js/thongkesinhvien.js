@@ -13,19 +13,43 @@ export function thongKeSinhVien() {
     return `
         <div class="student-statistics-wrapper">
             <h2 class="stat-title">📊 Thống kê sinh viên theo tháng</h2>
-            <canvas id="studentByRoomChart"></canvas>
+
+             
+            <div class="chart-container">
+                <canvas id="studentByRoomChart"></canvas>
+            </div>
+
+            <div class="chart-note">
+                <p>🗓️ Biểu đồ hiển thị số lượng sinh viên đăng ký trong <b>2 tháng gần nhất</b>.</p>
+            </div>
         </div>
     `;
 }
+
 
 // Hàm vẽ biểu đồ cột (dữ liệu ảo)
 export async function thongKeSinhVienChart() {
     const ctx = document.getElementById("studentByRoomChart").getContext("2d");
 
-    // Dữ liệu test - thay sau bằng API
+    // Lấy thời gian hiện tại
+    const now = new Date();
+    const thisMonth = now.getMonth() + 1; // Tháng trong JS bắt đầu từ 0
+    const lastMonth = thisMonth === 1 ? 12 : thisMonth - 1;
+    const year = now.getFullYear();
+
+    // Format tên tháng (ví dụ: "Tháng 4")
+    const formatMonth = (month) => `Tháng ${month}`;
+
+
+    const data1 = await callApi(`/api/v1/users/statistics?month1=${lastMonth}&month2=${thisMonth}&year=${year}`, "GET", null, {
+        "Authorization": `Bearer ${token}`
+    });
+
+    console.log("check :", data1);
+
     const data = [
-        { month: "Tháng 3", studentCount: 120 },
-        { month: "Tháng 4", studentCount: 95 }
+        { month: formatMonth(lastMonth), studentCount: data1[0].total },
+        { month: formatMonth(thisMonth), studentCount: data1[1].total }
     ];
 
     const monthLabels = data.map(item => item.month);
@@ -38,7 +62,7 @@ export async function thongKeSinhVienChart() {
             datasets: [{
                 label: 'Số sinh viên đăng ký',
                 data: studentCounts,
-                backgroundColor: ['#42a5f5', '#66bb6a'],
+                backgroundColor: ['#66bb6a', '#42a5f5'],
                 borderRadius: 8
             }]
         },
