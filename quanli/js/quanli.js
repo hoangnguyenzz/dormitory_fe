@@ -5,6 +5,8 @@ import { soDienNuoc, listDienNuoc } from "./diennuoc/sodiennuoc.js";
 import { hoaDon, listHoaDon } from "./diennuoc/hoadon.js";
 import { danhSachXe, listXe } from "./phuongtien/phuongtien.js";
 import { addVehicle, themPhuongTien } from "./phuongtien/themphuongtien.js";
+import { thongKePhong, thongKePhongChart } from "./thongke.js/thongkephong.js";
+import { thongKeSinhVien, thongKeSinhVienChart } from "./thongke.js/thongkesinhvien.js";
 
 
 
@@ -21,7 +23,6 @@ document.addEventListener("DOMContentLoaded", function () {
             role === "ADMIN" ? `<ul>
                 <li><a href="#room-statistics">Thống kê phòng</a></li>
                 <li><a href="#student-statistics">Thống kê sinh viên</a></li>
-                <li><a href="#invoice-statistics">Thống kê hóa đơn</a></li>
 
 
                 <li class="has-submenu">
@@ -30,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         <li><a href="#room">Danh sách phòng</a></li>
                         <li><a href="#add-room">Thêm phòng</a></li>             
                     </ul>
-                </li>
+                </li>   
                 <li class="has-submenu">
                     <a href="#">Quản lý tài khoản</a>
                     <ul class="submenu">
@@ -188,6 +189,14 @@ function loadContent(hash) {
         case "#addvehicle":
             contentDiv.innerHTML = themPhuongTien();
             addVehicle();
+            break;
+        case "#room-statistics":
+            contentDiv.innerHTML = thongKePhong();
+            thongKePhongChart();
+            break;
+        case "#student-statistics":
+            contentDiv.innerHTML = thongKeSinhVien();
+            thongKeSinhVienChart();
             break;
         default:
     }

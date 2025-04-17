@@ -5,7 +5,7 @@ body {
     padding: 0;
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 87vh;
     background: white;
     color: black;
 }
@@ -72,6 +72,7 @@ body {
 .container {
     display: flex;
     flex: 1;
+
 }
 
 .sidebar {

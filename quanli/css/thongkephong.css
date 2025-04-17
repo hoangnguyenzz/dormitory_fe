@@ -1,0 +1,97 @@
+/* Thống kê phòng */
+.stat-container {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center;
+    align-items: center; */
+    margin-bottom: 30px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: 100%;
+}
+
+.stat-title {
+    font-size: 1.75em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: left;
+    margin-left: 0;
+    /* đảm bảo không bị đẩy vào */
+}
+
+
+/* Đảm bảo biểu đồ không bị lệch khi trang nhỏ */
+.chart-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    /* Khoảng cách giữa biểu đồ và tình trạng phòng */
+}
+
+canvas {
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+/* Điều chỉnh kích thước biểu đồ cho cân đối */
+#roomStatusChart {
+    width: 500px !important;
+    height: 500px !important;
+}
+
+/* Chi tiết tình trạng phòng */
+.stat-details {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.stat-details .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-details .stat-item i {
+    font-size: 2em;
+    color: #4caf50;
+    margin-bottom: 10px;
+}
+
+.stat-details .stat-item span {
+    font-size: 1.2em;
+    color: #555;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .stat-container {
+        padding: 15px;
+    }
+
+    .stat-title {
+        font-size: 1.5em;
+    }
+
+    .stat-details {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .stat-details .stat-item {
+        margin-bottom: 20px;
+    }
+
+    #roomStatusChart {
+        width: 250px;
+        /* Điều chỉnh kích thước biểu đồ khi màn hình nhỏ */
+        height: 250px;
+    }
+}

@@ -19,6 +19,7 @@ export function danhSachXe() {
         <thead>
           <tr>
             <th>STT</th>
+            <th>Thẻ xe</th>
             <th>Chủ xe</th>
             <th>Biển số xe</th>
             <th>Loại xe</th>
@@ -47,6 +48,7 @@ export async function listXe() {
                 const tr = document.createElement("tr");
                 tr.innerHTML = `
           <td>${(page - 1) * pageSize + index + 1}</td>
+          <td>${item.ticket}</td>
           <td>${item.user.name}</td>
           <td>${item.licensePlate}</td>
           <td>${item.type}</td>

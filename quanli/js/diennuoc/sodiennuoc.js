@@ -74,6 +74,8 @@ export async function listDienNuoc() {
 
   const rowsPerPage = 5;
   let currentPage = 1;
+  let currentRoomId = "";
+
   function renderRoomOptions() {
 
     callApi(`/api/v1/rooms`, 'GET', null, {
@@ -173,6 +175,8 @@ export async function listDienNuoc() {
 
 
   async function loadReadingList(page, pageSize, roomId = "") {
+    currentPage = page;
+    currentRoomId = roomId;
 
     let url = `/api/v1/sodiennuoc?page=${page}&size=${pageSize}`;
     if (roomId) {
@@ -182,34 +186,33 @@ export async function listDienNuoc() {
     await callApi(url, 'GET', null, {
       "Authorization": `Bearer ${token}`
     }).then((data) => {
-
-
       const tbody = document.getElementById("readingList");
       tbody.innerHTML = '';
 
       data.result.forEach((item, index) => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td>${(page - 1) * pageSize + index + 1}</td>
-            <td>${item.room?.name || '---'}</td>
-            <td>${item.soDienDau}</td>
-            <td>${item.soDienCuoi}</td>
-            <td>${item.soNuocDau}</td>
-            <td>${item.soNuocCuoi}</td>
-            <td>${new Date(item.createAt).toLocaleDateString('vi-VN')}</td>
-            <td>
-              <button class="taohoadon-btn" data-id="${item.id}" data-item='${JSON.stringify(item)}'>Tạo hoá đơn</button>
-              <button class="delete-btn" data-id="${item.id}">Xoá</button>
-            </td>
-          `;
+          <td>${(page - 1) * pageSize + index + 1}</td>
+          <td>${item.room?.name || '---'}</td>
+          <td>${item.soDienDau}</td>
+          <td>${item.soDienCuoi}</td>
+          <td>${item.soNuocDau}</td>
+          <td>${item.soNuocCuoi}</td>
+          <td>${new Date(item.createAt).toLocaleDateString('vi-VN')}</td>
+          <td>
+            <button class="taohoadon-btn" data-id="${item.id}" data-item='${JSON.stringify(item)}'>Tạo hoá đơn</button>
+            <button class="delete-btn" data-id="${item.id}">Xoá</button>
+          </td>
+        `;
         tbody.appendChild(tr);
       });
+
       taoHoaDonButtons();
       bindDeleteButtons();
       renderReadingPagination(data.meta.total, page, pageSize);
-
-    })
+    });
   }
+
 
   function taoHoaDonButtons() {
     document.querySelectorAll(".taohoadon-btn").forEach(btn => {
@@ -247,24 +250,20 @@ export async function listDienNuoc() {
 
         callApi(`/api/v1/sodiennuoc/${id}`, 'DELETE', null, {
           "Authorization": `Bearer ${token}`
-        }).then((data) => {
-          try {
-            showToast("Cập nhật thành công!", "success");
-            loadReadingList(currentPage, rowsPerPage);
+        }).then(() => {
+          showToast("Xoá thành công!", "success");
 
-          } catch (err) {
-            const message = localStorage.getItem("toastMessage");
-            if (message) {
-              showToast(message, "error");
-              localStorage.removeItem("toastMessage");
-            }
-          }
+          // Tải lại danh sách với trang và lọc hiện tại
+          loadReadingList(currentPage, rowsPerPage, currentRoomId);
+        }).catch(() => {
+          showToast("Xoá thất bại!", "error");
         });
       });
     });
   }
 
-  function renderReadingPagination(totalItems, current, pageSize, roomId = "") {
+
+  function renderReadingPagination(totalItems, current, pageSize) {
     const paginationContainer = document.getElementById("reading-pagination");
     paginationContainer.innerHTML = "";
 
@@ -279,13 +278,13 @@ export async function listDienNuoc() {
 
       btn.addEventListener("click", () => {
         currentPage = i;
-        loadReadingList(currentPage, pageSize, roomId);
+        loadReadingList(currentPage, pageSize, currentRoomId);
       });
-
 
       paginationContainer.appendChild(btn);
     }
   }
+
 
 
 

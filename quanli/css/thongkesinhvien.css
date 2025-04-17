@@ -1,0 +1,24 @@
+.student-statistics-wrapper {
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    padding: 20px 30px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.stat-title {
+    font-size: 1.5em;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+#studentByRoomChart {
+    width: 600px !important;
+    height: 600px !important;
+    max-width: 100%;
+}

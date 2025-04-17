@@ -13,6 +13,8 @@ export function themPhuongTien() {
     <div class="add-vehicle-form-container">
         <h2>Thêm phương tiện</h2>
         <form id="add-vehicle-form">
+        <label for="ticket">Mã thẻ xe:</label>
+        <input type="text" id="ticket" name="ticket" required>
             <label for="license-plate">Biển số xe:</label>
             <input type="text" id="license-plate" name="licensePlate" required>
 
@@ -85,12 +87,13 @@ export async function addVehicle() {
 
     addForm.addEventListener('submit', (event) => {
         event.preventDefault();
-
+        const ticket = document.getElementById('ticket').value;
         const licensePlate = document.getElementById('license-plate').value;
         const vehicleType = document.getElementById('vehicle-type').value;
         const ownerId = document.getElementById('owner-id').value;
 
         const vehicleData = {
+            ticket: ticket,
             licensePlate: licensePlate,
             type: vehicleType,
             user: { id: ownerId }
