@@ -13,11 +13,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 .then((data) => {
                     console.log("data", data);
                     document.getElementById("avatar").src = "img/sontung.jpg";
-                    document.getElementById("student-name").textContent = data.user.name;
-                    document.getElementById("student-id").textContent = data.studentCode;
-                    document.getElementById("university").textContent = data.school;
-                    document.getElementById("year").textContent = data.year;
-                    document.getElementById("room").textContent = data.room ? data.room : "Đã đăng kí đâu ?";
+                    document.getElementById("student-name").textContent = data.name;
+                    document.getElementById("student-id").textContent = data.student.maSv;
+                    document.getElementById("class").textContent = data.student.lop;
+                    document.getElementById("major").textContent = data.student.chuyenNganh;
+                    document.getElementById("room").textContent = data.room !== null ? data.room : "Đã đăng kí đâu ?";
 
                 })
         } catch (error) {

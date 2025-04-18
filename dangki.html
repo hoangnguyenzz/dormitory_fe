@@ -16,6 +16,10 @@
         <div class="form-box">
             <h2>Đăng Ký</h2>
             <form id="register-form">
+                <!-- Thông tin tài khoản -->
+                <div class="input-group">
+                    <input type="text" id="name" placeholder="Tên" required>
+                </div>
                 <div class="input-group">
                     <input type="email" id="email" placeholder="Email" required>
                 </div>
@@ -25,20 +29,30 @@
                 <div class="input-group">
                     <input type="password" id="confirm-password" placeholder="Xác nhận mật khẩu" required>
                 </div>
+
+                <!-- Thông tin cá nhân -->
                 <div class="input-group">
-                    <input type="text" id="name" placeholder="Tên" required>
+                    <input type="text" id="phone" placeholder="Số điện thoại">
+                </div>
+
+                <div class="input-group">
+                    <label>Giới tính:</label>
+                    <label><input type="radio" name="gioitinh" value="MALE" checked> Nam</label>
+                    <label><input type="radio" name="gioitinh" value="FEMALE"> Nữ</label>
+                    <label><input type="radio" name="gioitinh" value="OTHER"> Khác</label>
+                </div>
+
+                <!-- Thông tin sinh viên -->
+                <div class="input-group">
+                    <input type="text" id="maSv" placeholder="Mã sinh viên">
                 </div>
                 <div class="input-group">
-                    <label>
-                        <input type="radio" name="gioitinh" value="MALE" checked> Nam
-                    </label>
-                    <label>
-                        <input type="radio" name="gioitinh" value="FEMALE"> Nữ
-                    </label>
-                    <label>
-                        <input type="radio" name="gioitinh" value="OTHER"> Khác
-                    </label>
+                    <input type="text" id="lop" placeholder="Lớp">
                 </div>
+                <div class="input-group">
+                    <input type="text" id="chuyenNganh" placeholder="Chuyên ngành">
+                </div>
+
                 <button type="submit" class="btn">Đăng Ký</button>
                 <p class="toggle-form">
                     Đã có tài khoản? <a href="dangnhap.html">Đăng nhập</a>
@@ -46,6 +60,7 @@
             </form>
         </div>
     </div>
+
 
     <script type="module" src="js/xacthuc.js"></script>
 

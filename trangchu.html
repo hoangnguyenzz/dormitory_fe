@@ -2,36 +2,96 @@
 <html lang="vi">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Navbar</title>
-    <link rel="stylesheet" href="css/trangchu.css">
-    <script defer type="module" src="js/trangchu.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Navbar</title>
+  <link rel="stylesheet" href="css/trangchu.css">
 
-    <!-- Toastify thư viện -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script defer type="module" src="js/trangchu.js"></script>
+
+  <!-- Toastify thư viện -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
 
 <body>
-    <nav class="navbar">
-        <div class="logo">Logo</div>
-        <div class="search-bar">
-            <input type="text" placeholder="Tìm kiếm...">
-            <button type="submit">🔍</button>
+  <nav class="navbar">
+    <div class="logo"><img src="img/truong-cao-dang-co-dien-va-xay-dung-bac-ninh-1.webp"><span>QUẢN LÝ KÍ TÚC XÁ
+        BCEC</span></div>
+    <div class="hotline">
+      <label>Quản lí : <strong>0328 458 124</strong></label>
+    </div>
+
+    <!-- <div class="search-bar">
+      <input type="text" placeholder="Tìm kiếm...">
+      <button type="submit">🔍</button>
+    </div> -->
+    <div class="account" id="account">
+      <a href="dangnhap.html" id="login-btn">Đăng nhập</a>
+    </div>
+    <div class="hamburger" onclick="toggleMenu()">
+      &#9776;
+    </div>
+  </nav>
+  <!--thanh menu-->
+  <header class="navbar1">
+    <div class="logo1">
+      <img src="img/OIP.jpg" alt="Logo" />
+    </div>
+    <nav class="menu">
+      <ul>
+        <li><a href="trangchu.html">Trang chủ</a></li>
+        <li><a href="#">Thông báo</a></li>
+        <li><a href="#noiquy">Nội quy KTX</a></li>
+        <li><a href="#">Liên hệ</a></li>
+      </ul>
+    </nav>
+    <!--nội quy-->
+    <div class="noiquy"></div>
+    </div>
+
+  </header>
+
+  <!--Sơ đồ phòng-->
+  <div id="content">
+    <main>
+
+      <section class="room-section">
+        <h2>🏢 Sơ đồ phòng</h2>
+
+        <div class="filters">
+          <label for="floor-select">Tầng:</label>
+          <select id="floor-select">
+
+            <option value="all">Tất cả</option>
+            <option value="1">Tầng 1</option>
+            <option value="2">Tầng 2</option>
+            <option value="3">Tầng 3</option>
+
+          </select>
         </div>
-        <div class="account" id="account">
-            <a href="dangnhap.html" id="login-btn">Đăng nhập</a>
-        </div>
-        <div class="hamburger" onclick="toggleMenu()">
-            &#9776;
+        <div id="filter">
+
         </div>
 
-    </nav>
-    <main>
-        <h1>Chào mừng bạn!</h1>
+        <main>
+          <div id="main"></div>
+
+
+        </main>
+
+      </section>
+
     </main>
-    <script src="thongbao/thongbao.js"></script>
+
+
+  </div>
+  <script type="module" src="thongbao/thongbao.js"></script>
+
+
+
+
+
 </body>
 
 </html>

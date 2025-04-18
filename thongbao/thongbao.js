@@ -22,9 +22,7 @@ export function showToast(message, type = "info") {
         duration: 3000,
         gravity: "top",
         position: "right",
-        style: {
-            background: bgColor
-        },
+        backgroundColor: bgColor,
         close: true,
         stopOnFocus: true,
     }).showToast();

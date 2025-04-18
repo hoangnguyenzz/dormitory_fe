@@ -21,11 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 callApi("/api/v1/auth/login", "POST", { email, password })
                     .then((data) => {
                         console.log("data", data);
-                        if (data.statusCode === 400) {
-                            // alert("Thông tin tài khoản , mật khẩu sai !")
-                            showToast("Sai email hoặc mật khẩu!", "error");
-
-                        } else if (data.statusCode === 200) {
+                        if (data) {
                             localStorage.setItem("token", data.data.accessToken);
                             localStorage.setItem("role", data.data.user.role);
                             localStorage.setItem("name", data.data.user.name);
@@ -34,6 +30,10 @@ document.addEventListener("DOMContentLoaded", function () {
                             localStorage.setItem("toastMessage", "Đăng nhập thành công!");
                             localStorage.setItem("toastType", "success");
                             window.location.href = '/trangchu.html';
+
+
+                        } else {
+                            showToast("Sai email hoặc mật khẩu!", "error");
                         }
                     })
             } catch (error) {
@@ -51,7 +51,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const registerForm = document.getElementById("register-form");
 
     if (registerForm) {
-        console.log("Register form:");
         registerForm.addEventListener("submit", async function (event) {
             event.preventDefault();
 
@@ -60,37 +59,43 @@ document.addEventListener("DOMContentLoaded", function () {
             const confirmPassword = document.getElementById("confirm-password").value;
             const name = document.getElementById("name").value;
             const gender = document.querySelector('input[name="gioitinh"]:checked').value;
+            const phone = document.getElementById("phone").value;
 
-            if (password === confirmPassword) {
-                console.log("Email:", email);
-                console.log("Password:", password);
-                console.log("Confirm Password:", confirmPassword);
-                console.log("Name:", name);
-                console.log("gender:", gender);
+            const maSv = document.getElementById("maSv").value;
+            const lop = document.getElementById("lop").value;
+            const chuyenNganh = document.getElementById("chuyenNganh").value;
 
-                try {
-                    callApi("/api/v1/users/register", "POST", { email, password, name, gender })
-                        .then((data) => {
-                            console.log("data", data);
-                            if (data.statusCode === 400) {
-                                showToast("Đăng ký không thành công!", "error");
-
-                            } else if (data.statusCode === 200) {
-
-                                showToast("Đăng ký thành công!", "success");
-                                document.getElementById("email").value = "";
-                                document.getElementById("password").value = "";
-                                document.getElementById("confirm-password").value = "";
-
-                                document.getElementById("name").value = "";
-                            }
-                        })
-                } catch (error) {
-                    console.error("Lỗi khi gọi API:", error);
-
-                }
-            } else {
+            if (password !== confirmPassword) {
                 showToast("Mật khẩu không khớp!", "error");
+                return;
+            }
+
+            const payload = {
+                email,
+                password,
+                name,
+                gender,
+                phone,
+                student: {
+                    maSv,
+                    lop,
+                    chuyenNganh
+                }
+            };
+
+            try {
+                const data = await callApi("/api/v1/users/register", "POST", payload);
+                console.log("data", data);
+
+                if (data.statusCode === 400) {
+                    showToast("Đăng ký không thành công!", "error");
+                } else if (data.statusCode === 200) {
+                    showToast("Đăng ký thành công!", "success");
+                    registerForm.reset(); // reset toàn bộ form
+                }
+            } catch (error) {
+                console.error("Lỗi khi gọi API:", error);
+                showToast("Đã xảy ra lỗi. Vui lòng thử lại!", "error");
             }
         });
     }
