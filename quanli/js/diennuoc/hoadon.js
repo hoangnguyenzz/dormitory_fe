@@ -112,16 +112,25 @@ export async function listHoaDon() {
         document.querySelectorAll(".send-invoice-btn").forEach(btn => {
             btn.addEventListener("click", () => {
                 const id = btn.dataset.id;
-                callApi(`/api/v1/hoadon/${id}/send`, 'POST', null, {
+                console.log(id);
+
+                // ✅ Hiện thông báo ngay khi click
+                showToast("Đang gửi hóa đơn...", "info");
+
+                // Gửi API sau đó
+                callApi(`/api/v1/email/${id}`, 'GET', null, {
                     "Authorization": `Bearer ${token}`
-                }).then(() => {
-                    showToast("Hóa đơn đã được gửi!", "success");
-                }).catch(() => {
-                    showToast("Lỗi khi gửi hóa đơn", "error");
-                });
+                })
+                    .then(() => {
+                        showToast("Hóa đơn đã được gửi!", "success");
+                    })
+                    .catch(() => {
+                        showToast("Lỗi khi gửi hóa đơn", "error");
+                    });
             });
         });
     }
+
 
     function bindDeleteButtons() {
         document.querySelectorAll(".delete-btn").forEach(btn => {

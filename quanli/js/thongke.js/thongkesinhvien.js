@@ -41,15 +41,15 @@ export async function thongKeSinhVienChart() {
     const formatMonth = (month) => `Tháng ${month}`;
 
 
-    const data1 = await callApi(`/api/v1/users/statistics?month1=${lastMonth}&month2=${thisMonth}&year=${year}`, "GET", null, {
+    const data1 = await callApi(`/api/v1/users/statistics?month1=${thisMonth}&month2=${lastMonth}&year=${year}`, "GET", null, {
         "Authorization": `Bearer ${token}`
     });
 
     console.log("check :", data1);
 
     const data = [
-        { month: formatMonth(lastMonth), studentCount: data1[0].total },
-        { month: formatMonth(thisMonth), studentCount: data1[1].total }
+        { month: formatMonth(lastMonth), studentCount: data1[1].total || 0 },
+        { month: formatMonth(thisMonth), studentCount: data1[0].total || 0 }
     ];
 
     const monthLabels = data.map(item => item.month);
