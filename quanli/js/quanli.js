@@ -7,6 +7,7 @@ import { danhSachXe, listXe } from "./phuongtien/phuongtien.js";
 import { addVehicle, themPhuongTien } from "./phuongtien/themphuongtien.js";
 import { thongKePhong, thongKePhongChart } from "./thongke.js/thongkephong.js";
 import { thongKeSinhVien, thongKeSinhVienChart } from "./thongke.js/thongkesinhvien.js";
+import { callApi } from "../../api/baseApi.js";
 
 
 
@@ -18,6 +19,21 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!token) {
         window.location.replace('/trangchu.html');
     }
+
+
+    // Load thông tin tài khoản
+    callApi("/api/v1/auth/account", "GET", null, {
+        "Authorization": `Bearer ${token}`
+    }).then((data) => {
+        console.log("data", data);
+        document.getElementById("account-name").textContent = data.name;
+        document.getElementById("account-avatar").src = data.avatar || "/img/default_avatar.jpg";
+    }).catch(err => {
+        console.error("Lỗi khi load thông tin tài khoản", err);
+    });
+
+
+
     sidebar.innerHTML =
         (role === "MANAGE" || role === "ADMIN") ?
             role === "ADMIN" ? `<ul>
@@ -129,6 +145,9 @@ document.addEventListener("click", (event) => {
 
 function logout() {
     localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("studentId");
+    localStorage.removeItem("userId");
     localStorage.setItem("toastMessage", "Đã đăng xuất !");
     localStorage.setItem("toastType", "success");
     // window.location.replace('/trangchu.html');

@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thông Tin Sinh Viên</title>
     <link rel="stylesheet" href="css/thongtin.css">
+    <!-- Toastify thư viện -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
 
 <body>
@@ -15,10 +21,30 @@
     <div class="container">
         <button class="back-button" onclick="goBack()">← Quay lại</button>
         <div class="left">
-            <img id="avatar" src="" alt="Avatar">
-            <h2 id="student-name">Nguyễn Văn A</h2>
+            <div class="avatar-container">
+                <!-- Hiển thị ảnh avatar -->
+                <img id="avatar" src="" alt="Avatar">
 
+                <!-- Nút chỉnh sửa avatar -->
+                <button class="edit-avatar-btn" onclick="document.getElementById('avatar-upload').click()">
+                    <i class="fas fa-pen"></i>
+                </button>
+
+                <!-- Input file để chọn ảnh (ẩn) -->
+                <input type="file" id="avatar-upload" accept="image/*" style="display: none;"
+                    onchange="uploadImage(event)">
+            </div>
+
+
+            <h2 id="student-name-container">
+                <span id="student-name">Nguyễn Văn A</span>
+                <button id="edit-name-btn" onclick="enableNameEdit()"
+                    style="background: none; border: none; cursor: pointer;">
+                    <i class="fas fa-pen"></i>
+                </button>
+            </h2>
         </div>
+
         <div class="right" id="info-section">
             <p><strong>Mã SV:</strong> <span id="student-id"></span></p>
             <p><strong>Lớp:</strong> <span id="class"></span></p>

@@ -142,3 +142,26 @@ input[type="text"] {
 .edit-btn:hover {
     background-color: #1e40af;
 }
+
+
+.avatar-container {
+    position: relative;
+    display: inline-block;
+}
+
+.edit-avatar-btn {
+    position: absolute;
+    bottom: 60px;
+    right: 20px;
+    background: #ffffffcc;
+    border: none;
+    border-radius: 50%;
+    padding: 6px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.3s;
+}
+
+.edit-avatar-btn:hover {
+    background-color: #e5e7eb;
+}

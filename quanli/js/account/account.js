@@ -89,7 +89,7 @@ export async function listAccountPageTest() {
             <td><img src="${account.avatar}" alt="Avatar" width="40" height="40"></td>
             <td>${account.email}</td>
             <td>${account.phone || ''}</td>
-            <td>${account.gender || ''}</td>
+            <td>${(account.gender === 'MALE' ? 'Nam' : 'Nữ') || ''}</td>
             <td>${account.role.name === "ADMIN" ? "Admin" : account.role.name === "MANAGE" ? "Quản lý" : "Sinh viên"}</td>
             <td>${account.room ? account.room.name : 'Chưa có'}</td>
             <td>${new Date(account.createAt).toLocaleDateString("vi-VN")}</td>

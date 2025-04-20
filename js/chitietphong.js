@@ -16,9 +16,7 @@ export async function chiTietPhong(data) {
 
     const hashValue = window.location.hash.substring(1);
 
-    const data1 = await callApi(`/api/v1/users/byroom/${data.id}`, 'GET', null, {
-        "Authorization": `Bearer ${token}`
-    });
+    const data1 = await callApi(`/api/v1/users/byroom/${data.id}`, 'GET', null);
     console.log("data 1:", data1.data.length);
 
     if (!data) {

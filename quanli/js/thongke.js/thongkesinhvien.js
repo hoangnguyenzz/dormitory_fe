@@ -48,8 +48,14 @@ export async function thongKeSinhVienChart() {
     console.log("check :", data1);
 
     const data = [
-        { month: formatMonth(lastMonth), studentCount: data1[1].total || 0 },
-        { month: formatMonth(thisMonth), studentCount: data1[0].total || 0 }
+        {
+            month: formatMonth(lastMonth),
+            studentCount: data1?.[1]?.total ?? 0
+        },
+        {
+            month: formatMonth(thisMonth),
+            studentCount: data1?.[0]?.total ?? 0
+        }
     ];
 
     const monthLabels = data.map(item => item.month);

@@ -17,18 +17,17 @@ function updateAccount(isLoggedIn, userName, userImage) {
 
     if (isLoggedIn) {
         const role = localStorage.getItem("role");
-        const name = localStorage.getItem("name");
         accountDiv.innerHTML =
             role === "ADMIN" || role === "MANAGE"
                 ?
-                `<span>${name}</span>
+                `<span>${userName}</span>
                 <img src="${userImage}" alt="Avatar" id="avatar-img">
                 <div class="dropdown-menu" id="dropdown-menu">
                     <a href="thongtin.html">Thông tin</a>
                     <a href="quanli/quanli.html">Trang quản trị</a>
                     <a href="#" id="logout-btn" >Đăng xuất</a>
                 </div>` :
-                `<span>${name}</span>
+                `<span>${userName}</span>
                 <img src="${userImage}" alt="Avatar" id="avatar-img">
                 <div class="dropdown-menu" id="dropdown-menu">
                     <a href="thongtin.html">Thông tin</a>
@@ -54,6 +53,9 @@ document.addEventListener("click", (event) => {
 function logout() {
     updateAccount(false);
     localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("studentId");
+    localStorage.removeItem("userId");
     localStorage.setItem("toastMessage", "Đã đăng xuất !");
     localStorage.setItem("toastType", "success");
     location.reload();
@@ -61,15 +63,18 @@ function logout() {
 
 document.addEventListener("DOMContentLoaded", function () {
     const token = localStorage.getItem("token");
-    if (token) {
-        const isLoggedIn = true;
-        const userName = "Nguyễn Văn A";
-        const userImage = "img/sontung.jpg";
-        updateAccount(isLoggedIn, userName, userImage);
-    } else {
-        updateAccount(false);
-    }
-
+    callApi("/api/v1/auth/account", "GET", null, { "Authorization": `Bearer ${token}` })
+        .then((data) => {
+            console.log("data", data);
+            if (token) {
+                const isLoggedIn = true;
+                const userName = data.name;
+                const userImage = data.avatar && data.avatar.trim() !== "" ? data.avatar : "img/default_avatar.jpg";
+                updateAccount(isLoggedIn, userName, userImage);
+            } else {
+                updateAccount(false);
+            }
+        })
     const message = localStorage.getItem("toastMessage");
     const type = localStorage.getItem("toastType");
 
@@ -79,21 +84,20 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.removeItem("toastType");
     }
 
-    callApi(`/api/v1/rooms`, 'GET', null, {
-        "Authorization": `Bearer ${token}`
-    }).then((data) => {
-        console.log(" data ", data)
-        if (data) {
-            renderRoomCards(data.result);
-            renderFilterButtons(data.result);
-        } else {
-            const message = localStorage.getItem("toastMessage");
-            if (message) {
-                showToast(message, "error");
-                localStorage.removeItem("toastMessage");
+    callApi(`/api/v1/rooms`, 'GET', null)
+        .then((data) => {
+            console.log(" data ", data)
+            if (data) {
+                renderRoomCards(data.result);
+                renderFilterButtons(data.result);
+            } else {
+                const message = localStorage.getItem("toastMessage");
+                if (message) {
+                    showToast(message, "error");
+                    localStorage.removeItem("toastMessage");
+                }
             }
-        }
-    });
+        });
 
     renderFilterButtons();
 
@@ -188,9 +192,7 @@ async function loadContent(hash) {
     if (!contentDiv) return;
     const token = localStorage.getItem("token");
 
-    const data = await callApi(`/api/v1/rooms`, 'GET', null, {
-        "Authorization": `Bearer ${token}`
-    });
+    const data = await callApi(`/api/v1/rooms`, 'GET', null);
     const roomNames = data.result.map(room => room.name);
     console.log("hash :", hash);
 
@@ -200,13 +202,13 @@ async function loadContent(hash) {
         case roomNames.includes(hash.replace("#", "")):
             contentDiv.innerHTML = "";
             contentDiv.innerHTML = await chiTietPhong(room);
-            const btnDangKy = document.getElementById("btn-dang-ky");
-            if (btnDangKy) {
-                btnDangKy.addEventListener("click", () => {
-                    alert("Bạn đã chọn đăng ký phòng " + hash.replace("#", ""));
-                    // Hoặc gọi hàm xử lý đăng ký thật tại đây
-                });
-            }
+            // const btnDangKy = document.getElementById("btn-dang-ky");
+            // if (btnDangKy) {
+            //     btnDangKy.addEventListener("click", () => {
+            //         alert("Bạn đã chọn đăng ký phòng " + hash.replace("#", ""));
+            //         // Hoặc gọi hàm xử lý đăng ký thật tại đây
+            //     });
+            // }
             break;
         case hash === "#noiquy":
             contentDiv.innerHTML = "";

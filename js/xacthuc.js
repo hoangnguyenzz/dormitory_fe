@@ -23,8 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         console.log("data", data);
                         if (data) {
                             localStorage.setItem("token", data.data.accessToken);
-                            localStorage.setItem("role", data.data.user.role);
-                            localStorage.setItem("name", data.data.user.name);
+                            localStorage.setItem("role", data.data.user.role.name);
 
 
                             localStorage.setItem("toastMessage", "Đăng nhập thành công!");
