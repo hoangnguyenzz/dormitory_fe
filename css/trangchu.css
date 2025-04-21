@@ -184,7 +184,7 @@ body {
   text-decoration: none;
   color: #333;
   font-weight: bold;
-  padding: 12px 12px;
+
   border-radius: 4px;
   transition: 0.3s;
   background-color: #23edff;
@@ -197,6 +197,52 @@ body {
 
   color: white;
 }
+
+/* Responsive cho màn hình nhỏ hơn 768px (điện thoại, tablet) */
+@media (max-width: 768px) {
+  .navbar1 {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 20px;
+    height: auto;
+  }
+
+  .logo1 img {
+    height: 40px;
+    margin-bottom: 10px;
+  }
+
+  .menu ul {
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin-left: 0;
+    gap: 5px;
+    width: 100%;
+  }
+
+  .menu a {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #23edff;
+    border-radius: 0;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+    word-wrap: break-word;
+    white-space: normal;
+  }
+
+  .menu a:hover,
+  .menu a.active {
+    background-color: #0099a8;
+    color: white;
+  }
+}
+
+
+
+
 
 /*
 .dropdown-menu.active {

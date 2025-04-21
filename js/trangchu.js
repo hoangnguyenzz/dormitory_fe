@@ -112,13 +112,25 @@ function convertTrangThai(status) {
     }
 }
 
-function renderRoomCards(rooms) {
+async function renderRoomCards(rooms) {
     const main = document.getElementById("main");
     if (!main) return;
 
     main.innerHTML = "";
 
-    rooms.forEach(room => {
+    // Tạo mảng promises để gọi API cho từng room
+    const promises = rooms.map(room => {
+        return callApi(`/api/v1/users/byroom/${room.id}`, 'GET', null)
+            .then(data => ({ room, data })); // Giữ lại cả room lẫn data trả về
+    });
+
+    // Đợi tất cả API hoàn thành
+    const results = await Promise.all(promises);
+
+    // Hiển thị từng room theo đúng thứ tự ban đầu
+    results.forEach(({ room, data }) => {
+        console.log(room.id, data.data.length);
+
         const roomDiv = document.createElement("div");
         roomDiv.classList.add("room-card");
 
@@ -130,8 +142,8 @@ function renderRoomCards(rooms) {
 
         const tenPhong = room.name;
         const tinhTrang = convertTrangThai(room.available);
-        const soNguoi = room.capacity;
-        const giaPhong = room.price;
+        const soNguoi = `${data.data.length} / ${room.capacity}`;
+        const giaPhong = new Intl.NumberFormat('vi-VN').format(room.price);
 
         roomDiv.innerHTML = `
             <a href="#${tenPhong}">
@@ -144,6 +156,7 @@ function renderRoomCards(rooms) {
         main.appendChild(roomDiv);
     });
 }
+
 
 function renderFilterButtons(data) {
     const filterDiv = document.getElementById("filter");
@@ -238,4 +251,5 @@ async function loadContent(hash) {
 //         if (noiquy) noiquy.style.display = "none";
 //     }
 // });
+
 
