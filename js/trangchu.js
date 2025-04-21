@@ -1,6 +1,6 @@
 import { callApi } from "../api/baseApi.js";
 import { showToast } from "../thongbao/thongbao.js";
-import { chiTietPhong } from "./chitietphong.js";
+import { chiTietPhong, handleDangKyPhong } from "./chitietphong.js";
 import { hienNoiQuy } from "./noiquyktx.js";
 
 
@@ -215,6 +215,7 @@ async function loadContent(hash) {
         case roomNames.includes(hash.replace("#", "")):
             contentDiv.innerHTML = "";
             contentDiv.innerHTML = await chiTietPhong(room);
+            handleDangKyPhong(room);
             // const btnDangKy = document.getElementById("btn-dang-ky");
             // if (btnDangKy) {
             //     btnDangKy.addEventListener("click", () => {

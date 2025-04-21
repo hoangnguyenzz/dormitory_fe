@@ -179,34 +179,39 @@ export async function chiTietPhong(data) {
         </div>
     `;
 
+}
 
 
+export function handleDangKyPhong(room) {
     // Gắn sự kiện cho nút đăng ký (nếu có)
     const btnDangKy = document.getElementById("btn-dang-ky");
     if (btnDangKy) {
         btnDangKy.addEventListener("click", async () => {
             const token = localStorage.getItem("token");
-
+            console.log("room", room)
             if (!token) {
-                console.log("cand dang nhap")
                 showToast("Vui lòng đăng nhập", "info");
                 return;
             }
 
             const confirmResult = confirm("Bạn có thật sự muốn đăng ký phòng này?");
             if (confirmResult) {
-                // try {
-                //     const response = await callApi(`/api/v1/rooms/dangky/${data.id}`, "POST", null, token);
-                //     showToast("✅ Đăng ký phòng thành công!");
-                //     // Có thể reload hoặc cập nhật giao diện tại đây
-                // } catch (error) {
-                //     console.error(error);
-                //     showToast("❌ Đăng ký thất bại. Vui lòng thử lại.");
-                // }
+
+                try {
+                    showToast("Đang xử lí...", "info");
+                    await callApi(`/api/v1/email/dangkiphong/${room.id}`, "GET", null, { "Authorization": `Bearer ${token}` })
+
+
+                    showToast("✅ Đăng ký đã được gửi! Vui lòng kiểm tra email của bạn để xác nhận.", "success");
+
+
+                } catch (error) {
+                    console.error(error);
+                    showToast("❌ Đăng ký thất bại. Vui lòng thử lại.");
+                }
             }
         });
     }
-    return htmlContent;
 }
 
 
