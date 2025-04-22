@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     document.getElementById("student-id").textContent = data.student.maSv;
                     document.getElementById("class").textContent = data.student.lop;
                     document.getElementById("major").textContent = data.student.chuyenNganh;
-                    document.getElementById("room").textContent = data.room !== null ? data.room.name : "Đã đăng kí đâu ?";
+                    document.getElementById("room").textContent = data.room !== null ? data.room.name : "Chưa đăng kí";
                     localStorage.setItem("studentId", data.student.id);
                     localStorage.setItem("userId", data.id);
                 })

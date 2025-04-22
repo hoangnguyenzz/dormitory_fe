@@ -4,7 +4,7 @@
 
 
 export function hienNoiQuy() {
-    return `
+  return `
   <h1>📜 NỘI QUY KÝ TÚC XÁ</h1>
 
   <section>
@@ -115,10 +115,10 @@ export function hienNoiQuy() {
     }
     section {
       margin-bottom: 40px;
-      background: white;
+    
       padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+     
     }
     ul {
       padding-left: 50px;

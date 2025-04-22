@@ -149,3 +149,66 @@ button:disabled {
     border-color: #007bff;
     outline: none;
 }
+
+
+
+
+/* Style cho dropdown select */
+.status-select {
+    padding: 8px 12px;
+    /* Khoảng cách bên trong */
+    font-size: 14px;
+    /* Kích thước font */
+    color: #333;
+    /* Màu chữ */
+    background-color: #fff;
+    /* Màu nền trắng */
+    border: 1px solid #ccc;
+    /* Viền xám nhạt */
+    border-radius: 5px;
+    /* Bo góc */
+    /* appearance: none; */
+    /* Xóa mũi tên mặc định của trình duyệt */
+    cursor: pointer;
+    /* Đổi con trỏ khi hover vào */
+    width: 100%;
+    /* Chiều rộng 100% để căn lề phù hợp */
+}
+
+/* Khi select được focus */
+.status-select:focus {
+    border-color: #4e89f0;
+    /* Viền màu xanh khi focus */
+    outline: none;
+    /* Xóa outline khi focus */
+}
+
+/* Tùy chỉnh mũi tên cho select (ẩn mũi tên mặc định trên IE) */
+.status-select::-ms-expand {
+    display: none;
+    /* Ẩn mũi tên trên IE */
+}
+
+/* Style cho các option trong dropdown */
+.status-select option {
+    padding: 10px;
+    /* Khoảng cách giữa các option */
+    background-color: #fff;
+    /* Nền trắng cho các option */
+    color: #333;
+    /* Màu chữ */
+}
+
+/* Khi chọn option, thay đổi màu nền */
+.status-select option:checked {
+    background-color: #4e89f0;
+    /* Màu nền xanh khi chọn */
+    color: white;
+    /* Màu chữ trắng khi chọn */
+}
+
+/* Hiệu ứng hover cho các option */
+.status-select option:hover {
+    background-color: #f0f0f0;
+    /* Nền xám nhạt khi hover */
+}

@@ -1,6 +1,7 @@
 import { callApi } from "../api/baseApi.js";
 import { showToast } from "../thongbao/thongbao.js";
 import { chiTietPhong, handleDangKyPhong } from "./chitietphong.js";
+import { hienGioiThieu } from "./gioithieu.js";
 import { hienNoiQuy } from "./noiquyktx.js";
 
 
@@ -65,12 +66,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const token = localStorage.getItem("token");
     callApi("/api/v1/auth/account", "GET", null, { "Authorization": `Bearer ${token}` })
         .then((data) => {
+            localStorage.setItem("role", data.role.name);
             console.log("data", data);
             if (token) {
                 const isLoggedIn = true;
                 const userName = data.name;
                 const userImage = data.avatar && data.avatar.trim() !== "" ? data.avatar : "img/default_avatar.jpg";
                 updateAccount(isLoggedIn, userName, userImage);
+
             } else {
                 updateAccount(false);
             }
@@ -146,13 +149,22 @@ async function renderRoomCards(rooms) {
         const giaPhong = new Intl.NumberFormat('vi-VN').format(room.price);
 
         roomDiv.innerHTML = `
-            <a href="#${tenPhong}">
-                <h3 class="room-title">${tenPhong}</h3>
-                <p class="room-info"><strong>Trạng thái:</strong> ${tinhTrang}</p>
-                <p class="room-info"><strong>Số người:</strong> ${soNguoi}</p>
-                <p class="room-info"><strong>Giá phòng:</strong> ${giaPhong}</p>
-            </a>
-        `;
+        <a href="#${tenPhong}" class="room-card" style="text-decoration: none;">
+          <div class="modern-room-card">
+            <div class="room-header">
+              <h3>${tenPhong}</h3>
+             <span class="status ${tinhTrang === 'Đang hoạt động' ? 'active' : 'inactive'}">${tinhTrang}</span>
+            </div>
+            <div class="room-details">
+              <p><i class="fas fa-user-friends"></i> Số người: ${soNguoi}</p>
+              <p><i class="fas fa-dollar-sign"></i> Giá phòng: ${giaPhong}</p>
+            </div>
+          </div>
+        </a>
+      `;
+
+
+
         main.appendChild(roomDiv);
     });
 }
@@ -227,6 +239,11 @@ async function loadContent(hash) {
         case hash === "#noiquy":
             contentDiv.innerHTML = "";
             contentDiv.innerHTML = hienNoiQuy();
+            break;
+        case hash === "#gioithieu":
+            contentDiv.innerHTML = "";
+            contentDiv.innerHTML = hienGioiThieu();
+            break;
         default:
             break;
     }

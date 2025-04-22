@@ -25,7 +25,8 @@ document.addEventListener("DOMContentLoaded", function () {
     callApi("/api/v1/auth/account", "GET", null, {
         "Authorization": `Bearer ${token}`
     }).then((data) => {
-        console.log("data", data);
+        console.log("data", data.role.name);
+        localStorage.setItem("role", data.role.name);
         document.getElementById("account-name").textContent = data.name;
         document.getElementById("account-avatar").src = data.avatar || "/img/default_avatar.jpg";
     }).catch(err => {
@@ -79,34 +80,30 @@ document.addEventListener("DOMContentLoaded", function () {
             </ul>` :
                 `<ul>
            <li class="has-submenu">
-                    <a href="#room">Quản lý phòng</a>
+                    <a href="">Quản lý phòng</a>
                     <ul class="submenu">
-                        <li><a href="#">Thêm phòng</a></li>
-                        <li><a href="#">Sửa phòng</a></li>
-                        <li><a href="#">Xóa phòng</a></li>
+                        <li><a href="#room">Danh sách phòng</a></li>
+                        <li><a href="#add-room">Thêm phòng</a></li>             
+                    </ul>
+                </li>   
+                <li class="has-submenu">
+                    <a href="#">Quản lý tài khoản</a>
+                    <ul class="submenu">
+                        <li><a href="#account">Danh sách tài khoản</a></li>
                     </ul>
                 </li>
                 <li class="has-submenu">
-                    <a href="#student">Quản lý tài khoản</a>
+                    <a href="">Quản lý phương tiện</a>
                     <ul class="submenu">
-                        <li><a href="#">Thêm sinh viên</a></li>
-                        <li><a href="#">Sửa sinh viên</a></li>
-                        <li><a href="#">Xóa sinh viên</a></li>
+                        <li><a href="#vehicle">Danh sách phương tiện</a></li>
+                        <li><a href="#addvehicle">Thêm phương tiện</a></li>
                     </ul>
                 </li>
                 <li class="has-submenu">
-                    <a href="#vehicle">Quản lý phương tiện</a>
+                    <a href="#">Quản lý hóa đơn</a>
                     <ul class="submenu">
-                        <li><a href="#">Thêm phương tiện</a></li>
-                        <li><a href="#">Sửa phương tiện</a></li>
-                        <li><a href="#">Xóa phương tiện</a></li>
-                    </ul>
-                </li>
-                <li class="has-submenu">
-                    <a href="#invoice">Quản lý hóa đơn</a>
-                    <ul class="submenu">
-                        <li><a href="#">Xuất hóa đơn</a></li>
-                        <li><a href="#">Gửi hóa đơn</a></li>
+                        <li><a href="#diennuoc">Chỉ số điện-nước</a></li>
+                        <li><a href="#hoadon">Gửi hóa đơn</a></li>
                     </ul>
                 </li>
                 <li class="has-submenu">

@@ -91,7 +91,13 @@ export async function listHoaDon() {
                     <td>${item.tienDien.toLocaleString('vi-VN')}</td>
                     <td>${item.tienNuoc.toLocaleString('vi-VN')}</td>
                     <td>${item.tongTien.toLocaleString('vi-VN')}</td>
-                    <td>${item.trangThai === "DADONG" ? "Đã thanh toán" : "Chưa thanh toán"}</td>
+                   <td>
+  <select class="status-select" data-id="${item.id}">
+    <option value="CHUADONG" ${item.trangThai === 'CHUADONG' ? 'selected' : ''}>Chưa thanh toán</option>
+    <option value="DADONG" ${item.trangThai === 'DADONG' ? 'selected' : ''}>Đã thanh toán</option>
+  </select>
+</td>
+
                     <td>${new Date(item.createAt).toLocaleDateString('vi-VN')}</td>
                     <td>
                         <button class="send-invoice-btn" data-id="${item.id}" data-item='${JSON.stringify(item)}'>Gửi hóa đơn</button>
@@ -103,7 +109,32 @@ export async function listHoaDon() {
 
             bindSendInvoiceButtons();
             bindDeleteButtons();
+            bindStatusChangeEvents();
+
             renderInvoicePagination(data.meta.total, page, pageSizeParam);
+        });
+    }
+    function bindStatusChangeEvents() {
+        document.querySelectorAll(".status-select").forEach(select => {
+            select.addEventListener("change", async () => {
+                const invoiceId = select.dataset.id;
+                const newStatus = select.value;
+
+                try {
+                    await callApi(`/api/v1/hoadon/status`, 'PUT', {
+                        id: invoiceId,
+                        trangThai: newStatus
+                    }, {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    });
+
+                    showToast("Cập nhật trạng thái thành công", "success");
+                    loadHoaDonList(currentPage, pageSize, currentRoomId);
+                } catch (error) {
+                    showToast("Lỗi khi cập nhật trạng thái", "error");
+                }
+            });
         });
     }
 

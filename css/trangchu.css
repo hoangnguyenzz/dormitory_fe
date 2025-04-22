@@ -40,10 +40,14 @@
   /* Độ cao dòng cho dễ đọc */
 }
 
+.logo a {
+  text-decoration: none;
+}
+
 /*body*/
 body {
   font-family: Arial, sans-serif;
-  background-color: rgb(237, 255, 159);
+  background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
   color: black;
 }
 
@@ -149,10 +153,10 @@ body {
 }
 
 /*menu*/
-body {
+/* body {
   margin: 0;
   font-family: Arial, sans-serif;
-}
+} */
 
 .navbar1 {
   display: flex;
@@ -160,7 +164,8 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 10px 40px;
-  background-color: #23edff;
+  background: linear-gradient(90deg, #5b8dfd, #7f98ce);
+
   border-bottom: 1px solid #ddd;
 
 }
@@ -290,7 +295,7 @@ body {
   margin-left: 150px;
 }
 
-/* Card từng phòng */
+/* Card từng phòng
 .room-card {
   width: 200px;
   height: 200px;
@@ -308,33 +313,33 @@ body {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   text-decoration: none;
   cursor: pointer;
-}
+} */
 
 /* Hover mượt như bơ */
-.room-card:hover {
+/* .room-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
-}
+} */
 
 /* Trạng thái hoạt động */
-.room-card.active {
+/* .room-card.active {
   background-color: #27ae60;
   border-left: 5px solid #2ecc71;
-}
+} */
 
 /* Trạng thái không hoạt động */
-.room-card.inactive {
+/* .room-card.inactive {
   background-color: #e74c3c;
   border-left: 5px solid #c0392b;
-}
+} */
 
 /* Responsive chuẩn chỉnh */
-@media (max-width: 900px) {
+/* @media (max-width: 900px) {
   .room-card {
     width: calc(50% - 20px);
     margin-bottom: 15px;
   }
-}
+} */
 
 @media (max-width: 600px) {
   .room-card {
@@ -344,7 +349,7 @@ body {
 }
 
 /* Nội dung trong card */
-.room-card h3.room-title {
+/* .room-card h3.room-title {
   font-size: 26px;
   font-weight: bold;
   margin-bottom: 5px;
@@ -364,13 +369,13 @@ body {
 .room-card a {
   text-decoration: none;
   color: inherit;
-}
+} */
 
 
 
 
 /* Các chỉnh sửa cho các phần tử trong section phòng */
-main {
+/* main {
   font-family: 'Arial', sans-serif;
   padding: 20px;
 }
@@ -393,8 +398,68 @@ main {
 .room-card h3,
 .room-card p {
   margin: 25px 0 !important;
+} */
+
+
+.modern-room-card {
+  background: linear-gradient(135deg, #eef3fb, #d4e3ff);
+  border-radius: 16px;
+  padding: 20px 25px;
+  width: 320px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  font-family: "Segoe UI", sans-serif;
+  transition: all 0.3s ease;
+  border-left: 6px solid #3f8efc;
+  margin: 20px auto;
 }
 
+.modern-room-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+}
+
+.room-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.room-header h3 {
+  font-size: 22px;
+  color: #1d3557;
+  margin: 0;
+}
+
+.status {
+  font-size: 13px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.status.active {
+  background-color: #28a745;
+}
+
+.status.inactive {
+  background-color: #dc3545;
+}
+
+.room-details {
+  margin-top: 15px;
+}
+
+.room-details p {
+  font-size: 15px;
+  margin: 10px 0;
+  color: #333;
+}
+
+.room-details i {
+  color: #3f8efc;
+  margin-right: 8px;
+}
 
 /* Các chỉnh sửa cho phần filters */
 .filters {
@@ -460,7 +525,7 @@ main {
 /* Màu sắc cho các nút lọc */
 #filter {
   font-family: 'Arial', sans-serif;
-
+  margin: 20px 10px;
   display: flex;
   gap: 10px;
 }
@@ -497,12 +562,12 @@ main {
 }
 
 /* Màu cho nút "Đang hoạt động" */
-.filter-btn[data-filter="dang_hoat_dong"].active {
+.filter-btn[data-filter="true"].active {
   background-color: #27ae60;
   /* Xanh lá cho nút "Đang hoạt động" */
 }
 
-.filter-btn[data-filter="khong_su_dung"].active {
+.filter-btn[data-filter="false"].active {
   background-color: #eb0f0f;
   /* Xanh lá cho nút "Đang hoạt động" */
 }
@@ -579,4 +644,42 @@ main {
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 
+}
+
+
+
+
+/* Style riêng cho liên kết phòng đẹp hơn và đồng nhất với .room-card */
+.room-card-link {
+
+  width: 100%;
+  height: 100%;
+
+  border-radius: 10px;
+  background: linear-gradient(135deg, #ecf0f1, #d0eafc);
+  text-decoration: none;
+  color: #2c3e50;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.room-card-link:hover {
+  background: linear-gradient(135deg, #d0eafc, #b3daff);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.room-card-link h3.room-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #1f618d;
+  text-align: center;
+}
+
+.room-card-link p.room-info {
+  font-size: 14px;
+  margin: 5px 0;
+  color: #2c3e50;
+  text-align: center;
 }

@@ -72,16 +72,41 @@ export async function listRoomPageTest() {
             }
         }
 
-        function renderRoomTable(rooms, currentPage, pageSize) {
+        async function renderRoomTable(rooms, currentPage, pageSize) {
             const tbody = document.getElementById("room-table-body");
             tbody.innerHTML = "";
 
-            rooms.forEach((room, index) => {
+            for (let index = 0; index < rooms.length; index++) {
+                const room = rooms[index];
+
+                // Gọi API lấy danh sách sinh viên trong phòng
+                const students = await callApi(`/api/v1/users/byroom/${room.id}`, 'GET', null, {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                });
+                const currentCount = students?.data?.length || 0;
+
+                // Tự động cập nhật trạng thái nếu khác
+                const shouldBeAvailable = currentCount > 0;
+                if (room.available !== shouldBeAvailable) {
+                    await callApi(`/api/v1/rooms`, 'PUT', {
+                        id: room.id,
+                        name: room.name,
+                        capacity: room.capacity,
+                        price: room.price,
+                        available: shouldBeAvailable
+                    }, {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    });
+                    await loadRooms();
+                    return;
+                }
+
                 const row = `
                     <tr>
                         <td>${(currentPage - 1) * pageSize + index + 1}</td>
                         <td>${room.name}</td>
-                        <td>${room.capacity}</td>
+                        <td>${currentCount}/${room.capacity}</td>
                         <td>${room.price.toLocaleString('vi-VN')}</td>
                         <td>${room.available ? "Đang hoạt động" : "Không hoạt động"}</td>
                         <td>${new Date(room.createAt).toLocaleDateString("vi-VN")}</td>
@@ -91,8 +116,11 @@ export async function listRoomPageTest() {
                     </tr>
                 `;
                 tbody.innerHTML += row;
-            });
+            }
         }
+
+
+
 
         function renderPagination(pageCount) {
             const paginationContainer = document.getElementById("room-pagination");
@@ -257,7 +285,7 @@ export async function listRoomPageTest() {
         async function loadRooms() {
             const data = await fetchRooms(currentPage, rowsPerPage);
             if (data) {
-                renderRoomTable(data.result, currentPage, rowsPerPage);
+                await renderRoomTable(data.result, currentPage, rowsPerPage);
                 bindViewStudentButtons();
                 renderPagination(Math.ceil(data.meta.total / rowsPerPage));
             }
