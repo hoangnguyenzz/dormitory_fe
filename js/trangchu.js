@@ -2,6 +2,7 @@ import { callApi } from "../api/baseApi.js";
 import { showToast } from "../thongbao/thongbao.js";
 import { chiTietPhong, handleDangKyPhong } from "./chitietphong.js";
 import { hienGioiThieu } from "./gioithieu.js";
+import { hienLienHe } from "./lienhe.js";
 import { hienNoiQuy } from "./noiquyktx.js";
 
 
@@ -177,8 +178,8 @@ function renderFilterButtons(data) {
     filterDiv.innerHTML = `
         <strong><p>Tình trạng phòng:</p></strong>
         <button class="filter-btn" data-filter="all">Tất cả</button>
-        <button class="filter-btn" data-filter="true">Đang hoạt động</button>
-        <button class="filter-btn" data-filter="false">Không hoạt động</button>
+        <button class="filter-btn" id="green" data-filter="true">Đang hoạt động</button>
+        <button class="filter-btn" id="red" data-filter="false">Không hoạt động</button>
     `;
 
     const buttons = filterDiv.querySelectorAll(".filter-btn");
@@ -243,6 +244,10 @@ async function loadContent(hash) {
         case hash === "#gioithieu":
             contentDiv.innerHTML = "";
             contentDiv.innerHTML = hienGioiThieu();
+            break;
+        case hash === "#lienhe":
+            contentDiv.innerHTML = "";
+            contentDiv.innerHTML = hienLienHe();
             break;
         default:
             break;

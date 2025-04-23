@@ -137,3 +137,53 @@ main {
     background: white;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
+
+
+/* === Responsive Layout (mobile & tablet) === */
+@media (max-width: 768px) {
+    .navbar {
+        flex-wrap: wrap;
+        padding: 10px;
+    }
+
+    .menu-toggle {
+        display: inline-block;
+        background: none;
+        border: none;
+        font-size: 26px;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+    .logo {
+        flex-grow: 1;
+        font-size: 1.4em;
+    }
+
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -300px;
+        top: 60px;
+        width: 250px;
+        height: calc(100vh - 60px);
+        background: #f8f9fa;
+        padding: 20px;
+        overflow-y: auto;
+        transition: left 0.3s ease;
+        z-index: 999;
+        border-right: 1px solid #ddd;
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
+
+    main {
+        padding: 15px;
+    }
+}

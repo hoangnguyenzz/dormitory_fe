@@ -69,13 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         <li><a href="#hoadon">Gửi hóa đơn</a></li>
                     </ul>
                 </li>
-                <li class="has-submenu">
-                    <a href="#contract">Quản lý hợp đồng</a>
-                    <ul class="submenu">
-                        <li><a href="#">Tạo hợp đồng</a></li>
-                        <li><a href="#">Gửi hợp đồng</a></li>
-                    </ul>
-                </li>
+                 
 
             </ul>` :
                 `<ul>
@@ -106,13 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         <li><a href="#hoadon">Gửi hóa đơn</a></li>
                     </ul>
                 </li>
-                <li class="has-submenu">
-                    <a href="#contract">Quản lý hợp đồng</a>
-                    <ul class="submenu">
-                        <li><a href="#">Tạo hợp đồng</a></li>
-                        <li><a href="#">Gửi hợp đồng</a></li>
-                    </ul>
-                </li>
+                 
 
             </ul>`
             :
@@ -166,6 +154,26 @@ function attachSubmenuToggle() {
 }
 
 
+
+document.getElementById("menu-toggle").addEventListener("click", function () {
+    const sidebar = document.getElementById("sidebar");
+    sidebar.classList.toggle("active");
+});
+
+
+document.addEventListener("click", function (event) {
+    const sidebar = document.getElementById("sidebar");
+    const toggleBtn = document.getElementById("menu-toggle");
+
+    // Nếu sidebar đang mở, và click không nằm trong sidebar hoặc nút toggle
+    if (
+        sidebar.classList.contains("active") &&
+        !sidebar.contains(event.target) &&
+        !toggleBtn.contains(event.target)
+    ) {
+        sidebar.classList.remove("active");
+    }
+});
 
 // Lắng nghe sự thay đổi hash trong URL
 window.addEventListener('hashchange', function () {

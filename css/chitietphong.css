@@ -238,7 +238,7 @@
     position: fixed;
     top: 150px;
     right: 20px;
-    z-index: 9999;
+    z-index: 1;
     /* Đảm bảo luôn nổi lên trên */
 
     padding: 4px 10px;

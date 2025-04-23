@@ -144,15 +144,17 @@ export async function chiTietPhong(data) {
                     <h3>🛠️ Thiết bị</h3>
                     <ul>
                         <li><b>Giường:</b> 4</li>
-                        <li><b>Bàn học</b> 4</li>
-                        <li><b>Tủ đồ</b> 2</li>
-                        <li><b>Quạt trần</b> 1</li>
+                        <li><b>Bàn học:</b> 4</li>
+                        <li><b>Tủ đồ:</b> 2</li>
+                        <li><b>Quạt trần:</b> 1</li>
                     </ul>
                 </div>
 
                 <div class="info-box">
-                    <h3>⚡ Điện & Nước</h3>
+                    <h3>⚡Chi phí </h3>
                     <p><strong>Điện:</strong> 3.000vnđ/1 kWh</p>
+                    <p><strong>Nước:</strong> 8.000vnđ/1 m³</p>
+                     <p><strong>Rác:</strong> 30.000vnđ/1 tháng</p>
                     <p><strong>Nước:</strong> 8.000vnđ/1 m³</p>
                 </div>
             </div>

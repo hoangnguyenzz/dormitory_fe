@@ -192,14 +192,14 @@ body {
 
   border-radius: 4px;
   transition: 0.3s;
-  background-color: #23edff;
+
 
 }
 
 .menu a:hover,
 .menu a.active {
-  background-color: #0099a8;
-
+  background-color: #1b62fc;
+  padding: 12px 12px;
   color: white;
 }
 
@@ -210,6 +210,14 @@ body {
     align-items: flex-start;
     padding: 10px 20px;
     height: auto;
+
+  }
+
+  #account {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+
   }
 
   .logo1 img {
@@ -230,7 +238,7 @@ body {
     display: block;
     width: 100%;
     padding: 12px;
-    background-color: #23edff;
+
     border-radius: 0;
     border-bottom: 1px solid #ddd;
     text-align: left;
@@ -295,110 +303,17 @@ body {
   margin-left: 150px;
 }
 
-/* Card từng phòng
-.room-card {
-  width: 200px;
-  height: 200px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 5px;
-  border: 2px solid;
-  border-radius: 8px;
-  box-sizing: border-box;
-  color: white;
-  font-size: 14px;
-  text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  text-decoration: none;
-  cursor: pointer;
-} */
 
-/* Hover mượt như bơ */
-/* .room-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
-} */
-
-/* Trạng thái hoạt động */
-/* .room-card.active {
-  background-color: #27ae60;
-  border-left: 5px solid #2ecc71;
-} */
-
-/* Trạng thái không hoạt động */
-/* .room-card.inactive {
-  background-color: #e74c3c;
-  border-left: 5px solid #c0392b;
-} */
-
-/* Responsive chuẩn chỉnh */
-/* @media (max-width: 900px) {
-  .room-card {
-    width: calc(50% - 20px);
-    margin-bottom: 15px;
-  }
-} */
 
 @media (max-width: 600px) {
   .room-card {
     width: 100%;
     margin-bottom: 15px;
+    margin-left: -100px;
+    flex-wrap: wrap;
   }
 }
 
-/* Nội dung trong card */
-/* .room-card h3.room-title {
-  font-size: 26px;
-  font-weight: bold;
-  margin-bottom: 5px;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-}
-
-.room-card p.room-info {
-  font-size: 14px;
-  margin: 5px 0;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-}
-
-.room-card p.room-info strong {
-  font-weight: bold;
-}
-
-.room-card a {
-  text-decoration: none;
-  color: inherit;
-} */
-
-
-
-
-/* Các chỉnh sửa cho các phần tử trong section phòng */
-/* main {
-  font-family: 'Arial', sans-serif;
-  padding: 20px;
-}
-
-.room-section h2 {
-  font-size: 24px;
-  color: #2c3e50;
-  margin-bottom: 20px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.room-section h2 span {
-  font-size: 26px;
-  margin-right: 10px;
-}
-
-.room-card h3,
-.room-card p {
-  margin: 25px 0 !important;
-} */
 
 
 .modern-room-card {
@@ -544,6 +459,28 @@ body {
 
 .filter-btn:hover {
   background-color: #2980b9;
+  transform: translateY(-2px);
+}
+
+.filter-btn#green {
+  background-color: #3ad84f;
+
+
+}
+
+.filter-btn#red {
+  background-color: #d83a3a;
+
+}
+
+.filter-btn#green:hover {
+
+  transform: translateY(-2px);
+
+}
+
+.filter-btn#red:hover {
+
   transform: translateY(-2px);
 }
 
