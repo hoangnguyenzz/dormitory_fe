@@ -1,5 +1,5 @@
 
-const API_URL = 'https://domitory-bcec.up.railway.app';
+const API_URL = 'https://dormitory-bcec.up.railway.app';
 
 export async function callApi(url, method = 'GET', data = null, headers = {}) {
     const options = {
