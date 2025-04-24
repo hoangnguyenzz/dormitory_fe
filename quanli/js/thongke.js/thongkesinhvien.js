@@ -1,5 +1,5 @@
 
-import { callApi } from "../../../api/baseApi.js";
+import { callApi } from "../../../apis/baseApi.js";
 
 const token = localStorage.getItem("token");
 

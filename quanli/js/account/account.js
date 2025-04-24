@@ -2,7 +2,7 @@ import { showToast } from "../../../thongbao/thongbao.js";
 
 
 // accountManagementPage.js
-import { callApi } from "../../../api/baseApi.js";
+import { callApi } from "../../../apis/baseApi.js";
 
 export function listAccountPage() {
 

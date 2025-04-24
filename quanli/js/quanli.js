@@ -7,7 +7,7 @@ import { danhSachXe, listXe } from "./phuongtien/phuongtien.js";
 import { addVehicle, themPhuongTien } from "./phuongtien/themphuongtien.js";
 import { thongKePhong, thongKePhongChart } from "./thongke.js/thongkephong.js";
 import { thongKeSinhVien, thongKeSinhVienChart } from "./thongke.js/thongkesinhvien.js";
-import { callApi } from "../../api/baseApi.js";
+import { callApi } from "../../apis/baseApi.js";
 
 
 

@@ -1,4 +1,4 @@
-import { callApi } from "../api/baseApi.js";
+import { callApi } from "../apis/baseApi.js";
 import { showToast } from "../thongbao/thongbao.js";
 import { chiTietPhong, handleDangKyPhong } from "./chitietphong.js";
 import { hienGioiThieu } from "./gioithieu.js";
