@@ -57,7 +57,7 @@ export async function listRoomPageTest() {
     const roomTable = document.getElementById("room-table");
 
     if (roomTable) {
-        const rowsPerPage = 5;
+        const rowsPerPage = 10;
         let currentPage = 1;
 
         async function fetchRooms(page, size) {

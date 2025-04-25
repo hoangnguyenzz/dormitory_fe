@@ -14,6 +14,11 @@ export function listAccountPage() {
     return `
     <div class="table-container">
       <h1>Danh sách tài khoản</h1>
+     
+<div class="search-bar">
+  <input type="text" id="account-search-input" placeholder="Tìm kiếm theo tên...">
+</div>
+
       <table id="account-table">
         <thead>
           <tr>
@@ -62,7 +67,7 @@ export async function listAccountPageTest() {
 
     if (accountTable) {
         console.log("Account table found!");
-        const rowsPerPage = 5;
+        const rowsPerPage = 10;
         let currentPage = 1;
 
         async function fetchAccounts(page, size) {
@@ -76,6 +81,23 @@ export async function listAccountPageTest() {
                 return null;
             }
         }
+
+
+        async function searchUsersByName(keyword) {
+            try {
+                const query = `filter=name~'${keyword}'&size=1000`;
+                const data = await callApi(`/api/v1/users?${query}`, 'GET', null, {
+                    "Authorization": `Bearer ${token}`
+                });
+                return data;
+            } catch (error) {
+                console.error('Lỗi khi tìm kiếm user theo tên:', error);
+                return null;
+            }
+        }
+
+
+
 
         function renderAccountTable(accounts) {
             const tbody = document.getElementById("account-table-body");
@@ -207,6 +229,23 @@ export async function listAccountPageTest() {
                 renderPagination(Math.ceil(data.meta.total / rowsPerPage));
             }
         }
+        document.getElementById("account-search-input").addEventListener("input", async (e) => {
+            const keyword = e.target.value.trim();
+
+            if (keyword === "") {
+                currentPage = 1;
+                loadAccounts(); // trở lại danh sách có phân trang
+                return;
+            }
+
+            const data = await searchUsersByName(keyword);
+            if (data && data.result) {
+                renderAccountTable(data.result);
+                bindEditButtons();
+                bindDeleteButtons();
+                document.getElementById("account-pagination").innerHTML = ""; // ẩn phân trang khi tìm kiếm
+            }
+        });
 
         loadAccounts();
     }

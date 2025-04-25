@@ -155,7 +155,7 @@ export async function chiTietPhong(data) {
                     <p><strong>Điện:</strong> 3.000vnđ/1 kWh</p>
                     <p><strong>Nước:</strong> 8.000vnđ/1 m³</p>
                      <p><strong>Rác:</strong> 30.000vnđ/1 tháng</p>
-                    <p><strong>Nước:</strong> 8.000vnđ/1 m³</p>
+                    
                 </div>
             </div>
 

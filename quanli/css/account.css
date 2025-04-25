@@ -347,3 +347,15 @@ button {
         /* Giảm kích thước chữ */
     }
 }
+
+
+.search-bar {
+    margin: 10px 0 20px 0;
+}
+
+.search-bar input {
+    width: 300px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
