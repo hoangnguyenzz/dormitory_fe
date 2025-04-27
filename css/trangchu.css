@@ -357,6 +357,10 @@ body {
   background-color: #28a745;
 }
 
+.status.empty {
+  background-color: #0f95e2;
+}
+
 .status.inactive {
   background-color: #dc3545;
 }

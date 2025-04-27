@@ -120,7 +120,7 @@ export async function chiTietPhong(data) {
 
     // Kiểm tra điều kiện hiển thị nút Đăng ký
     let buttonHTML = '';
-    if (data1.data.length < data.capacity) {
+    if (data1.data.length < data.capacity && data.trangThai !== 'KHONGHOATDONG') {
         buttonHTML = `<button id="btn-dang-ky" class="btn-dang-ky"> Đăng ký phòng</button>`;
     }
 
@@ -135,7 +135,7 @@ export async function chiTietPhong(data) {
                     <h3>📌 Thông tin chung</h3>
                     <p><strong>Loại phòng:</strong> ${data.capacity} Người</p>
                     <p><strong>Tầng:</strong> 1</p>
-                    <p><strong>Trạng thái:</strong> ${data.available === true ? "Đang hoạt động" : "Không hoạt động"}</p>
+                    <p><strong>Trạng thái:</strong> ${data.trangThai === 'DANGHOATDONG' ? "Đang hoạt động" : data.trangThai === 'TRONG' ? 'Trống' : "Không hoạt động"}</p>
                     <p><strong>Số người:</strong> ${data1.data.length} / ${data.capacity}</p>
                     <p><strong>Giá phòng:</strong> ${new Intl.NumberFormat('vi-VN').format(data.price)} đ</p>
                 </div>

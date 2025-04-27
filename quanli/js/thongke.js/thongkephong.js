@@ -12,16 +12,20 @@ export function thongKePhong() {
         <h3 class="stat-title">Thống kê phòng</h3>
         
         <div class="chart-container">
-            <canvas id="roomStatusChart" width="300" height="300"></canvas> <!-- Biểu đồ hình tròn -->
+            <canvas id="roomStatusChart" width="300" height="300"></canvas>
         </div>
 
         <div class="stat-details">
             <div class="stat-item">
-                <i class="fas fa-bed"></i> <!-- Icon phòng -->
+                <i class="fas fa-bed"></i>
+                <span id="emptyRooms">0 Phòng Trống</span>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-play-circle"></i>
                 <span id="activeRooms">0 Phòng Đang Hoạt Động</span>
             </div>
             <div class="stat-item">
-                <i class="fas fa-ban"></i> <!-- Icon không hoạt động -->
+                <i class="fas fa-ban"></i>
                 <span id="inactiveRooms">0 Phòng Không Hoạt Động</span>
             </div>
         </div>
@@ -38,21 +42,19 @@ export async function thongKePhongChart() {
             "Authorization": `Bearer ${token}`
         });
 
-        // const data = {
-        //     active: 40,
-        //     inactive: 50
-        // }
+        const emptyRooms = data.trong || 0;
+        const activeRooms = data.danghoatdong || 0;
+        const inactiveRooms = data.khonghoatdong || 0;
 
-        const activeRooms = data.active || 0;
-        const inactiveRooms = data.inactive || 0;
+        const total = emptyRooms + activeRooms + inactiveRooms;
 
         const myChart = new Chart(ctx, {
             type: 'pie',
             data: {
-                labels: ['Đang hoạt động', 'Không hoạt động'],
+                labels: ['Phòng Trống', 'Đang hoạt động', 'Không hoạt động'],
                 datasets: [{
-                    data: [activeRooms, inactiveRooms],
-                    backgroundColor: ['#4caf50', '#f44336'],
+                    data: [emptyRooms, activeRooms, inactiveRooms],
+                    backgroundColor: ['#2196f3', '#4caf50', '#f44336'],
                     borderWidth: 1
                 }]
             },
@@ -65,9 +67,8 @@ export async function thongKePhongChart() {
                     tooltip: {
                         callbacks: {
                             label: function (context) {
-                                const total = activeRooms + inactiveRooms;
                                 const value = context.parsed;
-                                const percent = ((value / total) * 100).toFixed(1);
+                                const percent = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
                                 return `${context.label}: ${value} (${percent}%)`;
                             }
                         }
@@ -76,7 +77,8 @@ export async function thongKePhongChart() {
             }
         });
 
-        // Cập nhật số lượng phòng đang hoạt động và không hoạt động
+        // Cập nhật thông tin số lượng
+        document.getElementById("emptyRooms").textContent = `${emptyRooms} Phòng Trống`;
         document.getElementById("activeRooms").textContent = `${activeRooms} Phòng Đang Hoạt Động`;
         document.getElementById("inactiveRooms").textContent = `${inactiveRooms} Phòng Không Hoạt Động`;
 

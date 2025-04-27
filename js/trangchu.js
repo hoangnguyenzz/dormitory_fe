@@ -110,8 +110,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function convertTrangThai(status) {
     switch (status) {
-        case true: return "Đang hoạt động";
-        case false: return "Không hoạt động";
+        case 'DANGHOATDONG': return "Đang hoạt động";
+        case 'TRONG': return "Trống";
+        case 'KHONGHOATDONG': return "Không hoạt động";
         default: return "Không rõ";
     }
 }
@@ -138,14 +139,16 @@ async function renderRoomCards(rooms) {
         const roomDiv = document.createElement("div");
         roomDiv.classList.add("room-card");
 
-        if (room.available === true) {
+        if (room.trangThai === 'DANGHOATDONG') {
             roomDiv.classList.add("active");
-        } else if (room.available === false) {
+        } else if (room.trangThai === 'TRONG') {
+            roomDiv.classList.add("empty");
+        } else if (room.trangThai === 'KHONGHOATDONG') {
             roomDiv.classList.add("inactive");
         }
 
         const tenPhong = room.name;
-        const tinhTrang = convertTrangThai(room.available);
+        const tinhTrang = convertTrangThai(room.trangThai);
         const soNguoi = `${data.data.length} / ${room.capacity}`;
         const giaPhong = new Intl.NumberFormat('vi-VN').format(room.price);
 
@@ -154,7 +157,7 @@ async function renderRoomCards(rooms) {
           <div class="modern-room-card">
             <div class="room-header">
               <h3>${tenPhong}</h3>
-             <span class="status ${tinhTrang === 'Đang hoạt động' ? 'active' : 'inactive'}">${tinhTrang}</span>
+             <span class="status ${tinhTrang === 'Đang hoạt động' ? 'active' : (tinhTrang === 'Trống') ? 'empty' : 'inactive'}">${tinhTrang}</span>
             </div>
             <div class="room-details">
               <p><i class="fas fa-user-friends"></i> Số người: ${soNguoi}</p>
@@ -178,8 +181,9 @@ function renderFilterButtons(data) {
     filterDiv.innerHTML = `
         <strong><p>Tình trạng phòng:</p></strong>
         <button class="filter-btn" data-filter="all">Tất cả</button>
-        <button class="filter-btn" id="green" data-filter="true">Đang hoạt động</button>
-        <button class="filter-btn" id="red" data-filter="false">Không hoạt động</button>
+        <button class="filter-btn" id="green" data-filter="DANGHOATDONG">Đang hoạt động</button>
+        <button class="filter-btn" id="blue" data-filter="TRONG">Trống</button>
+        <button class="filter-btn" id="red" data-filter="KHONGHOATDONG">Không hoạt động</button>
     `;
 
     const buttons = filterDiv.querySelectorAll(".filter-btn");
@@ -191,11 +195,15 @@ function renderFilterButtons(data) {
             const selected = button.getAttribute("data-filter");
             if (selected === "all") {
                 renderRoomCards(data);
-            } else if (selected === "true") {
-                const filtered = data.filter(room => room.available === true);
+            } else if (selected === "DANGHOATDONG") {
+                const filtered = data.filter(room => room.trangThai === selected);
                 renderRoomCards(filtered);
-            } else if (selected === "false") {
-                const filtered = data.filter(room => room.available === false);
+            } else if (selected === "TRONG") {
+                const filtered = data.filter(room => room.trangThai === selected);
+                renderRoomCards(filtered);
+            }
+            else if (selected === "KHONGHOATDONG") {
+                const filtered = data.filter(room => room.trangThai === selected);
                 renderRoomCards(filtered);
             }
         });

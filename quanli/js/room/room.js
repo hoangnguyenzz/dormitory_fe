@@ -11,6 +11,13 @@ export function listRoomPage() {
     <div class="table-container">
         <table id="room-table">
         <h1>Danh sách phòng</h1>
+        <div class="filter-buttons">
+    <button id="filter-all">Tất cả</button>
+    <button id="filter-active">Đang hoạt động</button>
+    <button id="filter-empty">Trống</button>
+    <button id="filter-inactive">Không hoạt động</button>
+</div>
+
             <thead>
                 <tr>
                     <th>STT</th>
@@ -51,7 +58,6 @@ export function listRoomPage() {
 
     `;
 }
-
 export async function listRoomPageTest() {
     const token = localStorage.getItem("token");
     const roomTable = document.getElementById("room-table");
@@ -59,10 +65,13 @@ export async function listRoomPageTest() {
     if (roomTable) {
         const rowsPerPage = 10;
         let currentPage = 1;
+        let currentStatusFilter = '';  // Biến để lưu trạng thái lọc
 
-        async function fetchRooms(page, size) {
+        // Hàm gọi API để lấy danh sách phòng
+        async function fetchRooms(page, size, status) {
             try {
-                const data = await callApi(`/api/v1/rooms?page=${page}&size=${size}`, 'GET', null, {
+                const url = status ? `/api/v1/rooms?page=${page}&size=${size}&filter=trangThai~'${status}'` : `/api/v1/rooms?page=${page}&size=${size}`;
+                const data = await callApi(url, 'GET', null, {
                     "Authorization": `Bearer ${token}`
                 });
                 return data;
@@ -72,6 +81,7 @@ export async function listRoomPageTest() {
             }
         }
 
+        // Hàm render bảng phòng
         async function renderRoomTable(rooms, currentPage, pageSize) {
             const tbody = document.getElementById("room-table-body");
             tbody.innerHTML = "";
@@ -85,15 +95,18 @@ export async function listRoomPageTest() {
                 });
                 const currentCount = students?.data?.length || 0;
 
-                // Tự động cập nhật trạng thái nếu khác
+                // Tự động cập nhật trạng thái nếu cần
                 const shouldBeAvailable = currentCount > 0;
-                if (room.available !== shouldBeAvailable) {
+                if (
+                    (shouldBeAvailable && room.trangThai === 'TRONG') ||
+                    (!shouldBeAvailable && room.trangThai === 'DANGHOATDONG')
+                ) {
                     await callApi(`/api/v1/rooms`, 'PUT', {
                         id: room.id,
                         name: room.name,
                         capacity: room.capacity,
                         price: room.price,
-                        available: shouldBeAvailable
+                        trangThai: shouldBeAvailable ? 'DANGHOATDONG' : 'TRONG'
                     }, {
                         Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json"
@@ -108,10 +121,22 @@ export async function listRoomPageTest() {
                         <td>${room.name}</td>
                         <td>${currentCount}/${room.capacity}</td>
                         <td>${room.price.toLocaleString('vi-VN')}</td>
-                        <td>${room.available ? "Đang hoạt động" : "Không hoạt động"}</td>
+                        <td class="${room.trangThai === 'DANGHOATDONG' ? 'status-active' :
+                        room.trangThai === 'TRONG' ? 'status-empty' :
+                            'status-inactive'
+                    }">
+                       ${room.trangThai === 'DANGHOATDONG' ? "Đang hoạt động" :
+                        room.trangThai === 'TRONG' ? "Chưa có người" :
+                            "Không hoạt động"
+                    }
+                    </td>
                         <td>${new Date(room.createAt).toLocaleDateString("vi-VN")}</td>
                         <td>
-                            <button class="view-student-btn" data-id="${room.id}">Xem sinh viên</button>
+                            <button class="view-student-btn" data-id="${room.id}" 
+                            ${room.trangThai === 'KHONGHOATDONG' ? 'disabled' : ''}>Xem sinh viên</button>
+                            <button class="toggle-status-btn" data-room='${encodeURIComponent(JSON.stringify(room))}'   data-status="${room.trangThai}">
+                                ${room.trangThai === 'KHONGHOATDONG' ? 'Bật' : 'Dừng hoạt động'}
+                            </button>
                         </td>
                     </tr>
                 `;
@@ -119,9 +144,7 @@ export async function listRoomPageTest() {
             }
         }
 
-
-
-
+        // Hàm render phân trang
         function renderPagination(pageCount) {
             const paginationContainer = document.getElementById("room-pagination");
             paginationContainer.innerHTML = "";
@@ -140,18 +163,70 @@ export async function listRoomPageTest() {
             }
         }
 
-
+        // Hàm cập nhật nút "Xem sinh viên" và "Dừng hoạt động"
         function bindViewStudentButtons() {
             document.querySelectorAll(".view-student-btn").forEach(btn => {
                 btn.addEventListener("click", async () => {
                     const roomId = btn.dataset.id;
-                    console.log("roomId:", roomId)
                     openStudentSidebar(roomId);
                 });
             });
         }
 
+        // Hàm cập nhật nút "Bật/Dừng hoạt động"
+        function bindToggleStatusButtons() {
+            document.querySelectorAll(".toggle-status-btn").forEach(btn => {
+                btn.addEventListener("click", async () => {
+                    const room = JSON.parse(decodeURIComponent(btn.dataset.room));
+                    const currentStatus = btn.dataset.status;
+                    if (currentStatus !== 'KHONGHOATDONG') {
+                        const confirmed = confirm("Bạn có chắc chắn muốn dừng hoạt động phòng này không?");
+                        if (confirmed) {
+                            await callApi(`/api/v1/users/clearroom/${room.id}`, 'GET', null, {
+                                Authorization: `Bearer ${token}`,
+                                "Content-Type": "application/json"
+                            });
+                            try {
+                                await callApi(`/api/v1/rooms`, 'PUT', {
+                                    id: room.id,
+                                    name: room.name,
+                                    capacity: room.capacity,
+                                    price: room.price,
+                                    trangThai: 'KHONGHOATDONG'
+                                }, {
+                                    Authorization: `Bearer ${token}`,
+                                    "Content-Type": "application/json"
+                                });
+                                showToast("Cập nhật trạng thái thành công !", "success");
+                                loadRooms();
 
+                            } catch (err) {
+                                console.error("Lỗi cập nhật trạng thái:", err);
+                                showToast("Có lỗi xảy ra!", "error");
+                            }
+                        }
+                    } else {
+                        try {
+                            await callApi(`/api/v1/rooms`, 'PUT', {
+                                id: room.id,
+                                name: room.name,
+                                capacity: room.capacity,
+                                price: room.price,
+                                trangThai: 'TRONG'
+                            }, {
+                                Authorization: `Bearer ${token}`,
+                                "Content-Type": "application/json"
+                            });
+                            showToast("Cập nhật trạng thái thành công !", "success");
+                            loadRooms();
+                        } catch (err) {
+                            console.error("Lỗi cập nhật trạng thái:", err);
+                            showToast("Có lỗi xảy ra!", "error");
+                        }
+                    }
+                });
+            });
+        }
         async function openStudentSidebar(roomId) {
 
             const sidebar = document.getElementById("student-list-sidebar");
@@ -275,18 +350,38 @@ export async function listRoomPageTest() {
 
             loadStudents();
         }
-
-
         document.getElementById("close-student-list").addEventListener("click", () => {
             document.getElementById("student-list-sidebar").classList.remove("active");
         });
 
+        // Sự kiện lọc trạng thái
+        document.getElementById("filter-all").addEventListener("click", () => {
+            currentStatusFilter = '';  // Lọc tất cả
+            loadRooms();
+        });
 
+        document.getElementById("filter-active").addEventListener("click", () => {
+            currentStatusFilter = '0';  // Lọc phòng đang hoạt động
+            loadRooms();
+        });
+
+        document.getElementById("filter-empty").addEventListener("click", () => {
+            currentStatusFilter = '1';  // Lọc phòng trống
+            loadRooms();
+        });
+
+        document.getElementById("filter-inactive").addEventListener("click", () => {
+            currentStatusFilter = '2';  // Lọc phòng không hoạt động
+            loadRooms();
+        });
+
+        // Hàm load phòng
         async function loadRooms() {
-            const data = await fetchRooms(currentPage, rowsPerPage);
+            const data = await fetchRooms(currentPage, rowsPerPage, currentStatusFilter);
             if (data) {
                 await renderRoomTable(data.result, currentPage, rowsPerPage);
                 bindViewStudentButtons();
+                bindToggleStatusButtons();
                 renderPagination(Math.ceil(data.meta.total / rowsPerPage));
             }
         }
