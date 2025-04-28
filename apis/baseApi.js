@@ -1,6 +1,6 @@
 
-const API_URL = 'https://dormitory-domitory1.up.railway.app';
-// const API_URL = 'http://localhost:8080';
+// const API_URL = 'https://dormitory-domitory1.up.railway.app';
+const API_URL = 'http://localhost:8080';
 export async function callApi(url, method = 'GET', data = null, headers = {}) {
     const options = {
         method,

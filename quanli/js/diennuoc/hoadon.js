@@ -28,6 +28,8 @@ export function hoaDon() {
           <th>Số nước</th>
           <th>Tiền điện (VNĐ)</th>
           <th>Tiền nước (VNĐ)</th>
+          <th>Tiền phòng (VNĐ)</th>
+          <th>Tiền rác (VNĐ)</th>
           <th>Tổng tiền (VNĐ)</th>
           <th>Trạng thái</th>
           <th>Ngày tạo</th>
@@ -90,6 +92,8 @@ export async function listHoaDon() {
                     <td>${item.soNuoc}</td> 
                     <td>${item.tienDien.toLocaleString('vi-VN')}</td>
                     <td>${item.tienNuoc.toLocaleString('vi-VN')}</td>
+                    <td>${item.tienPhong.toLocaleString('vi-VN')}</td>
+                    <td>${item.tienRac.toLocaleString('vi-VN')}</td>
                     <td>${item.tongTien.toLocaleString('vi-VN')}</td>
                    <td>
   <select class="status-select" data-id="${item.id}">
