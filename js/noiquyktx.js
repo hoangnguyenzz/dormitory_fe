@@ -46,7 +46,10 @@ export function hienNoiQuy() {
    <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      margin: 20px;
+   margin:0;
+padding:0;
+height:100%;
+width:100%;
       background-color: #f5f7fa;
       color: #333;
       line-height: 1.6;

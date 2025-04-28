@@ -23,8 +23,8 @@ export function addRoomPage() {
 
         <label for="add-room-available">Trạng thái:</label>
         <select id="add-room-available" name="available" required>
-            <option value="true">Đang hoạt động</option>
-            <option value="false">Không hoạt động</option>
+            <option value="TRONG">Trống</option>
+            <option value="KHONGHOATDONG">Không hoạt động</option>
         </select>
 
         <button type="submit">Thêm phòng</button>
