@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
 
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
@@ -20,6 +22,17 @@
 
     <div class="container">
         <button class="back-button" onclick="goBack()">← Quay lại</button>
+        <button id="changePasswordBtn">Đổi mật khẩu</button>
+        <!-- Lớp overlay mờ nền -->
+        <div id="overlay" class="hidden"></div>
+        <div id="changePasswordForm" class="hidden">
+            <h2>Đổi mật khẩu</h2>
+            <label for="">emai</label>
+            <input type="password" id="newPassword" placeholder="Mật khẩu mới">
+            <input type="password" id="confirmPassword" placeholder="Xác nhận mật khẩu mới">
+            <button onclick="submitPasswordChange()">Xác nhận</button>
+        </div>
+
         <div class="left">
             <div class="avatar-container">
                 <!-- Hiển thị ảnh avatar -->
@@ -47,9 +60,13 @@
 
         <div class="right" id="info-section">
             <p><strong>Mã SV:</strong> <span id="student-id"></span></p>
+            <hr>
             <p><strong>Lớp:</strong> <span id="class"></span></p>
+            <hr>
             <p><strong>Chuyên ngành: </strong> <span id="major"></span></p>
+            <hr>
             <p><strong>Phòng:</strong> <span id="room"></span></p>
+            <hr>
             <button class="edit-btn" id="edit-btn" onclick="handleEditClick()">Sửa</button>
         </div>
     </div>

@@ -8,6 +8,7 @@ import { addVehicle, themPhuongTien } from "./phuongtien/themphuongtien.js";
 import { thongKePhong, thongKePhongChart } from "./thongke.js/thongkephong.js";
 import { thongKeSinhVien, thongKeSinhVienChart } from "./thongke.js/thongkesinhvien.js";
 import { callApi } from "../../apis/baseApi.js";
+import { thongKeHoaDon, thongKeHoaDonChart } from "./thongke.js/thongkehoadon.js";
 
 
 
@@ -40,6 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
             role === "ADMIN" ? `<ul>
                 <li><a href="#room-statistics">Thống kê phòng</a></li>
                 <li><a href="#student-statistics">Thống kê sinh viên</a></li>
+                <li><a href="#invoice-statistics">Thống kê hoá đơn</a></li>
 
 
                 <li class="has-submenu">
@@ -221,6 +223,11 @@ function loadContent(hash) {
         case "#student-statistics":
             contentDiv.innerHTML = thongKeSinhVien();
             thongKeSinhVienChart();
+            break;
+
+        case "#invoice-statistics":
+            contentDiv.innerHTML = thongKeHoaDon();
+            thongKeHoaDonChart();
             break;
         default:
     }

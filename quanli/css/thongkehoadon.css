@@ -1,0 +1,119 @@
+.bill-statistics-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 16px;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f9fafb;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.stat-title {
+    text-align: center;
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: #2c3e50;
+}
+
+.room-select {
+    display: block;
+    margin: 0 auto 24px;
+    padding: 10px 12px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    width: 240px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.room-select:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+.chart-container {
+    width: 100%;
+    height: 420px;
+    background-color: white;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
+}
+
+.chart-note {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666;
+}
+
+.status-legend {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.status-legend .legend-item {
+    display: flex;
+    align-items: center;
+    margin: 0 20px;
+}
+
+.status-legend .legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .stat-title {
+        font-size: 22px;
+    }
+
+    .room-select {
+        width: 100%;
+        max-width: 100%;
+        font-size: 14px;
+    }
+
+    .chart-container {
+        height: 300px;
+    }
+
+    .status-legend .legend-item {
+        margin: 0 10px;
+    }
+
+    .chart-note {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .stat-title {
+        font-size: 20px;
+        margin-bottom: 16px;
+    }
+
+    .room-select {
+        font-size: 14px;
+        width: 100%;
+    }
+
+    .chart-container {
+        height: 250px;
+    }
+
+    .status-legend .legend-item {
+        margin: 0 8px;
+    }
+
+    .chart-note {
+        font-size: 12px;
+        margin-top: 10px;
+    }
+}

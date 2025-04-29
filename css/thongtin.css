@@ -6,7 +6,7 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f3f4f6;
+    background-color: #E8F1FC;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -37,7 +37,8 @@ body {
     align-items: center;
     justify-content: center;
     /* margin: 60px 20px 20px 20px; */
-    border: 1px solid #ccc;
+    border: 1px solid #A3BFFA;
+    background-color: #D0E4FF;
 
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
@@ -98,23 +99,45 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+
 }
 
 .right p {
     margin: 10px 0;
     font-size: 16px;
     line-height: 1.4;
+
+
 }
 
 .right strong {
     display: inline-block;
     width: 120px;
-    color: #333;
+    color: #1E3A8A;
+
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #A3BFFA;
+    /* Màu viền xám nhẹ */
+
 }
 
 #info-section {
     max-width: 400px;
     margin: 0 auto;
+    font-family: 'Inter', sans-serif;
+    border: 2px solid #A3BFFA;
+    /* Màu xanh ngọc, dày 2px */
+    border-radius: 12px;
+    /* Bo góc cho mềm mại */
+
+
+}
+
+#student-name-container {
+    color: #1E3A8A;
 }
 
 input[type="text"] {
@@ -137,6 +160,7 @@ input[type="text"] {
     cursor: pointer;
     align-self: flex-start;
     transition: background-color 0.3s;
+    margin-left: 125px;
 }
 
 .edit-btn:hover {
@@ -164,4 +188,94 @@ input[type="text"] {
 
 .edit-avatar-btn:hover {
     background-color: #e5e7eb;
+}
+
+
+#changePasswordBtn {
+    position: absolute;
+    top: 150px;
+    right: 250px;
+    padding: 10px 20px;
+    background-color: #2563EB;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+/* Khi màn hình nhỏ hơn 768px (tablet + điện thoại) */
+@media (max-width: 768px) {
+    #changePasswordBtn {
+        top: 120px;
+        /* Cho nút xuống thấp hơn chút */
+        right: 80px;
+        /* Sát phải nhưng vẫn chừa khoảng trống */
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+}
+
+/* Khi màn hình cực nhỏ dưới 480px (điện thoại nhỏ) */
+@media (max-width: 480px) {
+    #changePasswordBtn {
+        top: 120px;
+        right: 80px;
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+}
+
+
+#changePasswordForm {
+    position: absolute;
+    margin-top: 20px;
+    padding: 20px;
+    border: 2px solid #00ADB5;
+    border-radius: 12px;
+    width: 500px;
+    background-color: #EEEEEE;
+    z-index: 20;
+
+}
+
+.hidden {
+    display: none;
+    text-align: center;
+}
+
+input {
+    display: block;
+    width: 90%;
+    padding: 8px;
+    margin: 10px 0px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #00ADB5;
+
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #007B8A;
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.01);
+    /* Màu đen mờ 50% */
+    backdrop-filter: blur(5px);
+    /* Làm blur luôn */
+    z-index: 20;
 }

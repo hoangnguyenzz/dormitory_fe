@@ -196,3 +196,51 @@ async function uploadImage(event) {
 }
 window.uploadImage = uploadImage;
 
+
+
+
+
+//nút đổi mật khẩu//
+
+const btn = document.getElementById('changePasswordBtn');
+const form = document.getElementById('changePasswordForm');
+const overlay = document.getElementById('overlay');
+
+btn.addEventListener('click', () => {
+    form.classList.toggle('hidden');
+    overlay.classList.toggle('hidden');
+});
+
+// Khi click vào overlay thì ẩn form + overlay luôn cho tiện
+overlay.addEventListener('click', () => {
+    form.classList.add('hidden');
+    overlay.classList.add('hidden');
+});
+
+function submitPasswordChange() {
+
+    const newPassword = document.getElementById('newPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    if (!newPassword || !confirmPassword) {
+        showToast('Vui lòng nhập đầy đủ!', 'info')
+        return;
+    }
+
+    if (newPassword !== confirmPassword) {
+        showToast('Mật khẩu không khớp!', 'error')
+        return;
+    }
+
+    // Xử lý gửi dữ liệu tại đây
+    // alert('Đổi mật khẩu thành công! 🎉');
+
+    // Reset
+    form.classList.add('hidden');
+    overlay.classList.add('hidden');
+
+    document.getElementById('newPassword').value = '';
+    document.getElementById('confirmPassword').value = '';
+}
+
+window.submitPasswordChange = submitPasswordChange;

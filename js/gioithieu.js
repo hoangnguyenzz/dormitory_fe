@@ -14,11 +14,11 @@ export function hienGioiThieu() {
       <div class="section1">
         <h2><span class="emoji">II.</span>Cơ sở vật chất đầy đủ – Sẵn sàng cho cuộc sống tự lập</h2>
         <ul>
-          <li>Phòng ở rộng rãi, thoáng mát, được trang bị giường tầng, bàn học, tủ cá nhân, quạt, wifi tốc độ cao.</li>
-          <li>Mỗi tầng có khu vệ sinh và khu giặt phơi riêng biệt, được vệ sinh định kỳ sạch sẽ.</li>
+          <li>Phòng ở rộng rãi, thoáng mát, được trang bị giường tầng.</li>
+          <li>Mỗi phòng có một nhà vệ sinh riêng , được vệ sinh định kỳ sạch sẽ.</li>
           <li>Phòng sinh hoạt chung, không gian học nhóm, khu vực đọc sách phục vụ học tập – giải trí.</li>
-          <li>Camera an ninh và bảo vệ trực 24/7, kiểm soát ra vào bằng thẻ đảm bảo an toàn.</li>
-          <li>Gần căn tin, sân thể thao, phòng gym – thuận tiện sinh hoạt hằng ngày.</li>
+          
+          <li>Gần căn tin, sân thể thao – thuận tiện sinh hoạt hằng ngày.</li>
         </ul>
       </div>
   
@@ -48,7 +48,6 @@ export function hienGioiThieu() {
         <p><strong>Email:</strong> phongktx@codienxaydungbacninh.edu.vn</p>
         <p><strong>Website:</strong> <a href="http://codienxaydungbacninh.edu.vn/index.php/vi/" target="_blank">codienxaydungbacninh.edu.vn</a></p>
       </div>
-  
       <p class="quote">“Học tập tốt – Sinh hoạt tốt – Trưởng thành toàn diện”<br />Đó là điều ký túc xá BCEC luôn hướng đến!</p>
     </div>
   </body>
