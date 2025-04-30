@@ -41,7 +41,7 @@ export async function thongKeSinhVienChart() {
     const formatMonth = (month) => `Tháng ${month}`;
 
 
-    const data1 = await callApi(`/api/v1/users/statistics?month1=${thisMonth}&month2=${lastMonth}&year=${year}`, "GET", null, {
+    const data1 = await callApi(`/api/v1/users/statistics?month1=${lastMonth}&month2=${thisMonth}&year=${year}`, "GET", null, {
         "Authorization": `Bearer ${token}`
     });
 
@@ -50,11 +50,15 @@ export async function thongKeSinhVienChart() {
     const data = [
         {
             month: formatMonth(lastMonth),
-            studentCount: data1?.[1]?.total ?? 0
+            studentCount: data1?.[0]?.month === lastMonth
+                ? data1?.[0]?.total ?? 0
+                : data1?.[1]?.total ?? 0
         },
         {
             month: formatMonth(thisMonth),
-            studentCount: data1?.[0]?.total ?? 0
+            studentCount: data1?.[1]?.month === thisMonth
+                ? data1?.[1]?.total ?? 0
+                : data1?.[0]?.total ?? 0
         }
     ];
 

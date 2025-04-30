@@ -231,11 +231,27 @@ function submitPasswordChange() {
         showToast('Mật khẩu không khớp!', 'error')
         return;
     }
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+    callApi(`/api/v1/users/changepassword`, 'POST', {
+        "id": userId,
+        "password": newPassword
+    }, {
+        "Authorization": `Bearer ${token}`
 
-    // Xử lý gửi dữ liệu tại đây
-    // alert('Đổi mật khẩu thành công! 🎉');
+    }).then((data) => {
+        console.log(" data test ", data)
 
-    // Reset
+        showToast("Cập nhập thành công !", "success");
+
+        const message = localStorage.getItem("toastMessage");
+        if (message) {
+            showToast(message, "error");
+            localStorage.removeItem("toastMessage");
+        }
+
+    });
+
     form.classList.add('hidden');
     overlay.classList.add('hidden');
 

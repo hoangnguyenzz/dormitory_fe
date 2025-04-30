@@ -1,4 +1,5 @@
 import { callApi } from "../../../apis/baseApi.js";
+import { showToast } from "../../../thongbao/thongbao.js";
 
 export function thongKeHoaDon() {
     const link = document.createElement("link");
@@ -67,7 +68,7 @@ export async function thongKeHoaDonChart() {
         });
 
         if (!roomData || roomData.length === 0) {
-            alert("Không có dữ liệu hóa đơn cho phòng này.");
+            showToast("Không có dữ liệu hóa đơn cho phòng này", "info");
             return;
         }
 
