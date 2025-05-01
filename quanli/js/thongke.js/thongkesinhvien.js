@@ -46,7 +46,6 @@ export async function thongKeSinhVienChart() {
     });
 
     console.log("check :", data1);
-
     const data = [
         {
             month: formatMonth(lastMonth),
@@ -56,9 +55,9 @@ export async function thongKeSinhVienChart() {
         },
         {
             month: formatMonth(thisMonth),
-            studentCount: data1?.[1]?.month === thisMonth
-                ? data1?.[1]?.total ?? 0
-                : data1?.[0]?.total ?? 0
+            studentCount: data1?.[0]?.month === thisMonth
+                ? data1?.[0]?.total ?? 0
+                : data1?.[1]?.total ?? 0
         }
     ];
 

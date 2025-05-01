@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     document.getElementById("room").textContent = data.room !== null ? data.room.name : "Chưa đăng kí";
                     localStorage.setItem("studentId", data.student.id);
                     localStorage.setItem("userId", data.id);
+                    document.getElementById("email").textContent = data.email;
                 })
         } catch (error) {
             console.error("Lỗi khi gọi API:", error);
@@ -209,6 +210,9 @@ const overlay = document.getElementById('overlay');
 btn.addEventListener('click', () => {
     form.classList.toggle('hidden');
     overlay.classList.toggle('hidden');
+
+
+
 });
 
 // Khi click vào overlay thì ẩn form + overlay luôn cho tiện
