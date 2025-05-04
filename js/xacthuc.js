@@ -93,8 +93,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     registerForm.reset(); // reset toàn bộ form
                 }
             } catch (error) {
-                console.error("Lỗi khi gọi API:", error);
-                showToast("Đã xảy ra lỗi. Vui lòng thử lại!", "error");
+                const message = localStorage.getItem("toastMessage");
+                if (message) {
+                    showToast(message, "error");
+                    localStorage.removeItem("toastMessage");
+                }
             }
         });
     }

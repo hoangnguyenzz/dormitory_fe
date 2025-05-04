@@ -112,6 +112,7 @@ export async function chiTietPhong(data) {
     const listSV = data1.data.map(sv => `
         <tr>
             <td>${sv.name}</td>
+            <td>${sv.gender === 'MALE' ? 'Nam' : sv.gender === 'FEMALE' ? 'Nữ' : 'Khác'}</td>
             <td>${sv.student.maSv}</td>
             <td>${sv.student.lop}</td>
             <td>${sv.student.chuyenNganh}</td>
@@ -166,6 +167,7 @@ export async function chiTietPhong(data) {
                             <thead>
                                 <tr>
                                     <th>Họ tên</th>
+                                    <th>Giới tính</th>
                                     <th>MSSV</th>
                                     <th>Lớp</th>
                                     <th>Ngành</th>
