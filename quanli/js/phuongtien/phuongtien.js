@@ -23,6 +23,7 @@ export function danhSachXe() {
             <th>Chủ xe</th>
             <th>Biển số xe</th>
             <th>Loại xe</th>
+            <th>Thời gian tạo</th>
             <th></th>
           </tr>
         </thead>
@@ -52,6 +53,7 @@ export async function listXe() {
           <td>${item.user.name}</td>
           <td>${item.licensePlate}</td>
           <td>${item.type}</td>
+         <td>${new Date(item.createAt).toLocaleDateString("vi-VN")}</td>
           <td>
             <button class="delete-btn" data-id="${item.id}">Xóa</button>
           </td>
