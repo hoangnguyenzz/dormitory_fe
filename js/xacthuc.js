@@ -45,10 +45,63 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+
 // Đăng ký
 document.addEventListener("DOMContentLoaded", function () {
     const registerForm = document.getElementById("register-form");
 
+    let registerPayload = null; // 🔒 Biến lưu thông tin đăng ký
+
+    // Xử lý nút đóng modal
+    const closeModalBtn = document.getElementById("close-modal");
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener("click", function () {
+            document.getElementById("verify-modal").style.display = "none";
+        });
+    }
+
+    // Xử lý nút xác thực
+    const verifyBtn = document.getElementById("verify-btn");
+    if (verifyBtn) {
+        verifyBtn.addEventListener("click", async function () {
+            const code = document.getElementById("verify-code").value;
+            const email = document.getElementById("email").value;
+
+            try {
+                const response = await callApi("/api/v1/auth/verify", "POST", {
+                    email: email,
+                    code: code
+                });
+
+                if (response.statusCode === 200) {
+
+                    document.getElementById("verify-modal").style.display = "none";
+
+                    // ✅ Gọi API đăng ký sau khi verify thành công
+                    if (registerPayload) {
+                        const res = await callApi("/api/v1/users/register", "POST", registerPayload);
+                        if (res.statusCode === 200) {
+                            showToast("Đăng ký thành công!", "success");
+                            registerForm.reset();
+                        } else {
+                            showToast("Đăng ký không thành công!", "error");
+                        }
+                    }
+
+                } else {
+                    showToast(response.message, "error");
+                }
+            } catch (err) {
+                const message = localStorage.getItem("toastMessage");
+                if (message) {
+                    showToast(message, "error");
+                    localStorage.removeItem("toastMessage");
+                }
+            }
+        });
+    }
+
+    // Xử lý submit form đăng ký
     if (registerForm) {
         registerForm.addEventListener("submit", async function (event) {
             event.preventDefault();
@@ -59,7 +112,6 @@ document.addEventListener("DOMContentLoaded", function () {
             const name = document.getElementById("name").value;
             const gender = document.querySelector('input[name="gioitinh"]:checked').value;
             const phone = document.getElementById("phone").value;
-
             const maSv = document.getElementById("maSv").value;
             const lop = document.getElementById("lop").value;
             const chuyenNganh = document.getElementById("chuyenNganh").value;
@@ -69,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            const payload = {
+            registerPayload = {
                 email,
                 password,
                 name,
@@ -83,14 +135,9 @@ document.addEventListener("DOMContentLoaded", function () {
             };
 
             try {
-                const data = await callApi("/api/v1/users/register", "POST", payload);
-                console.log("data", data);
-
-                if (data.statusCode === 400) {
-                    showToast("Đăng ký không thành công!", "error");
-                } else if (data.statusCode === 200) {
-                    showToast("Đăng ký thành công!", "success");
-                    registerForm.reset(); // reset toàn bộ form
+                const data = await callApi("/api/v1/auth/random-code", "POST", { email: registerPayload.email });
+                if (data.statusCode === 200) {
+                    document.getElementById("verify-modal").style.display = "flex";
                 }
             } catch (error) {
                 const message = localStorage.getItem("toastMessage");

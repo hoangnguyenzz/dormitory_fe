@@ -162,6 +162,7 @@
 /* Medium screens */
 @media (max-width: 768px) {
     .room-detail-container {
+        display: inline-block;
         padding: 1rem;
         margin: 1rem;
     }
