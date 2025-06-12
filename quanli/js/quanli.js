@@ -9,6 +9,7 @@ import { thongKePhong, thongKePhongChart } from "./thongke.js/thongkephong.js";
 import { thongKeSinhVien, thongKeSinhVienChart } from "./thongke.js/thongkesinhvien.js";
 import { callApi } from "../../apis/baseApi.js";
 import { thongKeHoaDon, thongKeHoaDonChart } from "./thongke.js/thongkehoadon.js";
+import { listViPham, viPhamTemplate } from "./vipham/vipham.js";
 
 
 
@@ -40,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
         (role === "MANAGE" || role === "ADMIN") ?
             role === "ADMIN" ? `<ul>
                 <li><a href="#room-statistics">Thống kê phòng</a></li>
-                <li><a href="#student-statistics">Thống kê sinh viên</a></li>
+                <li><a href="#student-statistics">Thống kê người dùng</a></li>
                 <li><a href="#invoice-statistics">Thống kê hoá đơn</a></li>
 
 
@@ -69,6 +70,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     <ul class="submenu">
                         <li><a href="#diennuoc">Chỉ số điện-nước</a></li>
                         <li><a href="#hoadon">Gửi hóa đơn</a></li>
+                    </ul>
+                </li>
+                <li class="has-submenu">
+                    <a href="#">Quản lý vi phạm</a>
+                    <ul class="submenu">
+                        <li><a href="#vipham">Danh sách vi phạm</a></li>
                     </ul>
                 </li>
                  
@@ -100,6 +107,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     <ul class="submenu">
                         <li><a href="#diennuoc">Chỉ số điện-nước</a></li>
                         <li><a href="#hoadon">Gửi hóa đơn</a></li>
+                    </ul>
+                </li>
+                <li class="has-submenu">
+                    <a href="#">Quản lý vi phạm</a>
+                    <ul class="submenu">
+                        <li><a href="#vipham">Danh sách vi phạm</a></li>
                     </ul>
                 </li>
                  
@@ -228,6 +241,10 @@ function loadContent(hash) {
         case "#invoice-statistics":
             contentDiv.innerHTML = thongKeHoaDon();
             thongKeHoaDonChart();
+            break;
+        case "#vipham":
+            contentDiv.innerHTML = viPhamTemplate();
+            listViPham();
             break;
         default:
     }

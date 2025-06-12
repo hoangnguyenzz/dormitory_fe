@@ -24,13 +24,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         if (data) {
                             localStorage.setItem("token", data.data.accessToken);
                             localStorage.setItem("role", data.data.user.role.name);
+                            localStorage.setItem("userType", data.data.user.userType);
 
 
                             localStorage.setItem("toastMessage", "Đăng nhập thành công!");
                             localStorage.setItem("toastType", "success");
                             window.location.href = '/trangchu.html';
-
-
                         } else {
                             showToast("Sai email hoặc mật khẩu!", "error");
                         }
@@ -112,27 +111,58 @@ document.addEventListener("DOMContentLoaded", function () {
             const name = document.getElementById("name").value;
             const gender = document.querySelector('input[name="gioitinh"]:checked').value;
             const phone = document.getElementById("phone").value;
-            const maSv = document.getElementById("maSv").value;
-            const lop = document.getElementById("lop").value;
-            const chuyenNganh = document.getElementById("chuyenNganh").value;
+            const ngaySinh = new Date((document.getElementById("ngaysinh").value) + 'T00:00:00Z').toISOString();
+
+            // const maSv = document.getElementById("maSv").value;
+            // const lop = document.getElementById("lop").value;
+            // const chuyenNganh = document.getElementById("chuyenNganh").value;
+
+
 
             if (password !== confirmPassword) {
                 showToast("Mật khẩu không khớp!", "error");
                 return;
             }
+            const selectedUserType = document.getElementById("userType").value;
+            console.log("Loại người dùng:", selectedUserType);
 
-            registerPayload = {
-                email,
-                password,
-                name,
-                gender,
-                phone,
-                student: {
-                    maSv,
-                    lop,
-                    chuyenNganh
-                }
-            };
+
+            if (selectedUserType === "student") {
+                const maSv = document.getElementById("maSv").value;
+                const lop = document.getElementById("lop").value;
+                const chuyenNganh = document.getElementById("chuyenNganh").value;
+
+                registerPayload = {
+                    email,
+                    password,
+                    name,
+                    gender,
+                    phone,
+                    ngaySinh,
+                    student: {
+                        maSv,
+                        lop,
+                        chuyenNganh
+                    }
+                };
+            } else if (selectedUserType === "worker") {
+                const congViec = document.getElementById("job").value;
+                const diaChi = document.getElementById("address").value;
+
+                registerPayload = {
+                    email,
+                    password,
+                    name,
+                    gender,
+                    phone,
+                    ngaySinh,
+                    nguoidilam: {
+                        congViec,
+                        diaChi
+                    }
+                };
+            }
+
 
             try {
                 const data = await callApi("/api/v1/auth/random-code", "POST", { email: registerPayload.email });

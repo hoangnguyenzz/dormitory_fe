@@ -11,23 +11,59 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
             callApi("/api/v1/auth/account", "GET", null, { "Authorization": `Bearer ${token}` })
                 .then((data) => {
-                    document.getElementById("avatar").src = data.avatar && data.avatar.trim() !== "" ? data.avatar : "img/default_avatar.jpg";
+                    // Ảnh đại diện
+                    document.getElementById("avatar").src =
+                        data.avatar && data.avatar.trim() !== "" ? data.avatar : "img/default_avatar.jpg";
+
+                    // Tên người dùng
                     document.getElementById("student-name").textContent = data.name;
-                    document.getElementById("student-id").textContent = data.student.maSv;
-                    document.getElementById("class").textContent = data.student.lop;
-                    document.getElementById("major").textContent = data.student.chuyenNganh;
-                    document.getElementById("room").textContent = data.room !== null ? data.room.name : "Chưa đăng kí";
-                    localStorage.setItem("studentId", data.student.id);
-                    localStorage.setItem("userId", data.id);
+
+                    // Email để đổi mật khẩu
                     document.getElementById("email").textContent = data.email;
-                })
+
+                    // Kiểm tra loại người dùng
+                    const infoSection = document.getElementById("info-section");
+                    localStorage.setItem("userId", data.id);
+                    if (data.student) {
+                        // Giao diện cho sinh viên
+                        infoSection.innerHTML = `
+        <p><strong>Mã SV:</strong> <span id="student-id">${data.student.maSv}</span></p>
+        <hr>
+        <p><strong>Lớp:</strong> <span id="class">${data.student.lop}</span></p>
+        <hr>
+        <p><strong>Chuyên ngành: </strong> <span id="major">${data.student.chuyenNganh}</span></p>
+        <hr>
+        <p><strong>Phòng:</strong> <span id="room">${data.room !== null ? data.room.name : "Chưa đăng kí"}</span></p>
+        <hr>
+        <button class="edit-btn" id="edit-btn" onclick="handleEditClick()">Sửa</button>
+    `;
+
+                        localStorage.setItem("studentId", data.student.id);
+
+
+                    } else if (data.nguoidilam) {
+                        // Giao diện cho người đi làm
+                        infoSection.innerHTML = `
+        <p><strong>Công việc:</strong> <span id="job">${data.nguoidilam.congViec || "Không rõ"}</span></p>
+        <hr>
+        <p><strong>Quê quán:</strong> <span id="hometown">${data.nguoidilam.diaChi || "Không rõ"}</span></p>
+        <hr>
+        <p><strong>Phòng:</strong> <span id="room">${data.room !== null ? data.room.name : "Không có"}</span></p>
+        <hr>
+        <button class="edit-btn" id="edit-btn" onclick="handleEditClick()">Sửa</button>
+    `;
+
+                        localStorage.setItem("workerId", data.nguoidilam.id);
+
+                    }
+
+                });
         } catch (error) {
             console.error("Lỗi khi gọi API:", error);
-
         }
     }
-
 });
+
 
 
 function goBack() {
@@ -38,37 +74,71 @@ window.goBack = goBack;
 
 // Sửa thông tin sinh viên
 function handleEditClick() {
-    const fields = ["student-id", "class", "major"];
     const token = localStorage.getItem("token");
-    const studentId = localStorage.getItem("studentId");
     const btn = document.getElementById("edit-btn");
+
+    // Xác định kiểu người dùng
+    const isStudent = !!localStorage.getItem("studentId");
+    const isWorker = !!localStorage.getItem("workerId");
+
+    let fields = [];
+    let idKey = "";
+    let updatedData = {};
+    let apiEndpoint = "";
+    let payload = {};
+
+    if (isStudent) {
+        fields = ["student-id", "class", "major"];
+        idKey = localStorage.getItem("studentId");
+        apiEndpoint = "/api/v1/students";
+    } else if (isWorker) {
+        fields = ["job", "hometown"];
+        idKey = localStorage.getItem("workerId");
+        apiEndpoint = "/api/v1/nguoidilam";
+    } else {
+        console.error("Không xác định được loại người dùng!");
+        return;
+    }
+
     if (btn.textContent === "Sửa") {
         fields.forEach(id => {
             const span = document.getElementById(id);
-            const value = span.textContent;
-            span.outerHTML = `<input type="text" id="${id}" value="${value}">`;
+            if (span) {
+                const value = span.textContent;
+                span.outerHTML = `<input type="text" id="${id}" value="${value}">`;
+            }
         });
         btn.textContent = "Lưu";
     } else {
-        const updatedData = {};
         fields.forEach(id => {
             const input = document.getElementById(id);
-            const value = input.value;
-            input.outerHTML = `<span id="${id}">${value}</span>`;
-            updatedData[id] = value;
+            if (input) {
+                const value = input.value;
+                input.outerHTML = `<span id="${id}">${value}</span>`;
+                updatedData[id] = value;
+            }
         });
-        const payload = {
-            id: parseInt(studentId),
-            maSv: updatedData["student-id"],
-            lop: updatedData["class"],
-            chuyenNganh: updatedData["major"]
-        };
-        callApi(`/api/v1/students`, 'PUT', payload, {
+
+        if (isStudent) {
+            payload = {
+                id: parseInt(idKey),
+                maSv: updatedData["student-id"],
+                lop: updatedData["class"],
+                chuyenNganh: updatedData["major"]
+            };
+        } else if (isWorker) {
+            payload = {
+                id: parseInt(idKey),
+                congViec: updatedData["job"],
+                diaChi: updatedData["hometown"]
+            };
+        }
+
+        callApi(apiEndpoint, 'PUT', payload, {
             "Authorization": `Bearer ${token}`
         }).then((data) => {
-            console.log(" data ", data)
             if (data) {
-                showToast("Cập nhập thành công !", "success");
+                showToast("Cập nhật thành công!", "success");
             } else {
                 const message = localStorage.getItem("toastMessage");
                 if (message) {
@@ -79,10 +149,12 @@ function handleEditClick() {
         });
 
         btn.textContent = "Sửa";
-
-    };
+    }
 }
+
 window.handleEditClick = handleEditClick;
+
+
 
 
 function enableNameEdit() {

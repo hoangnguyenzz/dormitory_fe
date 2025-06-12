@@ -78,7 +78,7 @@ export async function listDienNuoc() {
 
   function renderRoomOptions() {
 
-    callApi(`/api/v1/rooms`, 'GET', null, {
+    callApi(`/api/v1/rooms?page=0&size=50`, 'GET', null, {
       "Authorization": `Bearer ${token}`
     }).then((data) => {
       console.log(" data ", data.result)

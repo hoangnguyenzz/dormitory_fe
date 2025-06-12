@@ -51,7 +51,7 @@ export function listAccountPage() {
           <select id="account-role" name="role">
             <option value="ADMIN">Admin</option>
             <option value="MANAGE">Quản lý</option>
-            <option value="USER">Sinh viên</option>
+            <option value="USER">User</option>
           </select>
 
           <button type="submit">Lưu thay đổi</button>
@@ -112,7 +112,7 @@ export async function listAccountPageTest() {
             <td>${account.email}</td>
             <td>${account.phone || ''}</td>
             <td>${(account.gender === 'MALE' ? 'Nam' : 'Nữ') || ''}</td>
-            <td>${account.role.name === "ADMIN" ? "Admin" : account.role.name === "MANAGE" ? "Quản lý" : "Sinh viên"}</td>
+            <td>${account.role.name === "ADMIN" ? "Admin" : account.role.name === "MANAGE" ? "Quản lý" : "User"}</td>
             <td>${account.room ? account.room.name : 'Chưa có'}</td>
             <td>${new Date(account.createAt).toLocaleDateString("vi-VN")}</td>
             <td>

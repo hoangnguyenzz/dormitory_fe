@@ -4,6 +4,7 @@ import { chiTietPhong, handleDangKyPhong } from "./chitietphong.js";
 import { hienGioiThieu } from "./gioithieu.js";
 import { hienLienHe } from "./lienhe.js";
 import { hienNoiQuy } from "./noiquyktx.js";
+import { danhSachViPham } from "./vipham.js";
 
 
 function toggleDropdown() {
@@ -57,7 +58,9 @@ function logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
     localStorage.removeItem("studentId");
+    localStorage.removeItem("workerId");
     localStorage.removeItem("userId");
+    localStorage.removeItem("userType");
     localStorage.setItem("toastMessage", "Đã đăng xuất !");
     localStorage.setItem("toastType", "success");
     location.reload();
@@ -68,6 +71,11 @@ document.addEventListener("DOMContentLoaded", function () {
     callApi("/api/v1/auth/account", "GET", null, { "Authorization": `Bearer ${token}` })
         .then((data) => {
             localStorage.setItem("role", data.role.name);
+            // if (data.student) {
+            //     localStorage.setItem("userType", "STUDENT");
+            // } else if (data.nguoidilam) {
+            //     localStorage.setItem("userType", "WORKER");
+            // }
             console.log("data", data);
             if (token) {
                 const isLoggedIn = true;
@@ -87,13 +95,16 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.removeItem("toastMessage");
         localStorage.removeItem("toastType");
     }
-
-    callApi(`/api/v1/rooms`, 'GET', null)
+    const userType = localStorage.getItem("userType");
+    callApi(`/api/v1/rooms?page=0&size=50`, 'GET', null)
         .then((data) => {
             console.log(" data ", data)
             if (data) {
-                renderRoomCards(data.result);
-                renderFilterButtons(data.result);
+                // Lọc ds phòng theo userType 
+                const filteredRooms = userType ? data.result.filter(room => room.doiTuong === userType) : data.result;
+
+                renderRoomCards(filteredRooms);
+                renderFilterButtons(filteredRooms);
             } else {
                 const message = localStorage.getItem("toastMessage");
                 if (message) {
@@ -226,24 +237,17 @@ async function loadContent(hash) {
     if (!contentDiv) return;
     const token = localStorage.getItem("token");
 
-    const data = await callApi(`/api/v1/rooms`, 'GET', null);
+    const data = await callApi(`/api/v1/rooms?page=0&size=50`, 'GET', null);
     const roomNames = data.result.map(room => room.name);
     console.log("hash :", hash);
 
     const room = data.result.find(data => data.name === (hash.replace("#", "")));
-
+    console.log("room :", room);
     switch (true) {
         case roomNames.includes(hash.replace("#", "")):
             contentDiv.innerHTML = "";
             contentDiv.innerHTML = await chiTietPhong(room);
             handleDangKyPhong(room);
-            // const btnDangKy = document.getElementById("btn-dang-ky");
-            // if (btnDangKy) {
-            //     btnDangKy.addEventListener("click", () => {
-            //         alert("Bạn đã chọn đăng ký phòng " + hash.replace("#", ""));
-            //         // Hoặc gọi hàm xử lý đăng ký thật tại đây
-            //     });
-            // }
             break;
         case hash === "#noiquy":
             contentDiv.innerHTML = "";
@@ -257,30 +261,13 @@ async function loadContent(hash) {
             contentDiv.innerHTML = "";
             contentDiv.innerHTML = hienLienHe();
             break;
+        case hash === "#vipham":
+            contentDiv.innerHTML = "";
+            const html = await danhSachViPham(); // ✅ chờ kết quả
+            contentDiv.innerHTML = html;
+            break;
+
         default:
             break;
     }
 }
-
-
-
-
-
-
-// // Xử lý chuyển trang hiển thị Nội quy
-// window.addEventListener("hashchange", () => {
-//     const hash = location.hash;
-
-//     const content = document.getElementById("content");
-//     const noiquy = document.getElementById("noiquy-section");
-
-//     if (hash === "#noiquy") {
-//         if (content) content.style.display = "none";
-//         if (noiquy) noiquy.style.display = "block";
-//     } else {
-//         if (content) content.style.display = "block";
-//         if (noiquy) noiquy.style.display = "none";
-//     }
-// });
-
-

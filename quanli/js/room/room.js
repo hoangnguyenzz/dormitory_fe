@@ -133,7 +133,7 @@ export async function listRoomPageTest() {
                         <td>${new Date(room.createAt).toLocaleDateString("vi-VN")}</td>
                         <td>
                             <button class="view-student-btn" data-id="${room.id}" 
-                            ${room.trangThai === 'KHONGHOATDONG' ? 'disabled' : ''}>Xem sinh viên</button>
+                            ${room.trangThai === 'KHONGHOATDONG' ? 'disabled' : ''}>Xem thành viên </button>
                             <button class="toggle-status-btn" data-room='${encodeURIComponent(JSON.stringify(room))}'   data-status="${room.trangThai}">
                                 ${room.trangThai === 'KHONGHOATDONG' ? 'Bật' : 'Dừng hoạt động'}
                             </button>

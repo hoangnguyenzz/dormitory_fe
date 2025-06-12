@@ -12,7 +12,7 @@ export function thongKeSinhVien() {
 
     return `
         <div class="student-statistics-wrapper">
-            <h2 class="stat-title">📊 Thống kê sinh viên theo tháng</h2>
+            <h2 class="stat-title">📊 Thống kê người dùng theo tháng</h2>
 
              
             <div class="chart-container">
@@ -20,7 +20,7 @@ export function thongKeSinhVien() {
             </div>
 
             <div class="chart-note">
-                <p>🗓️ Biểu đồ hiển thị số lượng sinh viên đăng ký trong <b>2 tháng gần nhất</b>.</p>
+                <p>🗓️ Biểu đồ hiển thị số lượng người dùng đăng ký trong <b>2 tháng gần nhất</b>.</p>
             </div>
         </div>
     `;

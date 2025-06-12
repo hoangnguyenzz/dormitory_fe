@@ -52,7 +52,7 @@ export async function listHoaDon() {
     const pageSize = 5;
 
     function renderRoomFilterOptions() {
-        callApi(`/api/v1/rooms`, 'GET', null, {
+        callApi(`/api/v1/rooms?page=0&size=50`, 'GET', null, {
             "Authorization": `Bearer ${token}`
         }).then((data) => {
             if (data && data.result) {

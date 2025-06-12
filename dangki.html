@@ -34,6 +34,9 @@
                 <div class="input-group">
                     <input type="text" id="phone" placeholder="Số điện thoại">
                 </div>
+                <div class="input-group">
+                    <input type="date" id="ngaysinh" placeholder="Ngày sinh">
+                </div>
 
                 <div class="input-group">
                     <label>Giới tính:</label>
@@ -42,15 +45,37 @@
                     <label><input type="radio" name="gioitinh" value="OTHER"> Khác</label>
                 </div>
 
+                <!-- Chọn loại người dùng -->
+                <div class="input-group">
+                    <label for="userType" class="select-label">Bạn là:</label>
+                    <select id="userType" required>
+                        <option value="student">Sinh viên</option>
+                        <option value="worker">Người đi làm</option>
+                    </select>
+                </div>
+
+
                 <!-- Thông tin sinh viên -->
-                <div class="input-group">
-                    <input type="text" id="maSv" placeholder="Mã sinh viên">
+                <div class="student-fields">
+                    <div class="input-group">
+                        <input type="text" id="maSv" placeholder="Mã sinh viên">
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="lop" placeholder="Lớp">
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="chuyenNganh" placeholder="Chuyên ngành">
+                    </div>
                 </div>
-                <div class="input-group">
-                    <input type="text" id="lop" placeholder="Lớp">
-                </div>
-                <div class="input-group">
-                    <input type="text" id="chuyenNganh" placeholder="Chuyên ngành">
+
+                <!-- Thông tin người đi làm -->
+                <div class="worker-fields" style="display: none;">
+                    <div class="input-group">
+                        <input type="text" id="job" placeholder="Công việc">
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="address" placeholder="Địa chỉ">
+                    </div>
                 </div>
 
                 <button type="submit" class="btn">Đăng Ký</button>
@@ -58,6 +83,7 @@
                     Đã có tài khoản? <a href="dangnhap.html">Đăng nhập</a>
                 </p>
             </form>
+
             <!-- Modal xác thực mã -->
             <div id="verify-modal" class="modal">
                 <div class="modal-content">
@@ -74,6 +100,21 @@
 
 
     <script type="module" src="js/xacthuc.js"></script>
+    <script>
+        const userType = document.getElementById('userType');
+        const studentFields = document.querySelector('.student-fields');
+        const workerFields = document.querySelector('.worker-fields');
+
+        userType.addEventListener('change', () => {
+            if (userType.value === 'student') {
+                studentFields.style.display = 'block';
+                workerFields.style.display = 'none';
+            } else {
+                studentFields.style.display = 'none';
+                workerFields.style.display = 'block';
+            }
+        });
+    </script>
 
 </body>
 

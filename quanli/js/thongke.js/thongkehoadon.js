@@ -45,7 +45,7 @@ export async function thongKeHoaDonChart() {
     let chart;
 
     // Gọi API danh sách phòng
-    const rooms = await callApi("/api/v1/rooms", "GET", null, {
+    const rooms = await callApi("/api/v1/rooms?page=0&size=50", "GET", null, {
         "Authorization": `Bearer ${token}`
     });
 

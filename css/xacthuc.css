@@ -123,3 +123,62 @@ label {
 .close-btn:hover {
     color: red;
 }
+
+
+
+/* test */
+/* Label tiêu đề cho dropdown */
+.select-label {
+    text-align: left;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Dropdown đẹp, đồng bộ với input */
+select#userType {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    font-size: 16px;
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 18px 18px;
+    cursor: pointer;
+}
+
+select#userType:focus {
+    border-color: #667eea;
+    outline: none;
+    background-color: white;
+}
+
+/* Nhóm ẩn hiện tùy theo người chọn */
+.student-fields {
+    display: block;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.worker-fields {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+
+/* Hiệu ứng nhẹ khi hiển thị */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
