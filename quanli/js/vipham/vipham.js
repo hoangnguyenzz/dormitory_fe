@@ -75,8 +75,9 @@ export async function listViPham() {
 
             rooms.forEach((room) => {
                 const option = new Option(room.name, room.id);
+                const option1 = new Option(room.name, room.name);
                 select.add(option.cloneNode(true));
-                filterSelect.add(option.cloneNode(true));
+                filterSelect.add(option1.cloneNode(true));
             });
 
             filterSelect.addEventListener("change", () => {
