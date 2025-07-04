@@ -138,7 +138,7 @@ export async function listViPham() {
 
     function loadViPhamList(page, size, roomId = "") {
         let url = `/api/v1/vipham?page=${page}&size=${size}`;
-        if (roomId) url += `&filter=phong:${roomId}`;
+        if (roomId) url += `&filter=phong:'${roomId}'`;
 
         callApi(url, "GET", null, {
             Authorization: `Bearer ${token}`,
